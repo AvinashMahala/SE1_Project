@@ -32,11 +32,8 @@ jobs:
       - name: Set up environment variable
         run: echo "GITHUB_SHA=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
 
-      - name: Archive APK
-        run: mv app/build/outputs/apk/debug/app-debug.apk app/build/outputs/apk/app-debug-$GITHUB_SHA.apk
-
       - name: Upload APK artifact
         uses: actions/upload-artifact@v2
         with:
-          name: app-debug-$GITHUB_SHA
-          path: app/build/outputs/apk/app-debug-$GITHUB_SHA.apk
+          name: app-debug.apk
+          path: app/build/outputs/apk/debug/app-debug.apk  # Update the path to the actual APK file
