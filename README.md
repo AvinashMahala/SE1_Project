@@ -75,4 +75,4 @@ This project is licensed under the [MIT License](LICENSE).
 
 ---
 
-Developed with passion by TeamTechies
+Developed with passion by CodeCrafters
