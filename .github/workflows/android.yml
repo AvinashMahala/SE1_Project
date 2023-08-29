@@ -20,17 +20,17 @@ jobs:
       - name: Set up JDK and Android SDK
         uses: actions/setup-java@v2
         with:
-          java-version: '11'  # Use the appropriate Java version
+          java-version: '17'  # Use the appropriate Java version
           distribution: 'adopt'
       - name: Set up Android SDK
         uses: actions/setup-java@v2
         with:
-          java-version: '1.8'  # Android still requires JDK 1.8
+          java-version: '17'  # Android still requires JDK 1.8
           distribution: 'adopt'
       - name: Set up Android Emulator
         uses: actions/setup-java@v2
         with:
-          java-version: '11'  # Use the appropriate Java version
+          java-version: '17'  # Use the appropriate Java version
           distribution: 'adopt'
           cache: gradle
 
