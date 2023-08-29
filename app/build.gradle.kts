@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.helloworld"
+    namespace = "com.example.quizQuest"
     compileSdk = 33
 
     defaultConfig {
-        applicationId = "com.example.helloworld"
+        applicationId = "com.example.quizQuest"
         minSdk = 24
         targetSdk = 33
         versionCode = 1

@@ -1,4 +1,4 @@
-package com.example.helloworld.ui.transform
+package com.example.quizQuest.ui.transform
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,9 +12,9 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.helloworld.R
-import com.example.helloworld.databinding.FragmentTransformBinding
-import com.example.helloworld.databinding.ItemTransformBinding
+import com.example.quizQuest.R
+import com.example.quizQuest.databinding.FragmentTransformBinding
+import com.example.quizQuest.databinding.ItemTransformBinding
 
 /**
  * Fragment that demonstrates a responsive layout pattern where the format of the content

@@ -1,4 +1,4 @@
-package com.example.helloworld.ui.settings
+package com.example.quizQuest.ui.settings
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

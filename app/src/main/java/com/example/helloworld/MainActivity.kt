@@ -1,4 +1,4 @@
-package com.example.helloworld
+package com.example.quizQuest
 
 import android.os.Bundle
 import android.view.Menu
@@ -12,7 +12,7 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import androidx.appcompat.app.AppCompatActivity
-import com.example.helloworld.databinding.ActivityMainBinding
+import com.example.quizQuest.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
