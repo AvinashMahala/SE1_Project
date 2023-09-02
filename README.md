@@ -8,11 +8,11 @@
 **Team Number:** 06
 
 ## Team Members
-- Avinash Mahala (Team Lead)
-- Neha Dattaram Parbate
-- Omkar Ramesh Sinalkar
-- Rohit Jain
-- Yash Tanaji Jadhav
+- [Avinash Mahala](https://github.com/AvinashMahala) (Team Lead)
+- [Neha Dattaram Parbate](https://github.com/nehaparbate)
+- [Omkar Ramesh Sinalkar](https://github.com/OmkarSinalkar6154)
+- [Rohit Jain](https://github.com/rohitjainvrs)
+- [Yash Tanaji Jadhav](https://github.com/yashj411)
 
 ## Table of Contents
 - [Introduction](#introduction)
