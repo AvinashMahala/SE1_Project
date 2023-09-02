@@ -1,5 +1,3 @@
-Absolutely, here's an expanded and comprehensive README for your Quiz App project based on the content you provided:
-
 ---
 
 # QuizQuest - An Interactive Quiz App
