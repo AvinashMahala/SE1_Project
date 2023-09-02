@@ -1,5 +1,3 @@
----
-
 # QuizQuest - An Interactive Quiz App
 
 **Course:** CSE 5324-002
@@ -134,5 +132,3 @@ Yash is a proactive Computer Science graduate student with a strong software eng
 
 ## Conclusion
 **QuizQuest** is more than just a quiz app; it's a journey into the world of interactive learning. With an extensive range of quizzes and a user-friendly interface, we aim to make education enjoyable. The combined skills and experiences of our team members guarantee a high-quality Android app that caters to your interests and promotes learning in an enjoyable way.
-
----
