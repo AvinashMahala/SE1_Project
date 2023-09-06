@@ -13,6 +13,9 @@
         android:theme="@style/Theme.QuizQuest"
         tools:targetApi="31">
         <activity
+            android:name=".activities.CommonLoginRegistrationActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.QuizTakingActivity"
             android:exported="false" />
         <activity
@@ -30,23 +33,15 @@
         <activity
             android:name=".activities.RegistrationActivity"
             android:exported="false" />
-        <activity android:name=".activities.SplashScreenActivity"
+        <activity
+            android:name=".activities.SplashScreenActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-<!--        <activity-->
-<!--            android:name=".MainActivity"-->
-<!--            android:exported="true">-->
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
-
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
-<!--        </activity>-->
     </application>
 
 </manifest>
