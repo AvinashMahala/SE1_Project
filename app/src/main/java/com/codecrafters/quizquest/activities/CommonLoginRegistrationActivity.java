@@ -48,9 +48,11 @@ public class CommonLoginRegistrationActivity extends AppCompatActivity {
                 // Handle login logic here
                 // You can validate user input, authenticate the user, and perform login tasks
                 // For example:
-                String email = emailEditText.getText().toString();
-                String password = passwordEditText.getText().toString();
-                String selectedRole = roleSpinner.getSelectedItem().toString();
+//                String email = emailEditText.getText().toString();
+//                String password = passwordEditText.getText().toString();
+//                String selectedRole = roleSpinner.getSelectedItem().toString();
+
+                String selectedRole="User";//Sample As of Now
 
                 // Implement your login logic here
 
