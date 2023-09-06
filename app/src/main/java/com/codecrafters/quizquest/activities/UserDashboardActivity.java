@@ -31,11 +31,19 @@ public class UserDashboardActivity extends AppCompatActivity {
         scoreTextView.setText("Score: " + userScore);
         performanceTextView.setText("Performance: " + userPerformance);
 
-//        // Load the UserGraphFragment
-//        UserGraphFragment userGraphFragment = new UserGraphFragment();
-//        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-//        transaction.replace(R.id.fragmentContainer, userGraphFragment);
-//        transaction.commit();
+        // Find the "Start Quiz" button by its ID
+        Button startQuizButton = findViewById(R.id.startQuizButton);
+
+// Set a click listener for the button
+        startQuizButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Create an intent to navigate to the QuizCategoryActivity
+                Intent intent = new Intent(UserDashboardActivity.this, QuizCategoriesActivity.class);
+                startActivity(intent);
+            }
+        });
+
 
         // Find the "Logout" button by its ID
         Button logoutButton = findViewById(R.id.logoutButton);
