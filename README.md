@@ -129,11 +129,11 @@ With 2.5 years of IT experience, Rohit is a versatile software engineer proficie
 ### Yash Tanaji Jadhav
 Yash is a proactive Computer Science graduate student with a strong software engineering foundation. They excel in internships, showcasing skills in algorithm design, machine learning, and software development. Notable projects include an AI fire detection system and an Android complaint registration app. With a Master's in Computer Science, Yash is skilled in Python, Java, machine learning libraries, and web technologies. Their proactive approach, diverse skills, and publication on fire detection systems underscore their potential in innovative tech roles.
 
-[![Avinash's GitHub stats](https://github-readme-stats.vercel.app/api?username=AvinashMahala)](https://github.com/anuraghazra/github-readme-stats)
-[![Neha's GitHub stats](https://github-readme-stats.vercel.app/api?username=nehaparbate)](https://github.com/anuraghazra/github-readme-stats)
-[![Omkar's GitHub stats](https://github-readme-stats.vercel.app/api?username=OmkarSinalkar6154)](https://github.com/anuraghazra/github-readme-stats)
-[![Rohit's GitHub stats](https://github-readme-stats.vercel.app/api?username=rohitjainvrs)](https://github.com/anuraghazra/github-readme-stats)
-[![Yash's GitHub stats](https://github-readme-stats.vercel.app/api?username=yashj411)](https://github.com/anuraghazra/github-readme-stats)
+[![Avinash's GitHub stats](https://github-readme-stats.vercel.app/api?username=AvinashMahala&show_icons=true&theme=dark)]
+[![Neha's GitHub stats](https://github-readme-stats.vercel.app/api?username=nehaparbate&show_icons=true&theme=radical)]
+[![Omkar's GitHub stats](https://github-readme-stats.vercel.app/api?username=OmkarSinalkar6154&show_icons=true&theme=merko)]
+[![Rohit's GitHub stats](https://github-readme-stats.vercel.app/api?username=rohitjainvrs&show_icons=true&theme=gruvbox)]
+[![Yash's GitHub stats](https://github-readme-stats.vercel.app/api?username=yashj411&show_icons=true&theme=tokyonight)]
 
 ## Conclusion
 **QuizQuest** is more than just a quiz app; it's a journey into the world of interactive learning. With an extensive range of quizzes and a user-friendly interface, we aim to make education enjoyable. The combined skills and experiences of our team members guarantee a high-quality Android app that caters to your interests and promotes learning in an enjoyable way.
