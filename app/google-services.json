@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "245547206469",
+    "firebase_url": "https://codecrafters-quizquest-default-rtdb.firebaseio.com",
+    "project_id": "codecrafters-quizquest",
+    "storage_bucket": "codecrafters-quizquest.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:245547206469:android:ee0fbda88caa73fd09202c",
+        "android_client_info": {
+          "package_name": "com.codecrafters.quizquest"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "245547206469-i3s5d4amditvupuknoi94fejdgehdhn1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.codecrafters.quizquest",
+            "certificate_hash": "ca5afb0f9868677ee5af08fdeb23c527b3399c63"
+          }
+        },
+        {
+          "client_id": "245547206469-9ejhk95fqvca4eg1bfha1lqjgb5aa5ne.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA93uprYgN1Z6SJk6ZJh4FMd9rMCqsj7Kg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "245547206469-9ejhk95fqvca4eg1bfha1lqjgb5aa5ne.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
