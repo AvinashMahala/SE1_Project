@@ -30,7 +30,7 @@
     <EditText
         android:id="@+id/nameEditText"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="48dp"
         android:hint="Name"
         android:inputType="text"
         app:layout_constraintTop_toBottomOf="@id/welcomeMessageTextView"
@@ -44,7 +44,7 @@
     <EditText
         android:id="@+id/emailEditText"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="48dp"
         android:hint="Email"
         android:inputType="textEmailAddress"
         app:layout_constraintTop_toBottomOf="@id/nameEditText"
@@ -58,7 +58,7 @@
     <EditText
         android:id="@+id/passwordEditText"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="48dp"
         android:hint="Password"
         android:inputType="textPassword"
         app:layout_constraintTop_toBottomOf="@id/emailEditText"
@@ -72,7 +72,7 @@
     <EditText
         android:id="@+id/confirmPasswordEditText"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="48dp"
         android:hint="Confirm Password"
         android:inputType="textPassword"
         app:layout_constraintTop_toBottomOf="@id/passwordEditText"
@@ -86,7 +86,7 @@
     <EditText
         android:id="@+id/dobEditText"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="48dp"
         android:hint="Date of Birth"
         android:inputType="date"
         app:layout_constraintTop_toBottomOf="@id/confirmPasswordEditText"
@@ -102,7 +102,7 @@
     <EditText
         android:id="@+id/phoneNumberEditText"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="48dp"
         android:layout_marginStart="32dp"
         android:layout_marginEnd="32dp"
         android:hint="Phone Number"
