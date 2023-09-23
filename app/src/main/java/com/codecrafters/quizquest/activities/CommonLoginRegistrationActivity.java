@@ -99,7 +99,7 @@ public class CommonLoginRegistrationActivity extends AppCompatActivity {
                                 // intent to home activity
                                 Intent intent
                                         = new Intent(CommonLoginRegistrationActivity.this,
-                                        UserDashboardActivity.class);
+                                        UserProfileDashboardActivity.class);
                                 startActivity(intent);
                             }
 

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f4f4f4">
+
+    <!-- User Profile Section -->
+    <LinearLayout
+        android:id="@+id/userProfileSection"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#3F51B5"
+        android:padding="16dp"
+        android:orientation="vertical"
+        android:gravity="center_horizontal">
+
+        <!-- User Details -->
+        <TextView
+            android:id="@+id/userName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="User name"
+            android:textSize="24sp"
+            android:textColor="#ffffff"/>
+
+        <TextView
+            android:id="@+id/quizSummary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Quizzes Taken: 0"
+            android:textSize="16sp"
+            android:textColor="#ffffff"
+            android:layout_marginTop="8dp"/>
+    </LinearLayout>
+
+    <!-- Quiz History Title -->
+    <TextView
+        android:id="@+id/quizHistoryTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Quiz History"
+        android:textSize="18sp"
+        android:layout_marginTop="16dp"
+        android:layout_below="@+id/userProfileSection"
+        android:layout_centerHorizontal="true"/>
+
+    <!-- Quiz History List -->
+    <ListView
+        android:id="@+id/quizHistoryList"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/quizHistoryTitle"
+        android:layout_above="@+id/startNewQuizButton"
+        android:layout_marginTop="8dp"/>
+
+    <!-- Start New Quiz Button -->
+    <Button
+        android:id="@+id/startNewQuizButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Start New Quiz"
+        android:background="#3F51B5"
+        android:textColor="#ffffff"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="16dp"/>
+
+</RelativeLayout>
