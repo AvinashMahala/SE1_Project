@@ -85,4 +85,19 @@
         android:background="@color/colorPrimary"
     android:textColor="#fff" />
 
+    <!-- Button to navigate to AdminDashboardActivity -->
+
+    <Button
+        android:id="@+id/btnAdminDashboard"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Go to Admin Dashboard"
+        android:onClick="navigateToAdminDashboard"
+        app:layout_constraintTop_toBottomOf="@id/loginButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="24dp"
+        android:background="@color/colorPrimary"
+        android:textColor="#fff" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
