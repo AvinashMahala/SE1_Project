@@ -119,39 +119,69 @@ public class CategoryManagementActivity extends AppCompatActivity {
 
                     // Generate a unique quizCatID based on the latest count of total items
                     DatabaseReference categoriesRef = databaseReference.child("QuizCategories");
-                    String newCategoryId = generateUniqueCategoryId(categoriesRef);
+                    generateUniqueCategoryId(categoriesRef, new CategoryCallback() {
+                        @Override
+                        public void onCategoryGenerated(String categoryId) {
+                            // Create a new AdminQuizCategory object with the generated ID
+                            AdminQuizCategory newCategory = new AdminQuizCategory(
+                                    categoryId,
+                                    categoryName,
+                                    categoryDescription,
+                                    null, // Set imageUrl to null for now or provide an image URL
+                                    System.currentTimeMillis(), // Timestamp of creation
+                                    "Admin", // Created by
+                                    System.currentTimeMillis(), // Timestamp of modification
+                                    "Admin" // Modified by
+                            );
 
-                    // Create a new AdminQuizCategory object with the generated ID
-                    AdminQuizCategory newCategory = new AdminQuizCategory(
-                            newCategoryId, // Use the generated unique categoryId
-                            categoryName,
-                            categoryDescription,
-                            "https://example.com/image.jpg", // Set imageUrl to null for now or provide an image URL
-                            System.currentTimeMillis(), // Timestamp of creation
-                            "Admin", // Created by
-                            System.currentTimeMillis(), // Timestamp of modification
-                            "Admin" // Modified by
-                    );
+                            // Push the new category data to Firebase Realtime Database
+                            DatabaseReference newCategoryRef = categoriesRef.child(categoryId);
 
-                    // Push the new category data to Firebase Realtime Database
-                    DatabaseReference newCategoryRef = categoriesRef.child(newCategoryId);
+                            newCategoryRef.setValue(newCategory)
+                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            // Category added successfully
+                                            showToast("Category added successfully!");
+                                            clearInputFields(); // Clear input fields
+                                        }
+                                    })
+                                    .addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            // Handle category addition failure
+                                            showToast("Error adding category: " + e.getMessage());
+                                        }
+                                    });
+                        }
 
-                    newCategoryRef.setValue(newCategory)
-                            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void aVoid) {
-                                    // Category added successfully
-                                    showToast("Category added successfully!");
-                                    clearInputFields(); // Clear input fields
-                                }
-                            })
-                            .addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    // Handle category addition failure
-                                    showToast("Error adding category: " + e.getMessage());
-                                }
-                            });
+                        @Override
+                        public void onError(String errorMessage) {
+                            // Handle the error message
+                            showToast("Error: " + errorMessage);
+                        }
+                    });
+
+//
+//                    // Push the new category data to Firebase Realtime Database
+//                    DatabaseReference newCategoryRef = categoriesRef.child(newCategoryId);
+//
+//                    newCategoryRef.setValue(newCategory)
+//                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+//                                @Override
+//                                public void onSuccess(Void aVoid) {
+//                                    // Category added successfully
+//                                    showToast("Category added successfully!");
+//                                    clearInputFields(); // Clear input fields
+//                                }
+//                            })
+//                            .addOnFailureListener(new OnFailureListener() {
+//                                @Override
+//                                public void onFailure(@NonNull Exception e) {
+//                                    // Handle category addition failure
+//                                    showToast("Error adding category: " + e.getMessage());
+//                                }
+//                            });
                 } catch (Exception e) {
                     e.printStackTrace();
                     // Handle exceptions here, e.g., show an error message to the user
@@ -164,19 +194,37 @@ public class CategoryManagementActivity extends AppCompatActivity {
     // Other methods for checking table existence, displaying toasts, etc.
 
     // Generate a unique categoryId based on the latest count of total items
-    private String generateUniqueCategoryId(DatabaseReference categoriesRef) {
+    private void generateUniqueCategoryId(DatabaseReference categoriesRef, final CategoryCallback callback) {
         String baseCategoryId = "quizCateg";
-        long latestCount = 10;
 
         // Query the database to get the latest count
-        // You may want to use addListenerForSingleValueEvent here to get the latest count
-        // or implement your own logic to compute the latest count
+        categoriesRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                long latestCount = dataSnapshot.getChildrenCount();
 
-        // For now, let's assume the latestCount is obtained from your database query
+                // Create the unique categoryId by concatenating the baseCategoryId and the latest count
+                String uniqueCategoryId = baseCategoryId + (latestCount + 1);
 
-        // Create the unique categoryId by concatenating the baseCategoryId and the latest count
-        return baseCategoryId + (latestCount + 1);
+                // Callback with the generated unique categoryId
+                callback.onCategoryGenerated(uniqueCategoryId);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                // Handle the error if the query is canceled
+                callback.onError(databaseError.getMessage());
+            }
+        });
     }
+
+    // Define a callback interface to handle the generated categoryId
+    private interface CategoryCallback {
+        void onCategoryGenerated(String categoryId);
+
+        void onError(String errorMessage);
+    }
+
 
 
 
