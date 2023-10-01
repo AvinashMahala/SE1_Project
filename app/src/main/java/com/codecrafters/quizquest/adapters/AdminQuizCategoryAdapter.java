@@ -74,7 +74,7 @@ public class AdminQuizCategoryAdapter extends RecyclerView.Adapter<AdminQuizCate
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             categoryName = itemView.findViewById(R.id.adminCategoryName);
-            categoryDescription = itemView.findViewById(R.id.categoryDescription);
+            categoryDescription = itemView.findViewById(R.id.adminCategoryDesc);
         }
     }
 
