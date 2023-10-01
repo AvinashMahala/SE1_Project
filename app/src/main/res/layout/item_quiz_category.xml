@@ -1,0 +1,28 @@
+<!-- res/layout/item_quiz_category.xml -->
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!-- Category Name -->
+    <TextView
+        android:id="@+id/categoryName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Category Name"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="4dp" />
+
+    <!-- Category Description -->
+    <TextView
+        android:id="@+id/categoryDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Category Description"
+        android:textSize="16sp"
+        android:layout_marginTop="4dp" />
+</LinearLayout>
