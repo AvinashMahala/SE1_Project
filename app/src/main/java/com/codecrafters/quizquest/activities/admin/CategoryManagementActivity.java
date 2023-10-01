@@ -1,6 +1,9 @@
 package com.codecrafters.quizquest.activities.admin;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -8,7 +11,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.codecrafters.quizquest.adapters.AdminQuizCategoryAdapter;
-import com.codecrafters.quizquest.adapters.QuizCategoryAdapter;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -24,6 +28,8 @@ import com.codecrafters.quizquest.models.AdminQuizCategory;
 public class CategoryManagementActivity extends AppCompatActivity {
 
     private DatabaseReference databaseReference;
+    private EditText categoryNameEditText;
+    private EditText categoryDescriptionEditText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,8 +46,6 @@ public class CategoryManagementActivity extends AppCompatActivity {
         RecyclerView recyclerView = findViewById(R.id.quizCategoryRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-
-
         // Fetch quiz categories from Firebase and populate the adapter
         DatabaseReference quizCategoriesRef = databaseReference.child("QuizCategories");
 
@@ -55,14 +59,14 @@ public class CategoryManagementActivity extends AppCompatActivity {
                 try {
                     for (DataSnapshot categorySnapshot : dataSnapshot.getChildren()) {
                         // Get values from the snapshot
-                        String quizCatID = (String) categorySnapshot.child("QuizCatID").getValue();
-                        String quizCatNm = (String) categorySnapshot.child("QuizCatNm").getValue();
-                        String quizCatDesc = (String) categorySnapshot.child("QuizCatDesc").getValue();
-                        String quizCateImgUrl = (String) categorySnapshot.child("QuizCateImgUrl").getValue();
-                        long quizCatCreatedOn = (long) categorySnapshot.child("QuizCatCreatedOn").getValue();
-                        String quizCatCreatedBy = (String) categorySnapshot.child("QuizCatCreatedBy").getValue();
-                        long quizCatModifiedOn = (long) categorySnapshot.child("QuizCatModifiedOn").getValue();
-                        String quizCatModifiedBy = (String) categorySnapshot.child("QuizCatModifiedBy").getValue();
+                        String quizCatID = (String) categorySnapshot.child("quizCatID").getValue();
+                        String quizCatNm = (String) categorySnapshot.child("quizCatNm").getValue();
+                        String quizCatDesc = (String) categorySnapshot.child("quizCatDesc").getValue();
+                        String quizCateImgUrl = (String) categorySnapshot.child("quizCateImgUrl").getValue();
+                        long quizCatCreatedOn = (long) categorySnapshot.child("quizCatCreatedOn").getValue();
+                        String quizCatCreatedBy = (String) categorySnapshot.child("quizCatCreatedBy").getValue();
+                        long quizCatModifiedOn = (long) categorySnapshot.child("quizCatModifiedOn").getValue();
+                        String quizCatModifiedBy = (String) categorySnapshot.child("quizCatModifiedBy").getValue();
 
                         // Create an AdminQuizCategory object
                         AdminQuizCategory category = new AdminQuizCategory(
@@ -86,15 +90,101 @@ public class CategoryManagementActivity extends AppCompatActivity {
                 }
             }
 
-
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 showToast("Database error: " + databaseError.getMessage());
             }
         });
+
+        // Initialize UI components
+        categoryNameEditText = findViewById(R.id.adminEditCategoryName);
+        categoryDescriptionEditText = findViewById(R.id.adminEditCategoryDesc);
+
+        // Listen for the "Add Category" button click
+        Button addCategoryButton = findViewById(R.id.addCategoryButton);
+        addCategoryButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    // Get user input for the new category
+                    String categoryName = categoryNameEditText.getText().toString();
+                    String categoryDescription = categoryDescriptionEditText.getText().toString();
+                    // Get other category data as needed
+
+                    // Check if input is valid (e.g., not empty)
+                    if (categoryName.isEmpty()) {
+                        showToast("Category name cannot be empty.");
+                        return;
+                    }
+
+                    // Generate a unique quizCatID based on the latest count of total items
+                    DatabaseReference categoriesRef = databaseReference.child("QuizCategories");
+                    String newCategoryId = generateUniqueCategoryId(categoriesRef);
+
+                    // Create a new AdminQuizCategory object with the generated ID
+                    AdminQuizCategory newCategory = new AdminQuizCategory(
+                            newCategoryId, // Use the generated unique categoryId
+                            categoryName,
+                            categoryDescription,
+                            "https://example.com/image.jpg", // Set imageUrl to null for now or provide an image URL
+                            System.currentTimeMillis(), // Timestamp of creation
+                            "Admin", // Created by
+                            System.currentTimeMillis(), // Timestamp of modification
+                            "Admin" // Modified by
+                    );
+
+                    // Push the new category data to Firebase Realtime Database
+                    DatabaseReference newCategoryRef = categoriesRef.child(newCategoryId);
+
+                    newCategoryRef.setValue(newCategory)
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    // Category added successfully
+                                    showToast("Category added successfully!");
+                                    clearInputFields(); // Clear input fields
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    // Handle category addition failure
+                                    showToast("Error adding category: " + e.getMessage());
+                                }
+                            });
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    // Handle exceptions here, e.g., show an error message to the user
+                    showToast("Error adding category: " + e.getMessage());
+                }
+            }
+        });
+    }
+
+    // Other methods for checking table existence, displaying toasts, etc.
+
+    // Generate a unique categoryId based on the latest count of total items
+    private String generateUniqueCategoryId(DatabaseReference categoriesRef) {
+        String baseCategoryId = "quizCateg";
+        long latestCount = 10;
+
+        // Query the database to get the latest count
+        // You may want to use addListenerForSingleValueEvent here to get the latest count
+        // or implement your own logic to compute the latest count
+
+        // For now, let's assume the latestCount is obtained from your database query
+
+        // Create the unique categoryId by concatenating the baseCategoryId and the latest count
+        return baseCategoryId + (latestCount + 1);
     }
 
 
+
+    private void clearInputFields() {
+        categoryNameEditText.getText().clear();
+        categoryDescriptionEditText.getText().clear();
+        // Clear other input fields if needed
+    }
 
     private void showToast(String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
@@ -133,14 +223,14 @@ public class CategoryManagementActivity extends AppCompatActivity {
 
             // Create a Map with the data
             Map<String, Object> categoryData = new HashMap<>();
-            categoryData.put("QuizCatID", categoryId);
-            categoryData.put("QuizCatNm", categoryName);
-            categoryData.put("QuizCatDesc", categoryDescription);
-            categoryData.put("QuizCateImgUrl", imageUrl);
-            categoryData.put("QuizCatCreatedOn", createdOn);
-            categoryData.put("QuizCatCreatedBy", createdBy);
-            categoryData.put("QuizCatModifiedOn", modifiedOn);
-            categoryData.put("QuizCatModifiedBy", modifiedBy);
+            categoryData.put("quizCatID", categoryId);
+            categoryData.put("quizCatNm", categoryName);
+            categoryData.put("quizCatDesc", categoryDescription);
+            categoryData.put("quizCateImgUrl", imageUrl);
+            categoryData.put("quizCatCreatedOn", createdOn);
+            categoryData.put("quizCatCreatedBy", createdBy);
+            categoryData.put("quizCatModifiedOn", modifiedOn);
+            categoryData.put("quizCatModifiedBy", modifiedBy);
 
             // Add the data to the database
             databaseReference.child("QuizCategories").child(categoryId).setValue(categoryData);
