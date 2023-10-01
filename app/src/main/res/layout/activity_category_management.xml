@@ -11,7 +11,7 @@
         android:id="@+id/adminCategMgmt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Welcome To Admin Categ Mgmt Area!"
+        android:text="Admin Categ Mgmt Area!"
         android:textSize="24sp"
         android:textStyle="bold"
         android:layout_marginTop="32dp"
