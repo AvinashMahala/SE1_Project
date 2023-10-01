@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.codecrafters.quizquest.R;
@@ -45,12 +44,10 @@ public class QuizHistoryAdapter extends BaseAdapter {
         }
 
         TextView categoryName = convertView.findViewById(R.id.categoryName);
-        ImageView categoryImage = convertView.findViewById(R.id.profile_image);
 
         QuizCategory currentQuiz = quizHistory.get(position);
 
         categoryName.setText(currentQuiz.getQuizCatName());
-        categoryImage.setImageResource(currentQuiz.getQuizCatImg());
 
         return convertView;
     }

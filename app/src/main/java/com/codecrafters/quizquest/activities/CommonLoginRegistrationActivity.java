@@ -94,12 +94,13 @@ public class CommonLoginRegistrationActivity extends AppCompatActivity {
                                                 Toast.LENGTH_LONG)
                                         .show();
 
+                                // Retrieve the user ID from Firebase
+                                String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-                                // if sign-in is successful
-                                // intent to home activity
-                                Intent intent
-                                        = new Intent(CommonLoginRegistrationActivity.this,
+                                // Pass the user ID to UserProfileDashboardActivity
+                                Intent intent = new Intent(CommonLoginRegistrationActivity.this,
                                         UserProfileDashboardActivity.class);
+                                intent.putExtra("USER_ID", userId);
                                 startActivity(intent);
                             }
 

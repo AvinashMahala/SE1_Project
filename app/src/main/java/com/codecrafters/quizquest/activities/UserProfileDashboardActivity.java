@@ -19,6 +19,7 @@ import java.util.ArrayList;
 public class UserProfileDashboardActivity extends AppCompatActivity {
 
     private UserProfileDashboardViewModel viewModel;
+    private String userId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,27 +28,39 @@ public class UserProfileDashboardActivity extends AppCompatActivity {
 
         viewModel = new ViewModelProvider(this).get(UserProfileDashboardViewModel.class);
 
-        // Assuming you have a way to get the logged-in user's ID
-        String userId = "YOUR_LOGGED_IN_USER_ID"; // You'll need to replace this with actual logic to get the user ID
+        userId = getIntent().getStringExtra("USER_ID");
+
+        // Load user data and quiz history based on the received user ID
         viewModel.loadUserData(userId);
         viewModel.loadQuizHistoryData(userId);
 
-        viewModel.getUser().observe(this, user -> {
-            TextView userNameTextView = findViewById(R.id.userName);
-            userNameTextView.setText(user.getName());
+        // Find and initialize the TextViews and ListView
+        TextView userNameTextView = findViewById(R.id.userName);
+        TextView userQuizCountTextView = findViewById(R.id.userQuizCount);
+        ListView quizHistoryListView = findViewById(R.id.quizHistoryList);
+        TextView noQuizMessageTextView = findViewById(R.id.noQuizMessage);
+        Button startNewQuizButton = findViewById(R.id.startNewQuizButton);
 
-            TextView quizSummaryTextView = findViewById(R.id.quizSummary);
-            quizSummaryTextView.setText("Quizzes Taken: " + user.getQuizzesTaken());
+        viewModel.getUser().observe(this, user -> {
+            userNameTextView.setText("Welcome " + user.getName());
+            userQuizCountTextView.setText("Quizzes taken: " + user.getQuizzesTaken());
         });
 
         viewModel.getQuizHistory().observe(this, quizHistory -> {
-            ListView quizHistoryListView = findViewById(R.id.quizHistoryList);
-            QuizHistoryAdapter adapter = new QuizHistoryAdapter(this, new ArrayList<>(quizHistory));
-            quizHistoryListView.setAdapter(adapter);
+            if (quizHistory.isEmpty()) {
+                noQuizMessageTextView.setText("No quizzes taken till now. Start your first quiz experience!");
+                quizHistoryListView.setVisibility(View.GONE);
+            } else {
+                noQuizMessageTextView.setVisibility(View.GONE);
+                quizHistoryListView.setVisibility(View.VISIBLE);
+
+                // Create an adapter to display the quiz history in the ListView
+                QuizHistoryAdapter adapter = new QuizHistoryAdapter(this, new ArrayList<>(quizHistory));
+                quizHistoryListView.setAdapter(adapter);
+            }
         });
 
         // Set OnClickListener for the "Start New Quiz" button
-        Button startNewQuizButton = findViewById(R.id.startNewQuizButton);
         startNewQuizButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

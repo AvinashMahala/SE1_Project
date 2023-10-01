@@ -30,12 +30,14 @@ public class UserProfileDashboardViewModel extends ViewModel {
     }
 
     public void loadUserData(String userId) {
-        DatabaseReference userRef = db.getReference("users").child(userId);
+        DatabaseReference userRef = db.getReference("UserINFO").child(userId);
         userRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                User fetchedUser = dataSnapshot.getValue(User.class);
-                user.setValue(fetchedUser);
+                if (dataSnapshot.exists()) {
+                    String userName = dataSnapshot.child("UserFname").getValue(String.class);
+                    user.setValue(new User(userName, 0)); // Initialize quizzesTaken as 0, update it later
+                }
             }
 
             @Override
@@ -46,16 +48,34 @@ public class UserProfileDashboardViewModel extends ViewModel {
     }
 
     public void loadQuizHistoryData(String userId) {
-        DatabaseReference quizHistoryRef = db.getReference("quizHistory").child(userId);
-        quizHistoryRef.addValueEventListener(new ValueEventListener() {
+        DatabaseReference quizTakenRef = db.getReference("QuizTaken");
+        quizTakenRef.orderByChild("UserID").equalTo(userId).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 List<QuizCategory> fetchedQuizHistory = new ArrayList<>();
                 for (DataSnapshot quizSnapshot : dataSnapshot.getChildren()) {
-                    QuizCategory quiz = quizSnapshot.getValue(QuizCategory.class);
-                    fetchedQuizHistory.add(quiz);
+                    String quizCatId = quizSnapshot.child("QuizCatID").getValue(String.class);
+                    int quizScore = quizSnapshot.child("QuizTakenScore").getValue(Integer.class);
+
+                    // Fetch quiz category details from QuizCategories using quizCatId
+                    DatabaseReference quizCatRef = db.getReference("QuizCategories").child(quizCatId);
+                    quizCatRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot quizCatSnapshot) {
+                            if (quizCatSnapshot.exists()) {
+                                String quizCatName = quizCatSnapshot.child("quizCatName").getValue(String.class); // Update field name
+                                QuizCategory quiz = new QuizCategory(quizCatName, 0, quizCatId); // Updated constructor
+                                fetchedQuizHistory.add(quiz);
+                                quizHistory.setValue(fetchedQuizHistory);
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                            // Handle error here
+                        }
+                    });
                 }
-                quizHistory.setValue(fetchedQuizHistory);
             }
 
             @Override
