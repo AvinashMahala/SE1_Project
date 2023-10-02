@@ -113,5 +113,13 @@ public class CommonLoginRegistrationActivity extends AppCompatActivity {
 
                             }
                         });
+
+
+    }
+
+    // Method to handle the button click and navigate to AdminDashboardActivity
+    public void navigateToAdminDashboard(View view) {
+        Intent intent = new Intent(this, AdminDashboardActivity.class);
+        startActivity(intent);
     }
 }
