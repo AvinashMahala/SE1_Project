@@ -1,19 +1,17 @@
 package com.codecrafters.quizquest.activities;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentTransaction;
 
-import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
 import com.codecrafters.quizquest.R;
-import com.codecrafters.quizquest.fragments.UserGraphFragment;
-
 public class UserDashboardActivity extends AppCompatActivity {
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,14 +32,18 @@ public class UserDashboardActivity extends AppCompatActivity {
         // Find the "Start Quiz" button by its ID
         Button startQuizButton = findViewById(R.id.startQuizButton);
 
+        Button btn = findViewById(R.id.ProfiletButton);
+
+        btn.setOnClickListener(view -> {
+            Intent intent = new Intent(UserDashboardActivity.this, UserProfileActivity.class);
+            startActivity(intent);
+        });
+
 // Set a click listener for the button
-        startQuizButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // Create an intent to navigate to the QuizCategoryActivity
-                Intent intent = new Intent(UserDashboardActivity.this, QuizCategoriesActivity.class);
-                startActivity(intent);
-            }
+        startQuizButton.setOnClickListener(view -> {
+            // Create an intent to navigate to the QuizCategoryActivity
+            Intent intent = new Intent(UserDashboardActivity.this, QuizCategoriesActivity.class);
+            startActivity(intent);
         });
 
 
@@ -49,14 +51,11 @@ public class UserDashboardActivity extends AppCompatActivity {
         Button logoutButton = findViewById(R.id.logoutButton);
 
         // Set a click listener for the button
-        logoutButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // Create an intent to navigate back to the CommonLoginRegistrationActivity
-                Intent intent = new Intent(UserDashboardActivity.this, CommonLoginRegistrationActivity.class);
-                startActivity(intent);
-                finish(); // Finish the current activity
-            }
+        logoutButton.setOnClickListener(view -> {
+            // Create an intent to navigate back to the CommonLoginRegistrationActivity
+            Intent intent = new Intent(UserDashboardActivity.this, CommonLoginRegistrationActivity.class);
+            startActivity(intent);
+            finish(); // Finish the current activity
         });
     }
 }
