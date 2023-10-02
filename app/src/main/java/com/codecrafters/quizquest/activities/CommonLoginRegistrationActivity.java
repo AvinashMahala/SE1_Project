@@ -1,7 +1,7 @@
 package com.codecrafters.quizquest.activities;
-
 import android.content.Intent;
 import android.os.Bundle;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.text.TextUtils;
@@ -10,22 +10,24 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.codecrafters.quizquest.MainActivity;
 import com.codecrafters.quizquest.R;
-
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.AuthResult;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import java.util.Objects;
 
 
 public class CommonLoginRegistrationActivity extends AppCompatActivity {
 
     private EditText emailEditText;
     private EditText passwordEditText;
-    private Button registerButton;
-    private Button loginButton;
     private FirebaseAuth mAuth;
+    private FirebaseDatabase firebaseDatabase;
+    private DatabaseReference userRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,32 +35,23 @@ public class CommonLoginRegistrationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_common_login_registration);
         // taking instance of FirebaseAuth
         mAuth = FirebaseAuth.getInstance();
-
-        // Initialize views
         emailEditText = findViewById(R.id.emailEditText);
         passwordEditText = findViewById(R.id.passwordEditText);
-        registerButton = findViewById(R.id.registerButton);
-        loginButton = findViewById(R.id.loginButton);
+        Button registerButton = findViewById(R.id.registerButton);
+        Button loginButton = findViewById(R.id.loginButton);
 
         // Set click listener for the Register button
-        registerButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Handle registration logic here
-                Intent registrationIntent = new Intent(CommonLoginRegistrationActivity.this, RegistrationActivity.class);
-                startActivity(registrationIntent);
-            }
+        registerButton.setOnClickListener(v -> {
+            // Handle registration logic here
+            Intent registrationIntent = new Intent(CommonLoginRegistrationActivity.this, RegistrationActivity.class);
+            startActivity(registrationIntent);
         });
 
         // Set click listener for the Login button
-        loginButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Handle login logic here
-                // You can validate user input, authenticate the user, and perform login tasks
-                loginUserAccount();
+        loginButton.setOnClickListener(v -> {
+            // Handle login logic here
+            loginUserAccount();
 
-            }
         });
     }
 
@@ -84,7 +77,7 @@ public class CommonLoginRegistrationActivity extends AppCompatActivity {
             return;
         }
 
-        // signin existing user
+        // Sign in existing user
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(
                         task -> {
@@ -97,13 +90,51 @@ public class CommonLoginRegistrationActivity extends AppCompatActivity {
                                 // Retrieve the user ID from Firebase
                                 String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
+
                                 // Pass the user ID to UserProfileDashboardActivity
                                 Intent intent = new Intent(CommonLoginRegistrationActivity.this,
                                         UserProfileDashboardActivity.class);
                                 intent.putExtra("USER_ID", userId);
                                 startActivity(intent);
-                            }
 
+                                // if sign-in is successful
+                                firebaseDatabase = FirebaseDatabase.getInstance();
+                                // Get the currently logged-in user
+                                FirebaseUser currentUser = mAuth.getCurrentUser();
+                                if (currentUser != null) {
+                                    // Retrieve the user's UID
+                                    String uid = currentUser.getUid();
+
+                                    // Reference the user's node in the database
+                                    userRef = firebaseDatabase.getReference("UserINFO").child(uid);
+
+                                    // Read data from the database and populate the TextViews
+                                    userRef.addValueEventListener(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                            if (dataSnapshot.exists()) {
+                                                String userprofile = dataSnapshot.child("UserRole").getValue(String.class);
+                                                Intent intent;
+                                                if(Objects.equals(userprofile, "Admin")) {
+                                                    intent = new Intent(CommonLoginRegistrationActivity.this,
+                                                            AdminDashboardActivity.class);
+                                                }
+                                                else    {
+                                                    // intent to home activity
+                                                    intent = new Intent(CommonLoginRegistrationActivity.this,
+                                                            UserDashboardActivity.class);
+                                                }
+                                                startActivity(intent);
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError error) {
+
+                                        }
+                                    });
+                                }
+                            }
                             else {
 
                                 // sign-in failed
@@ -114,5 +145,13 @@ public class CommonLoginRegistrationActivity extends AppCompatActivity {
 
                             }
                         });
+
+
+    }
+
+    // Method to handle the button click and navigate to AdminDashboardActivity
+    public void navigateToAdminDashboard(View view) {
+        Intent intent = new Intent(this, AdminDashboardActivity.class);
+        startActivity(intent);
     }
 }

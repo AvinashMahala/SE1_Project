@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -28,79 +27,101 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/nameEditText"
-        android:layout_width="0dp"
-        android:layout_height="48dp"
-        android:hint="Name"
-        android:inputType="text"
-        app:layout_constraintTop_toBottomOf="@id/welcomeMessageTextView"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="16dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="32dp" />
-
     <!-- Email Field -->
-    <EditText
-        android:id="@+id/emailEditText"
-        android:layout_width="0dp"
-        android:layout_height="48dp"
-        android:hint="Email"
-        android:inputType="textEmailAddress"
-        app:layout_constraintTop_toBottomOf="@id/nameEditText"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="16dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="32dp" />
 
     <!-- Password Field -->
 
     <!-- Confirm Password Field -->
 
     <!-- Date of Birth Field -->
-    <EditText
-        android:id="@+id/dobEditText"
-        android:layout_width="0dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="32dp"
-        android:hint="Date of Birth"
-        android:inputType="date"
-        app:layout_constraintBottom_toTopOf="@+id/phoneNumberEditText"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/emailEditText" />
 
     <!-- Gender Dropdown -->
 
     <!-- Phone Number Field -->
-    <EditText
-        android:id="@+id/phoneNumberEditText"
-        android:layout_width="0dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="32dp"
-        android:hint="Phone Number"
-        android:inputType="phone"
-        app:layout_constraintBottom_toTopOf="@+id/backToCommonButton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/dobEditText" />
-
 
 
     <!-- Registration Button -->
 
     <!-- Button to go back to the Common Login and Registration Page -->
+
+    <EditText
+        android:id="@+id/nameEditText"
+        android:layout_width="348dp"
+        android:layout_height="43dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="100dp"
+        android:layout_marginEnd="31dp"
+        android:ems="10"
+        android:inputType="text|textCapCharacters"
+        android:text="Name"
+        app:layout_constraintBottom_toTopOf="@+id/emailEditText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/welcomeMessageTextView"
+        app:layout_constraintVertical_bias="0.0"
+        android:autofillHints="" />
+
+    <EditText
+        android:id="@+id/emailEditText"
+        android:layout_width="355dp"
+        android:layout_height="52dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="39dp"
+        android:layout_marginEnd="28dp"
+        android:layout_marginBottom="7dp"
+        android:ems="10"
+        android:inputType="text|textEmailAddress|textCapCharacters"
+        android:text="Email"
+        app:layout_constraintBottom_toTopOf="@+id/dobEditText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/nameEditText"
+        android:autofillHints="" />
+
+    <EditText
+        android:id="@+id/dobEditText"
+        android:layout_width="319dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="52dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="7dp"
+        android:ems="10"
+        android:inputType="text|textCapCharacters"
+        android:text="Date of Birth"
+        app:layout_constraintBottom_toTopOf="@+id/phoneNumberEditText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/emailEditText"
+        android:autofillHints="" />
+
+    <EditText
+        android:id="@+id/phoneNumberEditText"
+        android:layout_width="338dp"
+        android:layout_height="58dp"
+        android:layout_marginStart="31dp"
+        android:layout_marginTop="49dp"
+        android:layout_marginEnd="42dp"
+        android:layout_marginBottom="85dp"
+        android:ems="10"
+        android:inputType="text|textCapCharacters"
+        android:text="Phone Number"
+        app:layout_constraintBottom_toTopOf="@+id/backTDashboardButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dobEditText" />
+
     <Button
-        android:id="@+id/backToCommonButton"
-        android:layout_width="0dp"
+        android:id="@+id/backTDashboardButton"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
-        android:text="Go To Login"
-        android:textColor="#fff"
+        android:layout_marginStart="153dp"
+        android:layout_marginTop="85dp"
+        android:layout_marginEnd="167dp"
+        android:layout_marginBottom="96dp"
+        android:text="Back to Dashboard"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
