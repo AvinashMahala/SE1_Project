@@ -12,7 +12,7 @@
         android:id="@+id/titleTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Welcome to QuizQuest!"
+        android:text="@string/welcome_to_quizquest"
         android:textSize="24sp"
         android:textStyle="bold"
         android:layout_marginTop="32dp"
@@ -24,80 +24,77 @@
     <!-- Registration Button -->
     <Button
         android:id="@+id/registerButton"
-        android:layout_width="0dp"
+        android:layout_width="320dp"
         android:layout_height="wrap_content"
-        android:text="Register"
-        app:layout_constraintTop_toBottomOf="@id/titleTextView"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="32dp"
+        android:layout_marginBottom="16dp"
         android:background="@color/colorPrimary"
-    android:textColor="#fff" />
+        android:text="@string/register"
+        android:textColor="#fff"
+        app:layout_constraintBottom_toTopOf="@+id/emailEditText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/titleTextView" />
 
     <!-- Login Form -->
     <EditText
         android:id="@+id/emailEditText"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="Email"
+        android:layout_width="320dp"
+        android:layout_height="48dp"
+        android:hint="@string/email"
         android:inputType="textEmailAddress"
         app:layout_constraintTop_toBottomOf="@id/registerButton"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="16dp"
         android:layout_marginStart="32dp"
-        android:layout_marginEnd="32dp" />
+        android:layout_marginEnd="32dp"
+        android:autofillHints="" />
 
     <EditText
         android:id="@+id/passwordEditText"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="Password"
+        android:layout_width="320dp"
+        android:layout_height="48dp"
+        android:hint="@string/password"
         android:inputType="textPassword"
         app:layout_constraintTop_toBottomOf="@id/emailEditText"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="16dp"
         android:layout_marginStart="32dp"
-        android:layout_marginEnd="32dp" />
+        android:layout_marginEnd="32dp"
+        android:autofillHints="" />
 
     <!-- Role Dropdown -->
-    <Spinner
-        android:id="@+id/roleSpinner"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        app:layout_constraintTop_toBottomOf="@id/passwordEditText"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" >
-    </Spinner>
 
     <!-- Login Button -->
     <Button
         android:id="@+id/loginButton"
-        android:layout_width="0dp"
+        android:layout_width="320dp"
         android:layout_height="wrap_content"
-        android:text="Login"
-        app:layout_constraintTop_toBottomOf="@id/roleSpinner"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="64dp"
+        android:layout_marginBottom="353dp"
         android:background="@color/colorPrimary"
-    android:textColor="#fff" />
+        android:text="@string/login"
+        android:textColor="#fff"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/passwordEditText" />
 
     <!-- Button to navigate to AdminDashboardActivity -->
 
-    <Button
-        android:id="@+id/btnAdminDashboard"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Go to Admin Dashboard"
-        android:onClick="navigateToAdminDashboard"
-        app:layout_constraintTop_toBottomOf="@id/loginButton"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="24dp"
-        android:background="@color/colorPrimary"
-        android:textColor="#fff" />
+<!--    <Button-->
+<!--        android:id="@+id/btnAdminDashboard"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="Go to Admin Dashboard"-->
+<!--        android:onClick="navigateToAdminDashboard"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/loginButton"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        android:layout_marginTop="24dp"-->
+<!--        android:background="@color/colorPrimary"-->
+<!--        android:textColor="#fff" />-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>
