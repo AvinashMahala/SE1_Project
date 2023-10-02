@@ -47,8 +47,10 @@ public class UserProfileDashboardActivity extends AppCompatActivity {
         });
 
         viewModel.getQuizHistory().observe(this, quizHistory -> {
-            if (quizHistory.isEmpty()) {
-                noQuizMessageTextView.setText("No quizzes taken till now. Start your first quiz experience!");
+            int quizCount = quizHistory.size();
+
+            if (quizCount == 0) {
+                noQuizMessageTextView.setText("No quizzes taken yet.");
                 quizHistoryListView.setVisibility(View.GONE);
             } else {
                 noQuizMessageTextView.setVisibility(View.GONE);
@@ -57,9 +59,12 @@ public class UserProfileDashboardActivity extends AppCompatActivity {
                 // Create an adapter to display the quiz history in the ListView
                 QuizHistoryAdapter adapter = new QuizHistoryAdapter(this, new ArrayList<>(quizHistory));
                 quizHistoryListView.setAdapter(adapter);
+
+                // Display the quiz count
+                String quizCountText = "Quizzes taken: " + quizCount;
+                userQuizCountTextView.setText(quizCountText);
             }
         });
-
         // Set OnClickListener for the "Start New Quiz" button
         startNewQuizButton.setOnClickListener(new View.OnClickListener() {
             @Override

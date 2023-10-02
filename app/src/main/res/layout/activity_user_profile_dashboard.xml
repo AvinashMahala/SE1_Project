@@ -49,7 +49,6 @@
         android:id="@+id/quizHistoryList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/startNewQuizButton"
         android:layout_below="@+id/quizHistoryTitle"
         android:layout_marginTop="9dp"
         android:layout_marginBottom="15dp" />
@@ -59,7 +58,7 @@
         android:id="@+id/noQuizMessage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="No quizzes taken till now. Start your first quiz experience!"
+        android:text="No quizzes taken yet."
         android:textSize="16sp"
         android:textColor="#000000"
         android:layout_centerInParent="true"
