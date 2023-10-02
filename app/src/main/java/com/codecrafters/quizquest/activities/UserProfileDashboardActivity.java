@@ -30,11 +30,9 @@ public class UserProfileDashboardActivity extends AppCompatActivity {
 
         userId = getIntent().getStringExtra("USER_ID");
 
-        // Load user data and quiz history based on the received user ID
         viewModel.loadUserData(userId);
         viewModel.loadQuizHistoryData(userId);
 
-        // Find and initialize the TextViews and ListView
         TextView userNameTextView = findViewById(R.id.userName);
         TextView userQuizCountTextView = findViewById(R.id.userQuizCount);
         ListView quizHistoryListView = findViewById(R.id.quizHistoryList);
@@ -56,16 +54,14 @@ public class UserProfileDashboardActivity extends AppCompatActivity {
                 noQuizMessageTextView.setVisibility(View.GONE);
                 quizHistoryListView.setVisibility(View.VISIBLE);
 
-                // Create an adapter to display the quiz history in the ListView
                 QuizHistoryAdapter adapter = new QuizHistoryAdapter(this, new ArrayList<>(quizHistory));
                 quizHistoryListView.setAdapter(adapter);
 
-                // Display the quiz count
                 String quizCountText = "Quizzes taken: " + quizCount;
                 userQuizCountTextView.setText(quizCountText);
             }
         });
-        // Set OnClickListener for the "Start New Quiz" button
+
         startNewQuizButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

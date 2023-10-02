@@ -8,16 +8,16 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.codecrafters.quizquest.R;
-import com.codecrafters.quizquest.models.QuizCategory;
+import com.codecrafters.quizquest.models.QuizHistoryItem;
 
 import java.util.ArrayList;
 
 public class QuizHistoryAdapter extends BaseAdapter {
 
     private Context context;
-    private ArrayList<QuizCategory> quizHistory;
+    private ArrayList<QuizHistoryItem> quizHistory;
 
-    public QuizHistoryAdapter(Context context, ArrayList<QuizCategory> quizHistory) {
+    public QuizHistoryAdapter(Context context, ArrayList<QuizHistoryItem> quizHistory) {
         this.context = context;
         this.quizHistory = quizHistory;
     }
@@ -40,14 +40,18 @@ public class QuizHistoryAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
-            convertView = LayoutInflater.from(context).inflate(R.layout.activity_quiz_categories, parent, false);
+            convertView = LayoutInflater.from(context).inflate(R.layout.quiz_history_item, parent, false);
         }
 
-        TextView categoryName = convertView.findViewById(R.id.categoryName);
+        TextView quizName = convertView.findViewById(R.id.quizName);
+        TextView score = convertView.findViewById(R.id.score);
+        TextView totalScore = convertView.findViewById(R.id.totalScore);
 
-        QuizCategory currentQuiz = quizHistory.get(position);
+        QuizHistoryItem currentQuiz = quizHistory.get(position);
 
-        categoryName.setText(currentQuiz.getQuizCatName());
+        quizName.setText(currentQuiz.getQuizId());
+        score.setText("Score: " + currentQuiz.getScore());
+        totalScore.setText("Total Score: " + 100); // Hardcoded 100 as total score for now
 
         return convertView;
     }
