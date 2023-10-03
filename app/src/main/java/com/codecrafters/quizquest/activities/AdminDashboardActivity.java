@@ -9,6 +9,8 @@ import com.codecrafters.quizquest.activities.admin.AnalyticsActivity;
 import com.codecrafters.quizquest.activities.admin.CategoryManagementActivity;
 import com.codecrafters.quizquest.activities.admin.QuestionManagementActivity;
 import com.codecrafters.quizquest.activities.admin.UserAccountManagementActivity;
+import android.util.Log;
+import android.widget.Toast;
 
 public class AdminDashboardActivity extends AppCompatActivity {
 
@@ -32,8 +34,16 @@ public class AdminDashboardActivity extends AppCompatActivity {
     // Method to handle the "Manage Quiz Categories" button click
     public void onManageCategoriesClick(View view) {
         // Implement the logic to navigate to the category management screen
-        Intent intent = new Intent(this, CategoryManagementActivity.class);
-        startActivity(intent);
+        try {
+            // Implement the logic to navigate to the category management screen
+            Intent intent = new Intent(this, CategoryManagementActivity.class);
+            startActivity(intent);
+        } catch (Exception e) {
+            // Log the exception using Android's Log class
+            Log.e("NavigationError", "Failed to navigate to CategoryManagementActivity", e);
+            // Optionally, show a user-friendly message to inform them about the issue
+            Toast.makeText(this, "Error navigating to category management.", Toast.LENGTH_SHORT).show();
+        }
     }
 
     // Method to handle the "Manage Quiz Questions" button click

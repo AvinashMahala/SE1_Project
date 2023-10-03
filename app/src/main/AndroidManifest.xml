@@ -13,6 +13,18 @@
         android:theme="@style/Theme.QuizQuest"
         tools:targetApi="31">
         <activity
+            android:name=".activities.admin.AnalyticsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.admin.UserAccountManagementActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.admin.QuestionManagementActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.admin.CategoryManagementActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.CommonLoginRegistrationActivity"
             android:exported="false" />
         <activity
