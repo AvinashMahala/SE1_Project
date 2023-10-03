@@ -50,6 +50,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
         btn.setOnClickListener(v -> registerNewUser());
 
+
         // Set a click listener for the button
         backToCommonButton.setOnClickListener(view -> {
             // Create an intent to navigate to the CommonLoginRegistrationActivity
@@ -60,6 +61,7 @@ public class RegistrationActivity extends AppCompatActivity {
     }
 
     private void registerNewUser() {
+        try {
         // Take the value of edit texts
         String email, password, name, phnno, dob;
         email = emailTextView.getText().toString();
@@ -111,22 +113,31 @@ public class RegistrationActivity extends AppCompatActivity {
                                     });
                         } else {
                             // Registration failed, handle exceptions
-                            try {
-                                throw Objects.requireNonNull(task.getException());
-                            } catch (FirebaseAuthUserCollisionException e) {
-                                // Handle case where email is already in use
-                                Toast.makeText(getApplicationContext(), "Email is already in use!", Toast.LENGTH_LONG).show();
-                            } catch (FirebaseAuthInvalidCredentialsException e) {
-                                // Handle invalid email format
-                                Toast.makeText(getApplicationContext(), "Invalid email or password format!", Toast.LENGTH_LONG).show();
-                            } catch (Exception e) {
-                                // Handle other exceptions
-                                Toast.makeText(getApplicationContext(), "Registration failed: " + e.getMessage(), Toast.LENGTH_LONG).show();
-                            }
+                            handleRegistrationExceptions(task.getException());
                         }
                     });
         }
+        } catch (Exception e) {
+            Toast.makeText(RegistrationActivity.this, "Unexpected error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
     }
+
+
+    private void handleRegistrationExceptions(Exception exception) {
+        try {
+            throw Objects.requireNonNull(exception);
+        } catch (FirebaseAuthUserCollisionException e) {
+            // Handle case where email is already in use
+            Toast.makeText(getApplicationContext(), "Email is already in use!", Toast.LENGTH_LONG).show();
+        } catch (FirebaseAuthInvalidCredentialsException e) {
+            // Handle invalid email format
+            Toast.makeText(getApplicationContext(), "Invalid email or password format!", Toast.LENGTH_LONG).show();
+        } catch (Exception e) {
+            // Handle other exceptions
+            Toast.makeText(getApplicationContext(), "Registration failed: " + e.getMessage(), Toast.LENGTH_LONG).show();
+        }
+    }
+
 
 
 }
