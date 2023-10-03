@@ -16,10 +16,19 @@
         android:textSize="24sp"
         android:textStyle="bold"
         android:layout_marginTop="50dp"
+        android:padding="12dp"
+        android:fontFamily="sans-serif-light"
+        android:shadowColor="#66000000"
+        android:shadowDx="2"
+        android:shadowDy="2"
+        android:shadowRadius="1.5"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:gravity="center" />
+        android:gravity="center"
+
+        />
+
 
     <!-- CardView wrapping the form -->
     <androidx.cardview.widget.CardView
@@ -73,7 +82,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="64dp"
                 android:layout_marginBottom="353dp"
-                android:background="@color/colorPrimary"
+                android:background="@drawable/rounded_button"
                 android:text="@string/login"
                 android:textColor="#fff"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -89,7 +98,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
                 android:layout_marginBottom="16dp"
-                android:background="@color/colorPrimary"
+                android:background="@drawable/rounded_button"
                 android:text="@string/register"
                 android:textColor="#fff"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -102,16 +111,19 @@
 
                 <Button
                     android:id="@+id/btnAdminDashboard"
-                    android:layout_width="0dp"
+                    android:layout_width="320dp"
                     android:layout_height="wrap_content"
                     android:text="Go to Admin Dashboard"
                     android:onClick="navigateToAdminDashboard"
-                    app:layout_constraintTop_toBottomOf="@id/registerButton"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
                     android:layout_marginTop="24dp"
-                    android:background="@color/colorPrimary"
-                    android:textColor="#fff" />
+                    android:layout_marginBottom="16dp"
+                    android:background="@drawable/rounded_button"
+                    android:textColor="#fff"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/registerButton"
+
+                    />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 
