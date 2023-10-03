@@ -13,7 +13,7 @@
         android:id="@+id/adminCategMgmt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Welcome To Admin Categ Mgmt Area!"
+        android:text="Category Managemet"
         android:textSize="24sp"
         android:textStyle="bold"
         android:layout_marginTop="32dp"
@@ -21,14 +21,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:gravity="center" />
-
-    <!-- RecyclerView to display quiz categories -->
-
-    <!-- EditText fields for category name and description -->
-
-    <!-- Button to add a new category -->
-
-    <!-- Button to delete selected category -->
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/quizCategoryRecyclerView"
@@ -77,18 +69,5 @@
         app:layout_constraintHorizontal_bias="0.184"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/adminEditCategoryDesc" />
-
-    <Button
-        android:id="@+id/deleteCategoryButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
-        android:text="Delete Category"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.885"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/adminEditCategoryDesc"
-        app:layout_constraintVertical_bias="0.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
