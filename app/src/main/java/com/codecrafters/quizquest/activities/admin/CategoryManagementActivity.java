@@ -210,26 +210,6 @@ public class CategoryManagementActivity extends AppCompatActivity implements Cat
                         }
                     });
 
-//
-//                    // Push the new category data to Firebase Realtime Database
-//                    DatabaseReference newCategoryRef = categoriesRef.child(newCategoryId);
-//
-//                    newCategoryRef.setValue(newCategory)
-//                            .addOnSuccessListener(new OnSuccessListener<Void>() {
-//                                @Override
-//                                public void onSuccess(Void aVoid) {
-//                                    // Category added successfully
-//                                    showToast("Category added successfully!");
-//                                    clearInputFields(); // Clear input fields
-//                                }
-//                            })
-//                            .addOnFailureListener(new OnFailureListener() {
-//                                @Override
-//                                public void onFailure(@NonNull Exception e) {
-//                                    // Handle category addition failure
-//                                    showToast("Error adding category: " + e.getMessage());
-//                                }
-//                            });
                 } catch (Exception e) {
                     e.printStackTrace();
                     // Handle exceptions here, e.g., show an error message to the user
