@@ -32,6 +32,7 @@ public class CategoryManagementActivity extends AppCompatActivity implements Cat
     private EditText categoryDescriptionEditText;
 
     private RecyclerView recyclerView;
+    private ArrayList<AdminQuizCategory> quizCategories = new ArrayList<>();
     private AdminQuizCategoryAdapter adapter;
 
     @Override
@@ -43,28 +44,44 @@ public class CategoryManagementActivity extends AppCompatActivity implements Cat
 
     @Override
     public void onDeleteClick(int position) {
-        // Handle your delete logic here. For this demo, we'll show a toast and delete from Firebase:
-        showToast("Delete clicked for position: " + position);
-        AdminQuizCategory categoryToRemove = adapter.getQuizCategoryAtPosition(position);
-        DatabaseReference categoryRef = databaseReference.child("QuizCategories").child(categoryToRemove.getQuizCatID());
-        categoryRef.removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
-                showToast("Category deleted successfully!");
+        try {
+            // Handle your delete logic here. For this demo, we'll show a toast and delete from Firebase:
+            showToast("Delete clicked for position: " + position);
+            AdminQuizCategory categoryToRemove = adapter.getQuizCategoryAtPosition(position);
+
+            if (categoryToRemove != null && categoryToRemove.getQuizCatID() != null) {
+                DatabaseReference categoryRef = databaseReference.child("QuizCategories").child(categoryToRemove.getQuizCatID());
+
+                categoryRef.removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        showToast("Category deleted successfully!");
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        showToast("Error deleting category: " + e.getMessage());
+                    }
+                });
+            } else {
+                showToast("Error: Invalid category or ID");
             }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                showToast("Error deleting category: " + e.getMessage());
-            }
-        });
+        } catch (Exception e) {
+            // Handle any unexpected exceptions here.
+            showToast("Unexpected error: " + e.getMessage());
+        }
     }
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category_management);
+
+        recyclerView = findViewById(R.id.quizCategoryRecyclerView);  // Moved inside onCreate
+        adapter = new AdminQuizCategoryAdapter(CategoryManagementActivity.this, quizCategories, this);  // Moved inside onCreate
+
 
         // Initialize Firebase Database Reference
         databaseReference = FirebaseDatabase.getInstance().getReference();
@@ -73,17 +90,16 @@ public class CategoryManagementActivity extends AppCompatActivity implements Cat
         checkIfTableExists();
 
         // Initialize RecyclerView
-        RecyclerView recyclerView = findViewById(R.id.quizCategoryRecyclerView);
+
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         // Fetch quiz categories from Firebase and populate the adapter
         DatabaseReference quizCategoriesRef = databaseReference.child("QuizCategories");
         ArrayList<AdminQuizCategory> quizCategories = new ArrayList<>();
-        AdminQuizCategoryAdapter adapter = new AdminQuizCategoryAdapter(CategoryManagementActivity.this, quizCategories, this);
 
         quizCategoriesRef.addValueEventListener(new ValueEventListener() {
             // Fetch quiz categories from Firebase and populate the adapter
-            ArrayList<AdminQuizCategory> quizCategories = new ArrayList<>(); // Replace with your actual data retrieval logic
+
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 quizCategories.clear(); // Clear the existing list
