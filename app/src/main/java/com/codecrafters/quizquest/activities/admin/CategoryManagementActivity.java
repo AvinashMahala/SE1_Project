@@ -25,11 +25,41 @@ import java.util.Map;
 import com.codecrafters.quizquest.R;
 import com.codecrafters.quizquest.models.AdminQuizCategory;
 
-public class CategoryManagementActivity extends AppCompatActivity {
+public class CategoryManagementActivity extends AppCompatActivity implements CategoryClickListener{
 
     private DatabaseReference databaseReference;
     private EditText categoryNameEditText;
     private EditText categoryDescriptionEditText;
+
+    private RecyclerView recyclerView;
+    private AdminQuizCategoryAdapter adapter;
+
+    @Override
+    public void onEditClick(int position) {
+        // Handle your edit logic here. For this demo, we'll show a toast:
+        showToast("Edit clicked for position: " + position);
+        // You can fetch the corresponding category with `quizCategories.get(position)` and proceed with any edit operations.
+    }
+
+    @Override
+    public void onDeleteClick(int position) {
+        // Handle your delete logic here. For this demo, we'll show a toast and delete from Firebase:
+        showToast("Delete clicked for position: " + position);
+        AdminQuizCategory categoryToRemove = adapter.getQuizCategoryAtPosition(position);
+        DatabaseReference categoryRef = databaseReference.child("QuizCategories").child(categoryToRemove.getQuizCatID());
+        categoryRef.removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                showToast("Category deleted successfully!");
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                showToast("Error deleting category: " + e.getMessage());
+            }
+        });
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +78,8 @@ public class CategoryManagementActivity extends AppCompatActivity {
 
         // Fetch quiz categories from Firebase and populate the adapter
         DatabaseReference quizCategoriesRef = databaseReference.child("QuizCategories");
+        ArrayList<AdminQuizCategory> quizCategories = new ArrayList<>();
+        AdminQuizCategoryAdapter adapter = new AdminQuizCategoryAdapter(CategoryManagementActivity.this, quizCategories, this);
 
         quizCategoriesRef.addValueEventListener(new ValueEventListener() {
             // Fetch quiz categories from Firebase and populate the adapter
@@ -80,7 +112,7 @@ public class CategoryManagementActivity extends AppCompatActivity {
                     }
 
                     // Create an instance of your adapter and set it to the RecyclerView
-                    AdminQuizCategoryAdapter adapter = new AdminQuizCategoryAdapter(CategoryManagementActivity.this, quizCategories);
+                    //adapter = new AdminQuizCategoryAdapter(CategoryManagementActivity.this, quizCategories, this);
                     adapter.setQuizCategories(quizCategories);
                     recyclerView.setAdapter(adapter);
                 } catch (Exception e) {
@@ -192,7 +224,6 @@ public class CategoryManagementActivity extends AppCompatActivity {
     }
 
     // Other methods for checking table existence, displaying toasts, etc.
-
     // Generate a unique categoryId based on the latest count of total items
     private void generateUniqueCategoryId(DatabaseReference categoriesRef, final CategoryCallback callback) {
         String baseCategoryId = "quizCateg";
@@ -217,27 +248,20 @@ public class CategoryManagementActivity extends AppCompatActivity {
             }
         });
     }
-
     // Define a callback interface to handle the generated categoryId
     private interface CategoryCallback {
         void onCategoryGenerated(String categoryId);
 
         void onError(String errorMessage);
     }
-
-
-
-
     private void clearInputFields() {
         categoryNameEditText.getText().clear();
         categoryDescriptionEditText.getText().clear();
         // Clear other input fields if needed
     }
-
     private void showToast(String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
-
     private void checkIfTableExists() {
         databaseReference.child("QuizCategories").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -256,7 +280,6 @@ public class CategoryManagementActivity extends AppCompatActivity {
             }
         });
     }
-
     private void createTableWithDemoData() {
         // Initialize "QuizCategories" table with 5 demo entries
         for (int i = 1; i <= 5; i++) {
