@@ -2,43 +2,44 @@ package com.codecrafters.quizquest.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.appcompat.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.codecrafters.quizquest.R;
+import androidx.appcompat.app.AppCompatActivity;
 
+import com.codecrafters.quizquest.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Objects;
+import java.util.HashMap;
+import java.util.Map;
 
 public class RegistrationActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
-    FirebaseDatabase firebaseDatabase;
+    private FirebaseDatabase firebaseDatabase;
     private EditText emailTextView, passwordTextView, nameTextView, phonenumberTextView, dobTextView;
-    String uid;
+    private String uid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
+        initializeUI();
+    }
 
+    private void initializeUI() {
         Button backToCommonButton = findViewById(R.id.backTDashboardButton);
-        // taking FirebaseAuth instance
+        Button registerButton = findViewById(R.id.registerButton);
+
         mAuth = FirebaseAuth.getInstance();
-        // instance of our Firebase database.
         firebaseDatabase = FirebaseDatabase.getInstance();
 
         nameTextView = findViewById(R.id.nameEditText);
@@ -46,87 +47,88 @@ public class RegistrationActivity extends AppCompatActivity {
         dobTextView = findViewById(R.id.dobEditText);
         emailTextView = findViewById(R.id.emailEditText);
         passwordTextView = findViewById(R.id.passwordEditText);
-        Button btn = findViewById(R.id.registerButton);
 
-        btn.setOnClickListener(v -> registerNewUser());
-
-        // Set a click listener for the button
-        backToCommonButton.setOnClickListener(view -> {
-            // Create an intent to navigate to the CommonLoginRegistrationActivity
-            Intent intent = new Intent(RegistrationActivity.this, CommonLoginRegistrationActivity.class);
-            startActivity(intent);
-            finish(); // Finish the current activity
-        });
+        registerButton.setOnClickListener(v -> registerNewUser());
+        backToCommonButton.setOnClickListener(view -> navigateTo(CommonLoginRegistrationActivity.class));
     }
 
     private void registerNewUser() {
-        // Take the value of edit texts
-        String email, password, name, phnno, dob;
-        email = emailTextView.getText().toString();
-        password = passwordTextView.getText().toString();
-        name = nameTextView.getText().toString();
-        dob = dobTextView.getText().toString();
-        phnno = phonenumberTextView.getText().toString();
+        try {
+            String email = emailTextView.getText().toString().trim();
+            String password = passwordTextView.getText().toString().trim();
+            String name = nameTextView.getText().toString().trim();
+            String dob = dobTextView.getText().toString().trim();
+            String phnno = phonenumberTextView.getText().toString().trim();
 
-        if (TextUtils.isEmpty(name) || TextUtils.isEmpty(phnno) || TextUtils.isEmpty(dob) || TextUtils.isEmpty(email) || TextUtils.isEmpty(password)) {
-            // If any of the text fields are empty, show an error message.
-            Toast.makeText(RegistrationActivity.this, "Please fill all required fields.", Toast.LENGTH_SHORT).show();
-        } else {
-            // Create a new user in Firebase Authentication
-            mAuth.createUserWithEmailAndPassword(email, password)
-                    .addOnCompleteListener(task -> {
-                        if (task.isSuccessful()) {
-                            // Registration was successful
-                            uid = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
+            if (areFieldsEmpty(name, phnno, dob, email, password)) {
+                showToast("Please fill all required fields.");
+                return;
+            }
 
-                            Date currentTime = Calendar.getInstance().getTime();
-
-                            // Create a user data map
-                            Map<String, Object> user = new HashMap<>();
-                            user.put("UserFname", name);
-                            user.put("UserEmail", email);
-                            user.put("UserDOB", dob);
-                            user.put("UserPhNo", phnno);
-                            user.put("UserRole", "User");
-                            user.put("Created on", currentTime.toString());
-                            user.put("Modified on", "Null");
-
-                            // Reference the specific user's node using their UID
-                            DatabaseReference userRef = firebaseDatabase.getReference("UserINFO").child(uid);
-
-                            // Set the user data in the database
-                            userRef.setValue(user)
-                                    .addOnCompleteListener(task1 -> {
-                                        if (task1.isSuccessful()) {
-                                            // If data is added successfully, show a success message
-                                            Toast.makeText(getApplicationContext(), "Registration successful!", Toast.LENGTH_LONG).show();
-
-                                            // Navigate to the login activity
-                                            Intent intent = new Intent(RegistrationActivity.this, CommonLoginRegistrationActivity.class);
-                                            startActivity(intent);
-                                        } else {
-                                            // Handle the case where data couldn't be added to the database
-                                            Toast.makeText(getApplicationContext(), "Failed to add user data to the database", Toast.LENGTH_LONG).show();
-                                        }
-                                    });
-                        } else {
-                            // Registration failed, handle exceptions
-                            try {
-                                throw Objects.requireNonNull(task.getException());
-                            } catch (FirebaseAuthUserCollisionException e) {
-                                // Handle case where email is already in use
-                                Toast.makeText(getApplicationContext(), "Email is already in use!", Toast.LENGTH_LONG).show();
-                            } catch (FirebaseAuthInvalidCredentialsException e) {
-                                // Handle invalid email format
-                                Toast.makeText(getApplicationContext(), "Invalid email or password format!", Toast.LENGTH_LONG).show();
-                            } catch (Exception e) {
-                                // Handle other exceptions
-                                Toast.makeText(getApplicationContext(), "Registration failed: " + e.getMessage(), Toast.LENGTH_LONG).show();
-                            }
-                        }
-                    });
+            mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    handleSuccessfulRegistration(name, email, dob, phnno);
+                } else {
+                    handleRegistrationExceptions(task.getException());
+                }
+            });
+        } catch (Exception e) {
+            showToast("Unexpected error: " + e.getMessage());
         }
     }
 
+    private boolean areFieldsEmpty(String... fields) {
+        for (String field : fields) {
+            if (TextUtils.isEmpty(field)) return true;
+        }
+        return false;
+    }
 
+    private void handleSuccessfulRegistration(String name, String email, String dob, String phnno) {
+        uid = mAuth.getCurrentUser().getUid();
+        Date currentTime = Calendar.getInstance().getTime();
+        Map<String, Object> user = createUserMap(name, email, dob, phnno, currentTime);
+
+        DatabaseReference userRef = firebaseDatabase.getReference("UserINFO").child(uid);
+        userRef.setValue(user).addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                showToast("Registration successful!");
+                navigateTo(CommonLoginRegistrationActivity.class);
+            } else {
+                showToast("Failed to add user data to the database");
+            }
+        });
+    }
+
+    private Map<String, Object> createUserMap(String name, String email, String dob, String phnno, Date currentTime) {
+        Map<String, Object> user = new HashMap<>();
+        user.put("UserFname", name);
+        user.put("UserEmail", email);
+        user.put("UserDOB", dob);
+        user.put("UserPhNo", phnno);
+        user.put("UserRole", "User");
+        user.put("Created on", currentTime.toString());
+        user.put("Modified on", "Null");
+        return user;
+    }
+
+    private void handleRegistrationExceptions(Exception exception) {
+        if (exception instanceof FirebaseAuthUserCollisionException) {
+            showToast("Email is already in use!");
+        } else if (exception instanceof FirebaseAuthInvalidCredentialsException) {
+            showToast("Invalid email or password format!");
+        } else {
+            showToast("Registration failed: " + exception.getMessage());
+        }
+    }
+
+    private void showToast(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+    }
+
+    private void navigateTo(Class<?> targetActivity) {
+        Intent intent = new Intent(this, targetActivity);
+        startActivity(intent);
+        finish();
+    }
 }
