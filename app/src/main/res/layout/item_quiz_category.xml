@@ -20,7 +20,6 @@
         android:contentDescription="Category Name"
         android:gravity="center"
         android:text="Category Name"
-        android:textAlignment="viewStart"
         android:textSize="20sp"
         android:textStyle="bold" />
 
