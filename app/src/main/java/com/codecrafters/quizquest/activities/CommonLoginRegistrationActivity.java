@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -94,26 +95,41 @@ public class CommonLoginRegistrationActivity extends AppCompatActivity {
         userRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (!dataSnapshot.exists()) return;
+                if (dataSnapshot.exists()) {
+                    // Log a message to indicate that onDataChange is triggered
+                    Log.d("Firebase", "onDataChange triggered");
 
-                String userRole = dataSnapshot.child("UserRole").getValue(String.class);
-                Intent intent;
+                    String userRole = dataSnapshot.child("UserRole").getValue(String.class);
+                    Intent intent;
 
-                if ("Admin".equals(userRole)) {
-                    intent = new Intent(CommonLoginRegistrationActivity.this, AdminDashboardActivity.class);
+                    if ("admin".equalsIgnoreCase(userRole)) {
+                        intent = new Intent(CommonLoginRegistrationActivity.this, AdminDashboardActivity.class);
+                    } else {
+                        intent = new Intent(CommonLoginRegistrationActivity.this, UserDashboardActivity.class);
+                    }
+
+                    startActivity(intent);
                 } else {
-                    intent = new Intent(CommonLoginRegistrationActivity.this, UserDashboardActivity.class);
-                }
+                    // Log a message to indicate that no data exists
+                    Log.d("Firebase", "No data found");
 
-                startActivity(intent);
+                    // Handle the case where the user data doesn't exist
+                    showToast("User data not found.");
+                }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                // Handle errors gracefully, perhaps log them if necessary
+                // Log the error message
+                Log.e("Firebase", "Database error: " + error.getMessage());
+
+                // Handle database errors here
+                showToast("Database error: " + error.getMessage());
             }
         });
+
     }
+
 
     private void showToast(String message) {
         Toast.makeText(this, message, Toast.LENGTH_LONG).show();
