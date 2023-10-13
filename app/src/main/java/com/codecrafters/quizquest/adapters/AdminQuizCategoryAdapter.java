@@ -84,7 +84,7 @@ public class AdminQuizCategoryAdapter extends RecyclerView.Adapter<AdminQuizCate
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView categoryName;
         TextView categoryDescription;
-        Button editButton, deleteButton;
+        Button editButton, deleteButton, quizSetCategoryButton;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -92,6 +92,8 @@ public class AdminQuizCategoryAdapter extends RecyclerView.Adapter<AdminQuizCate
             //categoryDescription = itemView.findViewById(R.id.adminCategoryDesc);
             editButton = itemView.findViewById(R.id.editCategoryButton);
             deleteButton = itemView.findViewById(R.id.deleteCategoryButton);
+            quizSetCategoryButton = itemView.findViewById(R.id.quizSetCategoryButton);
+
             editButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -111,6 +113,18 @@ public class AdminQuizCategoryAdapter extends RecyclerView.Adapter<AdminQuizCate
                         int position = getAdapterPosition();
                         if(position != RecyclerView.NO_POSITION) {
                             listener.onDeleteClick(position);
+                        }
+                    }
+                }
+            });
+
+            quizSetCategoryButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(listener != null) {
+                        int position = getAdapterPosition();
+                        if(position != RecyclerView.NO_POSITION) {
+                            listener.onQuizSetCategoryButtonClick(position);
                         }
                     }
                 }
