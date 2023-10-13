@@ -28,7 +28,7 @@ public class QuizSetActivity extends AppCompatActivity {
             // Handle the case where categoryName is null or not provided
             adminQuizSetWelcome.setText("Welcome to Quiz Set Area!");
         }
-        
+
     }
 
 }
