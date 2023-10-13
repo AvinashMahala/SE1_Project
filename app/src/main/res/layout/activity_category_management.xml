@@ -1,5 +1,3 @@
-<!-- res/layout/activity_category_management.xml -->
-
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -8,68 +6,141 @@
     android:layout_height="match_parent"
     tools:context=".activities.admin.CategoryManagementActivity">
 
-    <!-- Welcome Message -->
-    <TextView
-        android:id="@+id/adminCategMgmt"
+    <!-- Guideline to divide Frame1 (10%) -->
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_frame1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Category Managemet"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        android:layout_marginTop="32dp"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.10" />
+
+    <!-- Guideline to divide Frame2 (50%) -->
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_frame2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.60" />
+
+    <!-- Guideline to divide Frame3 (30%) -->
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_frame3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.90" />
+
+    <!-- Guideline to divide Frame4 (10%) -->
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_frame4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="1.00" />
+
+    <!-- Header FrameLayout (Frame1 - 10%) -->
+    <FrameLayout
+        android:id="@+id/headerFrameLayout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:gravity="center"
+        app:layout_constraintBottom_toTopOf="@+id/guideline_frame1">
 
-        />
+        <!-- Welcome Message -->
+        <TextView
+            android:id="@+id/adminCategMgmt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Category Management"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:layout_gravity="center" />
+    </FrameLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/quizCategoryRecyclerView"
-        android:layout_width="336dp"
-        android:layout_height="254dp"
-        android:layout_marginTop="52dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/adminCategMgmt" />
-
-    <EditText
-        android:id="@+id/adminEditCategoryName"
+    <!-- RecyclerView FrameLayout (Frame2 - 50%) -->
+    <FrameLayout
+        android:id="@+id/recyclerViewFrameLayout"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="68dp"
-        android:layout_marginEnd="16dp"
-        android:hint="Category Name"
-        android:inputType="text"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        android:layout_height="0dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/quizCategoryRecyclerView" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/guideline_frame1"
+        app:layout_constraintBottom_toTopOf="@+id/guideline_frame2"
+        android:background="@drawable/border_background"
 
-    <EditText
-        android:id="@+id/adminEditCategoryDesc"
+        >
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/quizCategoryRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </FrameLayout>
+
+    <!-- Frame3 (30%) - Placeholder for Frame3 content -->
+    <FrameLayout
+        android:id="@+id/frame3Placeholder"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="40dp"
-        android:layout_marginEnd="16dp"
-        android:hint="Category Description"
-        android:inputType="text"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        android:layout_height="0dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/adminEditCategoryName" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/guideline_frame2"
+        app:layout_constraintBottom_toTopOf="@+id/guideline_frame3">
 
-    <Button
-        android:id="@+id/addCategoryButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
-        android:text="Add Category"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.184"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <!-- EditText for Category Name -->
+            <EditText
+                android:id="@+id/adminEditCategoryName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:hint="Category Name"
+                android:inputType="text"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp" />
+
+            <!-- EditText for Category Description -->
+            <EditText
+                android:id="@+id/adminEditCategoryDesc"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:hint="Category Description"
+                android:inputType="text"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/adminEditCategoryName"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </FrameLayout>
+
+
+
+    <!-- "Add Category" Button FrameLayout (Frame4 - 10%) -->
+    <FrameLayout
+        android:id="@+id/addCategoryButtonFrameLayout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/adminEditCategoryDesc" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/guideline_frame3"
+        app:layout_constraintBottom_toTopOf="@+id/guideline_frame4">
+
+        <Button
+            android:id="@+id/addCategoryButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Add Category"
+            android:layout_gravity="center" />
+    </FrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
