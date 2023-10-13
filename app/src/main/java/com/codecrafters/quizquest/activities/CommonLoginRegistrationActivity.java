@@ -107,6 +107,8 @@ public class CommonLoginRegistrationActivity extends AppCompatActivity {
                     } else {
                         intent = new Intent(CommonLoginRegistrationActivity.this, UserDashboardActivity.class);
                     }
+                    intent.putExtra("USER_ID", uid); // Replace userId with the actual user ID
+                    startActivity(intent);
 
                     startActivity(intent);
                 } else {

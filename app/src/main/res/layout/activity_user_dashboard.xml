@@ -1,139 +1,122 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.UserDashboardActivity">
+    android:background="#f4f4f4">
 
-    <!-- Welcome Message -->
-    <TextView
-        android:id="@+id/welcomeMessageTextView"
-        android:layout_width="wrap_content"
+    <!-- User Profile Section -->
+    <LinearLayout
+        android:id="@+id/userProfileSection"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/welcome_to_quizquest"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        android:layout_marginTop="32dp"
+        android:background="#3F51B5"
+        android:padding="16dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:gravity="center" />
+        app:layout_constraintEnd_toEndOf="parent">
 
-    <!-- Quiz Categories Section -->
+        <!-- User Details Layout -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/userName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Welcome User"
+                android:textSize="24sp"
+                android:textColor="#ffffff" />
+
+            <TextView
+                android:id="@+id/userQuizCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Quizzes taken: 0"
+                android:textSize="16sp"
+                android:textColor="#ffffff"
+                android:layout_marginTop="8dp" />
+        </LinearLayout>
+
+        <!-- User Profile Button -->
+        <Button
+            android:id="@+id/userProfileButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Profile"
+            android:textColor="#ffffff"
+            android:background="@drawable/button_background"
+            android:drawablePadding="8dp"
+            android:drawableStart="@android:drawable/ic_menu_myplaces"
+            android:layout_marginEnd="16dp" />
+
+        <!-- Logout Button -->
+        <Button
+            android:id="@+id/userDashboardlogoutButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Logout"
+            android:textColor="#ffffff"
+            android:background="@drawable/button_background"
+            android:drawablePadding="8dp"
+            android:drawableStart="@android:drawable/ic_lock_power_off" />
+    </LinearLayout>
+
+    <!-- Quiz History Title -->
     <TextView
-        android:id="@+id/quizCategoriesTextView"
+        android:id="@+id/quizHistoryTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/select_a_quiz_category"
+        android:text="Quiz History"
         android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintTop_toBottomOf="@id/welcomeMessageTextView"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="32dp" />
-
-    <Spinner
-        android:id="@+id/quizCategoriesSpinner"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        app:layout_constraintTop_toBottomOf="@id/quizCategoriesTextView"
+        app:layout_constraintTop_toBottomOf="@+id/userProfileSection"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="16dp" />
 
-
-    <!-- Start Quiz Button -->
-    <Button
-        android:id="@+id/startQuizButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/start_quiz"
-        app:layout_constraintTop_toBottomOf="@id/quizCategoriesSpinner"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="32dp"
-        android:background="@color/colorPrimary"
-        android:textColor="#fff" />
-
-    <!-- User Statistics Section -->
-    <TextView
-        android:id="@+id/userStatsTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/your_statistics"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintTop_toBottomOf="@id/startQuizButton"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="32dp" />
-
-    <!-- Score TextView -->
-    <TextView
-        android:id="@+id/scoreTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/score_85"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        app:layout_constraintTop_toBottomOf="@id/userStatsTextView"
+    <!-- Quiz History List -->
+    <ListView
+        android:id="@+id/quizHistoryList"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@+id/quizHistoryTitle"
+        app:layout_constraintBottom_toTopOf="@+id/startNewQuizButton"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="16dp" />
 
-    <!-- Performance TextView -->
     <TextView
-        android:id="@+id/performanceTextView"
+        android:id="@+id/noQuizMessage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/performance_excellent"
+        android:text="No quizzes taken yet."
         android:textSize="16sp"
-        android:textStyle="bold"
-        app:layout_constraintTop_toBottomOf="@id/scoreTextView"
+        android:textColor="#000000"
+        app:layout_constraintTop_toBottomOf="@+id/quizHistoryTitle"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="8dp" />
+        android:visibility="gone" />
 
-    <!-- Add user statistics elements here, such as score, performance, etc. -->
-
-<!--    &lt;!&ndash; Fragment Container &ndash;&gt;-->
-<!--    <FrameLayout-->
-<!--        android:id="@+id/fragmentContainer"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="0dp"-->
-<!--        app:layout_constraintTop_toBottomOf="@id/startQuizButton"-->
-<!--        app:layout_constraintBottom_toTopOf="@id/logoutButton"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent" />-->
-
-
-
-    <!-- Logout Button -->
+    <!-- Start New Quiz Button -->
     <Button
-        android:id="@+id/logoutButton"
-        android:layout_width="wrap_content"
+        android:id="@+id/startNewQuizButton"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:text="@string/logout"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
-        android:background="@color/colorPrimary"
-        android:textColor="#fff" />
-
-    <Button
-        android:id="@+id/ProfiletButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
-        android:text="@string/user_profile"
-        android:textColor="#fff"
+        android:background="#3F51B5"
+        android:text="Start New Quiz"
+        android:textColor="#ffffff"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.52"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/performanceTextView" />
+        app:layout_constraintHorizontal_bias="0.493"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
