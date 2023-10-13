@@ -1,7 +1,10 @@
 package com.codecrafters.quizquest.activities.admin;
 
+import android.app.Dialog;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -37,10 +40,98 @@ public class CategoryManagementActivity extends AppCompatActivity implements Cat
 
     @Override
     public void onEditClick(int position) {
-        // Handle your edit logic here. For this demo, we'll show a toast:
-        showToast("Edit clicked for position: " + position);
-        // You can fetch the corresponding category with `quizCategories.get(position)` and proceed with any edit operations.
+        try {
+            // Handle your edit logic here.
+            AdminQuizCategory categoryToEdit = quizCategories.get(position);
+
+            // Create an edit dialog
+            Dialog editDialog = new Dialog(CategoryManagementActivity.this);
+
+// Set the custom layout for the dialog
+            editDialog.setContentView(R.layout.edit_category_dialog);
+
+// Set the width and height of the dialog (adjust these values as needed)
+            Window window = editDialog.getWindow();
+            if (window != null) {
+                WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
+                layoutParams.copyFrom(window.getAttributes());
+
+                // Set the width and height here (e.g., 80% of the screen width and height)
+                layoutParams.width = (int) (getResources().getDisplayMetrics().widthPixels * 0.8);
+                layoutParams.height = WindowManager.LayoutParams.WRAP_CONTENT; // Adjust the height as needed
+
+                window.setAttributes(layoutParams);
+            }
+
+// Now, you can show the dialog
+            editDialog.show();
+
+
+            // Initialize EditText fields and set their initial values
+            EditText editCategoryName = editDialog.findViewById(R.id.editCategoryName);
+            EditText editCategoryDescription = editDialog.findViewById(R.id.editCategoryDescription);
+
+            // Set initial values based on the selected category
+            editCategoryName.setText(categoryToEdit.getQuizCatNm());
+            editCategoryDescription.setText(categoryToEdit.getQuizCatDesc());
+
+            // Handle the save button click
+            Button saveButton = editDialog.findViewById(R.id.saveButton);
+            saveButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    try {
+                        // Get updated values from EditText fields
+                        String updatedCategoryName = editCategoryName.getText().toString();
+                        String updatedCategoryDescription = editCategoryDescription.getText().toString();
+
+                        // Update the category details
+                        DatabaseReference categoryRef = databaseReference.child("QuizCategories").child(categoryToEdit.getQuizCatID());
+
+                        // Create a Map to store the updated data
+                        Map<String, Object> updatedData = new HashMap<>();
+                        updatedData.put("quizCatNm", updatedCategoryName);
+                        updatedData.put("quizCatDesc", updatedCategoryDescription);
+
+                        // Use updateChildren to update specific fields in Firebase
+                        categoryRef.updateChildren(updatedData)
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        // Category updated successfully
+                                        showToast("Category updated successfully!");
+
+                                        // Notify the adapter to refresh the data in the RecyclerView
+                                        adapter.notifyDataSetChanged();
+
+                                        // Dismiss the edit dialog
+                                        editDialog.dismiss();
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        // Handle update failure
+                                        showToast("Error updating category: " + e.getMessage());
+                                    }
+                                });
+
+                    } catch (Exception e) {
+                        // Handle any unexpected exceptions here.
+                        showToast("Unexpected error: " + e.getMessage());
+                    }
+                }
+            });
+
+
+            // Show the edit dialog
+            editDialog.show();
+        } catch (Exception e) {
+            // Handle any unexpected exceptions here.
+            showToast("Unexpected error: " + e.getMessage());
+        }
     }
+
 
     @Override
     public void onDeleteClick(int position) {
@@ -95,7 +186,7 @@ public class CategoryManagementActivity extends AppCompatActivity implements Cat
 
         // Fetch quiz categories from Firebase and populate the adapter
         DatabaseReference quizCategoriesRef = databaseReference.child("QuizCategories");
-        ArrayList<AdminQuizCategory> quizCategories = new ArrayList<>();
+        quizCategories = new ArrayList<>();
 
         quizCategoriesRef.addValueEventListener(new ValueEventListener() {
             // Fetch quiz categories from Firebase and populate the adapter
