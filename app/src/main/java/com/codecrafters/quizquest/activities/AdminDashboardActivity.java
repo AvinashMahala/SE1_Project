@@ -9,15 +9,20 @@ import com.codecrafters.quizquest.activities.admin.AnalyticsActivity;
 import com.codecrafters.quizquest.activities.admin.CategoryManagementActivity;
 import com.codecrafters.quizquest.activities.admin.QuestionManagementActivity;
 import com.codecrafters.quizquest.activities.admin.UserAccountManagementActivity;
+import com.google.firebase.auth.FirebaseAuth;
+
 import android.util.Log;
 import android.widget.Toast;
 
 public class AdminDashboardActivity extends AppCompatActivity {
 
+    private FirebaseAuth mAuth; // Firebase Authentication instance
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_dashboard);
+        mAuth = FirebaseAuth.getInstance(); // Initialize Firebase Authentication
 
         // Check the user's role to determine their permissions (Assuming role is retrieved from a database)
         String userRole = getUserRole(); // Implement this method to retrieve user role
@@ -44,6 +49,13 @@ public class AdminDashboardActivity extends AppCompatActivity {
             // Optionally, show a user-friendly message to inform them about the issue
             Toast.makeText(this, "Error navigating to category management.", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    public void onLogoutClick(View v) {
+        mAuth.signOut(); // Sign out from Firebase Authentication
+        Intent intent = new Intent(AdminDashboardActivity.this, CommonLoginRegistrationActivity.class);
+        startActivity(intent);
+        finish(); // Close the current activity
     }
 
     // Method to handle the "Manage Quiz Questions" button click

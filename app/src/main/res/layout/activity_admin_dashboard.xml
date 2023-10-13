@@ -78,4 +78,20 @@ android:background="@drawable/rounded_button"
     android:textSize="18sp"
     android:onClick="onAnalyticsClick" />
 
+    <!-- Logout Button -->
+    <Button
+        android:id="@+id/btnLogout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Logout"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@id/btnAnalytics"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:background="@drawable/rounded_button"
+        android:textColor="#FFFFFF"
+        android:textSize="18sp"
+        android:onClick="onLogoutClick" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
