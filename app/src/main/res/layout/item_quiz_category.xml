@@ -51,7 +51,7 @@
         />
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/setCategoryButton"
+        android:id="@+id/quizSetCategoryButton"
         android:text="SET"
         android:contentDescription="Add Set"
         android:layout_width="20dp"
