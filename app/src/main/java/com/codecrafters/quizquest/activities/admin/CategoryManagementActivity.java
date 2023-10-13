@@ -160,7 +160,6 @@ public class CategoryManagementActivity extends AppCompatActivity implements Cat
 
     // Other methods for checking table existence, displaying toasts, etc.
     // Generate a unique categoryId based on the latest count of total items
-    // Generate a unique categoryId based on the latest count of total items
     private void generateUniqueCategoryId(DatabaseReference categoriesRef, final CategoryCallback callback) {
         String baseCategoryId = "quizCateg";
         // Query the database to get the latest count

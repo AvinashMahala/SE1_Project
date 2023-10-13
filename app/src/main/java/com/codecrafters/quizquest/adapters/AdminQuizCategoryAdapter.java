@@ -34,12 +34,9 @@ public class AdminQuizCategoryAdapter extends RecyclerView.Adapter<AdminQuizCate
         this.adminQuizCategories = adminQuizCategories;
         this.listener = listener;
     }
-
     public AdminQuizCategory getQuizCategoryAtPosition(int position) {
         return adminQuizCategories.get(position);
     }
-
-
     // Add a setter method to update the list of quiz categories
     public void setQuizCategories(List<AdminQuizCategory> quizCategories) {
         this.adminQuizCategories = quizCategories;
@@ -53,7 +50,6 @@ public class AdminQuizCategoryAdapter extends RecyclerView.Adapter<AdminQuizCate
                 .inflate(R.layout.item_quiz_category, parent, false);
         return new ViewHolder(view);
     }
-
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         try {
@@ -75,12 +71,10 @@ public class AdminQuizCategoryAdapter extends RecyclerView.Adapter<AdminQuizCate
 //            showToast("Error loading category data: " + e.getMessage());
         }
     }
-
     @Override
     public int getItemCount() {
         return adminQuizCategories.size();
     }
-
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView categoryName;
         TextView categoryDescription;
@@ -132,7 +126,6 @@ public class AdminQuizCategoryAdapter extends RecyclerView.Adapter<AdminQuizCate
 
         }
     }
-
     private void deleteQuizCategory(AdminQuizCategory category) {
         DatabaseReference categoryRef = FirebaseDatabase.getInstance().getReference().child("QuizCategories").child(category.getQuizCatID());
         categoryRef.removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -152,8 +145,5 @@ public class AdminQuizCategoryAdapter extends RecyclerView.Adapter<AdminQuizCate
             }
         });
     }
-
-
-
 
 }
