@@ -235,6 +235,15 @@ public class CategoryManagementActivity extends AppCompatActivity implements Cat
                 editDialog.dismiss();
             }
         });
+        // Handle the "Cancel" button click
+        Button cancelButton = editDialog.findViewById(R.id.cancelButton);
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Dismiss the edit dialog to cancel the editing operation.
+                editDialog.dismiss();
+            }
+        });
     }
 
     private void updateCategoryInFirebase(AdminQuizCategory categoryToEdit, String updatedCategoryName,
