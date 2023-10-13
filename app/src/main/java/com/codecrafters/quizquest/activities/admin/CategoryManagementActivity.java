@@ -8,6 +8,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -191,19 +192,30 @@ public class CategoryManagementActivity extends AppCompatActivity implements Cat
     // Handle the edit button click
     @Override
     public void onEditClick(int position) {
-        AdminQuizCategory categoryToEdit = quizCategories.get(position);
+        try {
+            // Handle your edit logic here.
+            AdminQuizCategory categoryToEdit = quizCategories.get(position);
 
-        Dialog editDialog = createEditDialog();
+            Dialog editDialog = createEditDialog();
+            // Find the TextView for the headline
+            TextView editCategoryHeadline = editDialog.findViewById(R.id.editCategoryHeadline);
 
-        EditText editCategoryName = editDialog.findViewById(R.id.editCategoryName);
-        EditText editCategoryDescription = editDialog.findViewById(R.id.editCategoryDescription);
+            // Set the headline text to indicate that you are editing a specific category
+            editCategoryHeadline.setText("Editing " + categoryToEdit.getQuizCatNm());
 
-        editCategoryName.setText(categoryToEdit.getQuizCatNm());
-        editCategoryDescription.setText(categoryToEdit.getQuizCatDesc());
+            EditText editCategoryName = editDialog.findViewById(R.id.editCategoryName);
+            EditText editCategoryDescription = editDialog.findViewById(R.id.editCategoryDescription);
 
-        setSaveButtonClickListener(categoryToEdit, editDialog, editCategoryName, editCategoryDescription);
+            editCategoryName.setText(categoryToEdit.getQuizCatNm());
+            editCategoryDescription.setText(categoryToEdit.getQuizCatDesc());
 
-        editDialog.show();
+            setSaveButtonClickListener(categoryToEdit, editDialog, editCategoryName, editCategoryDescription);
+
+            editDialog.show();
+        } catch (Exception e) {
+            // Handle any unexpected exceptions here.
+            showToast("Unexpected error: " + e.getMessage());
+        }
     }
 
     private Dialog createEditDialog() {

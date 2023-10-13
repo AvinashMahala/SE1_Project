@@ -5,6 +5,18 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
+    <!-- Add a TextView for the headline -->
+    <TextView
+        android:id="@+id/editCategoryHeadline"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Editing Category Name"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:gravity="center" />
+
     <EditText
         android:id="@+id/editCategoryName"
         android:layout_width="match_parent"
