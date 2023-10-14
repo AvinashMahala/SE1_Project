@@ -28,11 +28,19 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.90" />
+        app:layout_constraintGuide_percent="0.80" />
 
     <!-- Guideline to divide Frame4 (10%) -->
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_frame4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.90" />
+
+    <!-- Guideline to divide Frame5 (10%) -->
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_frame5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -142,6 +150,53 @@
             android:text="Add Category"
             android:background="@drawable/rounded_button"
             android:layout_gravity="center" />
+    </FrameLayout>
+
+    <!-- Sorting Section (Frame5 - 10%) -->
+    <FrameLayout
+        android:id="@+id/sortingSectionFrameLayout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/guideline_frame4"
+        app:layout_constraintBottom_toTopOf="@+id/guideline_frame5">
+
+        <!-- Sort By TextView -->
+
+        <!-- Spinner to Select Sorting Option -->
+
+
+        <!-- Ascending/Descending Switch -->
+
+<!--        <TextView-->
+<!--            android:id="@+id/sortByText"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_gravity="start"-->
+<!--            android:layout_marginStart="16dp"-->
+<!--            android:layout_marginTop="16dp"-->
+<!--            android:text="Sort By:"-->
+<!--            android:textSize="16sp" />-->
+
+        <Spinner
+            android:id="@+id/sortingOptionsSpinner"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp" />
+
+        <Switch
+            android:id="@+id/ascendingDescendingSwitch"
+            android:layout_width="171dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginEnd="16dp"
+            android:text="Ascending"
+            android:textSize="24sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/sortingOptionsSpinner"
+            app:layout_constraintTop_toTopOf="parent" />
     </FrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

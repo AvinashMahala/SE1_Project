@@ -7,8 +7,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
@@ -27,6 +30,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,6 +42,8 @@ public class CategoryManagementActivity extends AppCompatActivity implements Cat
     private DatabaseReference databaseReference;
     private EditText categoryNameEditText;
     private EditText categoryDescriptionEditText;
+    private Spinner sortingOptionsSpinner; // Added Spinner for sorting options
+
 
     private RecyclerView recyclerView;
     private ArrayList<AdminQuizCategory> quizCategories = new ArrayList<>();
@@ -47,14 +53,96 @@ public class CategoryManagementActivity extends AppCompatActivity implements Cat
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category_management);
-
         initializeUIComponents();
         initializeFirebaseDatabase();
         initializeRecyclerView();
         fetchQuizCategoriesFromFirebase();
-
         setAddCategoryButtonClickListener();
+
+        // Initialize and set up the Spinner for sorting options
+        sortingOptionsSpinner = findViewById(R.id.sortingOptionsSpinner);
+        setupSortingOptionsSpinner();
     }
+
+    // ...
+
+    private void setupSortingOptionsSpinner() {
+        Map<String, String> sortingOptions = new HashMap<>();
+        sortingOptions.put("a_sort_by_hint", "Sort Category By");
+        sortingOptions.put("b_last_modified", "By Last Modified On");
+        sortingOptions.put("c_category_name", "Category Name");
+
+        // Create an ArrayAdapter using the sortingOptions map
+        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(
+                this,
+                R.layout.admin_quiz_cat_spinner_drpdn_item_hint, // Use the custom layout
+                new ArrayList<>(sortingOptions.values())
+        );
+
+        // Add a hint as the first item
+//        spinnerAdapter.insert("Sort Category By", 0);
+
+        // Set the adapter for the Spinner
+        sortingOptionsSpinner.setAdapter(spinnerAdapter);
+
+        // Set a listener for item selection
+        sortingOptionsSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                // Get the selected sorting option key
+                String[] keys = sortingOptions.keySet().toArray(new String[0]);
+                String selectedOptionKey = keys[position];
+
+                // Handle the selected sorting option (e.g., sort by name or last modified)
+                handleSortingOptionSelected(selectedOptionKey);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+                // Do nothing if nothing is selected
+            }
+        });
+    }
+
+
+    private void handleSortingOptionSelected(String selectedOptionKey) {
+        // Handle the selected sorting option here
+        // You can implement sorting logic based on the selected key
+        // For example, if selectedOptionKey is "last_modified", sort by last modified timestamp,
+        // and if selectedOptionKey is "category_name", sort by category name.
+
+        switch (selectedOptionKey) {
+            case "b_last_modified":
+                // Sort by last modified timestamp (ascending)
+                Collections.sort(quizCategories, new Comparator<AdminQuizCategory>() {
+                    @Override
+                    public int compare(AdminQuizCategory category1, AdminQuizCategory category2) {
+                        return Long.compare(category1.getQuizCatModifiedOn(), category2.getQuizCatModifiedOn());
+                    }
+                });
+                break;
+
+            case "c_category_name":
+                // Sort by category name (ascending)
+                Collections.sort(quizCategories, new Comparator<AdminQuizCategory>() {
+                    @Override
+                    public int compare(AdminQuizCategory category1, AdminQuizCategory category2) {
+                        return category1.getQuizCatNm().compareToIgnoreCase(category2.getQuizCatNm());
+                    }
+                });
+                break;
+
+            // Add more cases for other sorting options if needed
+
+            default:
+                // Handle the default case (no sorting or reset to original order)
+                break;
+        }
+
+        // Notify the adapter of the data change
+        adapter.notifyDataSetChanged();
+    }
+
 
     private void initializeUIComponents() {
         categoryNameEditText = findViewById(R.id.adminEditCategoryName);
