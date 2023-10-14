@@ -7,8 +7,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
@@ -27,6 +32,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,6 +44,8 @@ public class CategoryManagementActivity extends AppCompatActivity implements Cat
     private DatabaseReference databaseReference;
     private EditText categoryNameEditText;
     private EditText categoryDescriptionEditText;
+    private Spinner sortingOptionsSpinner; // Added Spinner for sorting options
+
 
     private RecyclerView recyclerView;
     private ArrayList<AdminQuizCategory> quizCategories = new ArrayList<>();
@@ -47,14 +55,108 @@ public class CategoryManagementActivity extends AppCompatActivity implements Cat
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category_management);
-
         initializeUIComponents();
         initializeFirebaseDatabase();
         initializeRecyclerView();
         fetchQuizCategoriesFromFirebase();
-
         setAddCategoryButtonClickListener();
+
+        // Initialize and set up the Spinner for sorting options
+        sortingOptionsSpinner = findViewById(R.id.sortingOptionsSpinner);
+        setupSortingOptionsSpinner();
     }
+
+    // ...
+
+    private void setupSortingOptionsSpinner() {
+        Switch ascendingDescendingSwitch = findViewById(R.id.ascendingDescendingSwitch);
+
+        Map<Integer, String> sortingOptions = new HashMap<>();
+//        sortingOptions.put(0, "Sort Category By");  // Hint
+        sortingOptions.put(1, "Last Modified On");
+        sortingOptions.put(2, "Category Name");
+
+        // Create an ArrayAdapter using the sortingOptions map
+        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(
+                this,
+                R.layout.admin_quiz_cat_spinner_drpdn_item_hint,
+                new ArrayList<>(sortingOptions.values())
+        );
+
+        // Set the adapter for the Spinner
+        sortingOptionsSpinner.setAdapter(spinnerAdapter);
+
+        sortingOptionsSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                boolean isAscending = ascendingDescendingSwitch.isChecked();
+                handleSortingOptionSelected(position, isAscending);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+                // Do nothing if nothing is selected
+            }
+        });
+
+        ascendingDescendingSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                int selectedPosition = sortingOptionsSpinner.getSelectedItemPosition();
+                boolean isAscending = isChecked;
+                handleSortingOptionSelected(selectedPosition, isAscending);
+            }
+        });
+    }
+
+    private void handleSortingOptionSelected(int selectedPosition, boolean isAscending) {
+        // Handle the selected sorting option here based on the selectedPosition
+        switch (selectedPosition) {
+            case 0:
+                // Sort by last modified timestamp
+                sortQuizCategoriesByLastModified(isAscending);
+                break;
+
+            case 1:
+                // Sort by category name
+                sortQuizCategoriesByName(isAscending);
+                break;
+
+            default:
+                // Handle other sorting options if needed
+                break;
+        }
+
+        // Notify the adapter that the data has changed
+        adapter.notifyDataSetChanged();
+    }
+
+    private void sortQuizCategoriesByLastModified(boolean isAscending) {
+        // Sort quizCategories by last modified timestamp
+        Collections.sort(quizCategories, new Comparator<AdminQuizCategory>() {
+            @Override
+            public int compare(AdminQuizCategory category1, AdminQuizCategory category2) {
+                long timestamp1 = category1.getQuizCatModifiedOn();
+                long timestamp2 = category2.getQuizCatModifiedOn();
+                return isAscending ? Long.compare(timestamp1, timestamp2) : Long.compare(timestamp2, timestamp1);
+            }
+        });
+    }
+
+    private void sortQuizCategoriesByName(boolean isAscending) {
+        // Sort quizCategories by category name
+        Collections.sort(quizCategories, new Comparator<AdminQuizCategory>() {
+            @Override
+            public int compare(AdminQuizCategory category1, AdminQuizCategory category2) {
+                String name1 = category1.getQuizCatNm();
+                String name2 = category2.getQuizCatNm();
+                return isAscending ? name1.compareToIgnoreCase(name2) : name2.compareToIgnoreCase(name1);
+            }
+        });
+    }
+
+
+
 
     private void initializeUIComponents() {
         categoryNameEditText = findViewById(R.id.adminEditCategoryName);
