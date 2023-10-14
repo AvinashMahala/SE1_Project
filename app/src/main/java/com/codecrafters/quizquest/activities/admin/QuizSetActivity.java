@@ -256,7 +256,7 @@ public class QuizSetActivity extends AppCompatActivity implements QuizSetClickLi
 
     private void clearInputFields() {
         try {
-            adminQuizSetCatIdEditText.getText().clear();
+//            adminQuizSetCatIdEditText.getText().clear();
             adminQuizSetNameEditText.getText().clear();
         } catch (Exception e) {
             showToast("Error clearing input fields: " + e.getMessage());
