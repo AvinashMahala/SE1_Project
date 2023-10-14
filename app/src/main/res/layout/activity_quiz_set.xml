@@ -1,10 +1,10 @@
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.admin.CategoryManagementActivity">
+    tools:context=".activities.admin.QuizSetActivity">
 
     <!-- Guideline to divide Frame1 (10%) -->
     <androidx.constraintlayout.widget.Guideline
@@ -50,18 +50,18 @@
 
         <!-- Welcome Message -->
         <TextView
-            android:id="@+id/adminCategMgmt"
+            android:id="@+id/adminQuizSetHeader"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Category Management"
-            android:textSize="28sp"
+            android:text="Quiz Sets"
+            android:textSize="24sp"
             android:textStyle="bold"
             android:layout_gravity="center" />
     </FrameLayout>
 
     <!-- RecyclerView FrameLayout (Frame2 - 50%) -->
     <FrameLayout
-        android:id="@+id/recyclerViewFrameLayout"
+        android:id="@+id/quizSetRecVwFmLayout"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintStart_toStartOf="parent"
@@ -73,7 +73,7 @@
         >
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/quizCategoryRecyclerView"
+            android:id="@+id/adminQuizSetRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </FrameLayout>
@@ -92,42 +92,44 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <!-- EditText for Category Name -->
+            <!-- EditText for Quiz Set Category Id -->
             <EditText
-                android:id="@+id/adminEditCategoryName"
+                android:id="@+id/adminEditQuizSetCatId"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:hint="Category Name"
+                android:hint="Quiz Set Category"
+                android:inputType="text"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp" />
+
+            <!-- EditText for Quiz Set Name -->
+            <EditText
+                android:id="@+id/adminEditQuizSetNm"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:hint="Quiz Set Name"
                 android:inputType="text"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/adminEditQuizSetCatId"
                 app:layout_constraintHorizontal_bias="0.5"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp" />
 
-            <!-- EditText for Category Description -->
-            <EditText
-                android:id="@+id/adminEditCategoryDesc"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:hint="Category Description"
-                android:inputType="text"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/adminEditCategoryName"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="16dp" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </FrameLayout>
 
 
 
-    <!-- "Add Category" Button FrameLayout (Frame4 - 10%) -->
+    <!-- "Add Add Quiz Set" Button FrameLayout (Frame4 - 10%) -->
     <FrameLayout
-        android:id="@+id/addCategoryButtonFrameLayout"
+        android:id="@+id/adminQuizSetAddBtnFmLayout"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintStart_toStartOf="parent"
@@ -136,12 +138,13 @@
         app:layout_constraintBottom_toTopOf="@+id/guideline_frame4">
 
         <Button
-            android:id="@+id/addCategoryButton"
+            android:id="@+id/adminQuizSetAddBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Add Category"
+            android:text="Add Quiz Set"
             android:background="@drawable/rounded_button"
             android:layout_gravity="center" />
     </FrameLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

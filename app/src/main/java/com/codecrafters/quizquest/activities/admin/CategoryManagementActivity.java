@@ -2,6 +2,7 @@ package com.codecrafters.quizquest.activities.admin;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -159,7 +160,6 @@ public class CategoryManagementActivity extends AppCompatActivity implements Cat
 
     // Other methods for checking table existence, displaying toasts, etc.
     // Generate a unique categoryId based on the latest count of total items
-    // Generate a unique categoryId based on the latest count of total items
     private void generateUniqueCategoryId(DatabaseReference categoriesRef, final CategoryCallback callback) {
         String baseCategoryId = "quizCateg";
         // Query the database to get the latest count
@@ -305,6 +305,40 @@ public class CategoryManagementActivity extends AppCompatActivity implements Cat
         showDeleteConfirmationDialog(dialogClickListener);
     }
 
+    // Handle the onQuizSetCategoryButtonClick button click
+    @Override
+    public void onQuizSetCategoryButtonClick(int position) {
+        AdminQuizCategory selectedCategory = quizCategories.get(position);
+
+        DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                switch (which) {
+                    case DialogInterface.BUTTON_POSITIVE:
+                        // Get the category ID associated with the clicked item
+                        String categoryId = selectedCategory.getQuizCatID();
+
+                        // Create an Intent to start the Quiz Set activity
+                        Intent intent = new Intent(getApplicationContext(), QuizSetActivity.class);
+
+                        // Add the category ID as an extra to the Intent
+                        intent.putExtra("QUIZ_CATEGORY_ID", categoryId);
+                        intent.putExtra("QUIZ_CATEGORY_NM", selectedCategory.getQuizCatNm());
+
+                        // Start the Quiz Set activity
+                        startActivity(intent);
+                        break;
+
+                    case DialogInterface.BUTTON_NEGATIVE:
+                        // User canceled the delete operation
+                        break;
+                }
+            }
+        };
+
+        showAddQuizSetConfirmationDialog(dialogClickListener);
+    }
+
     private void deleteCategoryFromFirebase(AdminQuizCategory categoryToDelete) {
         DatabaseReference categoryRef = databaseReference.child("QuizCategories").child(categoryToDelete.getQuizCatID());
 
@@ -324,6 +358,14 @@ public class CategoryManagementActivity extends AppCompatActivity implements Cat
     private void showDeleteConfirmationDialog(DialogInterface.OnClickListener dialogClickListener) {
         android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(this);
         builder.setMessage("Are you sure you want to delete this category?")
+                .setPositiveButton("Yes", dialogClickListener)
+                .setNegativeButton("No", dialogClickListener)
+                .show();
+    }
+
+    private void showAddQuizSetConfirmationDialog(DialogInterface.OnClickListener dialogClickListener) {
+        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(this);
+        builder.setMessage("Are you sure you want to Add Quiz Set For this category?")
                 .setPositiveButton("Yes", dialogClickListener)
                 .setNegativeButton("No", dialogClickListener)
                 .show();
