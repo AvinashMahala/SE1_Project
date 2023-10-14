@@ -40,6 +40,7 @@ public class QuizSetActivity extends AppCompatActivity implements QuizSetClickLi
     private RecyclerView recyclerView;
     private ArrayList<AdminQuizSet> quizSets = new ArrayList<>();
     private AdminQuizSetAdapter adapter;
+    private String categoryId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +54,7 @@ public class QuizSetActivity extends AppCompatActivity implements QuizSetClickLi
             // Set the welcome text based on the category name
             setWelcomeText();
             // Get the category ID passed from CategoryManagementActivity
-            String categoryId = getIntent().getStringExtra("QUIZ_CATEGORY_ID");
+            categoryId = getIntent().getStringExtra("QUIZ_CATEGORY_ID");
             fetchQuizSetsFromFirebase();
             setAddQuizSetsButtonClickListener();
         } catch (Exception e){
@@ -87,6 +88,18 @@ public class QuizSetActivity extends AppCompatActivity implements QuizSetClickLi
         try {
             adminQuizSetCatIdEditText = findViewById(R.id.adminEditQuizSetCatId);
             adminQuizSetNameEditText = findViewById(R.id.adminEditQuizSetNm);
+
+            // Retrieve the Quiz Set name from the Extra
+            String quizSetName = getIntent().getStringExtra("QUIZ_CATEGORY_NM");
+
+            // Find the EditText for Quiz Set Category Id
+            adminQuizSetCatIdEditText = findViewById(R.id.adminEditQuizSetCatId);
+
+            // Set the Quiz Set name as the default text
+            adminQuizSetCatIdEditText.setText(quizSetName);
+
+            // Disable the EditText to make it non-editable
+            adminQuizSetCatIdEditText.setEnabled(false);
         } catch (Exception e) {
             showToast("Error initializing UI components: " + e.getMessage());
         }
@@ -95,7 +108,7 @@ public class QuizSetActivity extends AppCompatActivity implements QuizSetClickLi
 
     private void initializeFirebaseDatabase() {
         databaseReference = FirebaseDatabase.getInstance().getReference();
-        checkIfTableExists();
+//        checkIfTableExists();
     }
 
     private void initializeRecyclerView() {
@@ -111,9 +124,11 @@ public class QuizSetActivity extends AppCompatActivity implements QuizSetClickLi
 
 
     private void fetchQuizSetsFromFirebase() {
-        try{
-            DatabaseReference quizCategoriesRef = databaseReference.child("QuizSet");
-            quizCategoriesRef.addValueEventListener(new ValueEventListener() {
+        String categoryId = this.categoryId;
+
+        try {
+            DatabaseReference quizSetsRef = databaseReference.child("QuizSet");
+            quizSetsRef.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     quizSets.clear(); // Clear the existing list
@@ -121,25 +136,28 @@ public class QuizSetActivity extends AppCompatActivity implements QuizSetClickLi
                     try {
                         for (DataSnapshot quizSetSnapshot : dataSnapshot.getChildren()) {
                             AdminQuizSet quizSet = quizSetSnapshot.getValue(AdminQuizSet.class);
-                            if (quizSet != null) {
+                            if (quizSet != null && categoryId.equals(quizSet.getQuizCatID())) {
+                                // Add only the quiz sets that belong to the specified category
                                 quizSets.add(quizSet);
                             }
                         }
 
                         adapter.notifyDataSetChanged();
                     } catch (Exception e) {
-                        showToast("Error loading quiz categories: " + e.getMessage());
+                        showToast("Error loading quiz sets: " + e.getMessage());
                     }
                 }
+
                 @Override
                 public void onCancelled(@NonNull DatabaseError databaseError) {
                     showToast("Database error: " + databaseError.getMessage());
                 }
             });
-        }catch (Exception e) {
-            showToast("Error loading quiz categories: " + e.getMessage());
+        } catch (Exception e) {
+            showToast("Error loading quiz sets: " + e.getMessage());
         }
     }
+
 
     private void setAddQuizSetsButtonClickListener() {
         try {
@@ -158,7 +176,7 @@ public class QuizSetActivity extends AppCompatActivity implements QuizSetClickLi
 
     private void handleAddQuizSetButtonClick() {
         try{
-            String quizCatID = adminQuizSetCatIdEditText.getText().toString();
+            String quizCatID = getIntent().getStringExtra("QUIZ_CATEGORY_ID");
             String quizSetName = adminQuizSetNameEditText.getText().toString();
 
             if (quizSetName.isEmpty()) {

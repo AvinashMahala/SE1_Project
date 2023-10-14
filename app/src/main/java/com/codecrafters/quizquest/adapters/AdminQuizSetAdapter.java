@@ -51,7 +51,7 @@ public class AdminQuizSetAdapter extends RecyclerView.Adapter<AdminQuizSetAdapte
         try {
             AdminQuizSet adminQuizSet = adminQuizSets.get(position);
 
-            holder.adminEditQuizSetCatId.setText(adminQuizSet.getQuizCatID());
+//            holder.adminEditQuizSetCatId.setText(adminQuizSet.getQuizCatID());
             holder.adminEditQuizSetNm.setText(adminQuizSet.getQuizSetName());
 
             // Add click listener for each quiz set here if needed
@@ -73,14 +73,14 @@ public class AdminQuizSetAdapter extends RecyclerView.Adapter<AdminQuizSetAdapte
         return adminQuizSets.size();
     }
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView adminEditQuizSetCatId;
+//        TextView adminEditQuizSetCatId;
         TextView adminEditQuizSetNm;
         Button editButton, deleteButton;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            adminEditQuizSetCatId = itemView.findViewById(R.id.adminEditQuizSetCatId);
-            adminEditQuizSetNm = itemView.findViewById(R.id.adminEditQuizSetNm);
+//            adminEditQuizSetCatId = itemView.findViewById(R.id.adminEditQuizSetCatId);
+            adminEditQuizSetNm = itemView.findViewById(R.id.adminQuizSetName);
             editButton = itemView.findViewById(R.id.editQuizSetButton);
             deleteButton = itemView.findViewById(R.id.deleteQuizSetButton);
 
