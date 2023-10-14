@@ -49,9 +49,6 @@
             android:name=".activities.RegistrationActivity"
             android:exported="false" />
         <activity
-            android:name=".activities.UserProfileDashboardActivity"
-            android:exported="false" />
-        <activity
             android:name=".activities.SplashScreenActivity"
             android:exported="true">
             <intent-filter>
