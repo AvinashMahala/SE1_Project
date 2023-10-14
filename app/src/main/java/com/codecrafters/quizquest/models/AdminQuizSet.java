@@ -1,6 +1,6 @@
 package com.codecrafters.quizquest.models;
 
-public class AdminQuizSet {
+public class AdminQuizSet implements Comparable<AdminQuizSet>{
     private String quizCatID;
     private String quizSetId;
     private String quizSetName;
@@ -10,7 +10,6 @@ public class AdminQuizSet {
     private String quizSetModifiedBy;
 
     // Constructors
-
     public AdminQuizSet() {
         // Default constructor required for Firebase
     }
@@ -26,6 +25,12 @@ public class AdminQuizSet {
         this.quizSetCreatedBy = quizSetCreatedBy;
         this.quizSetModifiedOn = quizSetModifiedOn;
         this.quizSetModifiedBy = quizSetModifiedBy;
+    }
+
+    @Override
+    public int compareTo(AdminQuizSet anotherQuizSet) {
+        // Compare based on the last modified timestamp in descending order
+        return Long.compare(anotherQuizSet.getQuizSetModifiedOn(), this.getQuizSetModifiedOn());
     }
 
     // Getter and Setter methods
