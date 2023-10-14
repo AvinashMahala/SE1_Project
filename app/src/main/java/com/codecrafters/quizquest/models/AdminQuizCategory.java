@@ -1,6 +1,6 @@
 package com.codecrafters.quizquest.models;
 
-public class AdminQuizCategory {
+public class AdminQuizCategory implements Comparable<AdminQuizCategory>{
     private String quizCatID;
     private String quizCatNm;
     private String quizCatDesc;
@@ -29,8 +29,13 @@ public class AdminQuizCategory {
         this.quizCatModifiedBy = quizCatModifiedBy;
     }
 
-    // Getters and Setters
+    @Override
+    public int compareTo(AdminQuizCategory anotherQuizCategory) {
+        // Compare based on the last modified timestamp in descending order
+        return Long.compare(anotherQuizCategory.getQuizCatModifiedOn(), this.getQuizCatModifiedOn());
+    }
 
+    // Getters and Setters
     public String getQuizCatID() {
         return quizCatID;
     }

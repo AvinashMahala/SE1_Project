@@ -26,6 +26,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -86,6 +87,9 @@ public class CategoryManagementActivity extends AppCompatActivity implements Cat
                             quizCategories.add(category);
                         }
                     }
+
+                    // Sort the quizCategories list based on last modified timestamp
+                    Collections.sort(quizCategories);
 
                     adapter.notifyDataSetChanged();
                 } catch (Exception e) {
