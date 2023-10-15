@@ -20,4 +20,5 @@
     <string name="logout">Logout</string>
     <string name="user_profile">User Profile</string>
     <string name="select_a_quiz_category">Select a Quiz Category:</string>
+    <string name="quizquest_logo_description">Description of QuizQuest Logo</string>
 </resources>
