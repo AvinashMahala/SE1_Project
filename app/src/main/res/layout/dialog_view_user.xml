@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- UserID TextView -->
+        <EditText
+            android:id="@+id/viewUserId"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="UserID"
+            android:inputType="text"
+            android:enabled="false" />
+
+        <!-- UserPhNo TextView -->
+        <EditText
+            android:id="@+id/viewUserPhNo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="User Phone Number"
+            android:inputType="phone"
+            android:enabled="false" />
+
+        <!-- UserFname TextView -->
+        <EditText
+            android:id="@+id/viewUserFname"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="User First Name"
+            android:inputType="textPersonName"
+            android:enabled="false" />
+
+        <!-- UserEmail TextView -->
+        <EditText
+            android:id="@+id/viewUserEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="User Email"
+            android:inputType="textEmailAddress"
+            android:enabled="false" />
+
+        <!-- UserDOB TextView -->
+        <EditText
+            android:id="@+id/viewUserDOB"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="User Date of Birth (DD/MM/YYYY)"
+            android:inputType="date"
+            android:enabled="false" />
+
+        <!-- UserRole TextView -->
+        <EditText
+            android:id="@+id/viewUserRole"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="User Role"
+            android:inputType="text"
+            android:enabled="false" />
+
+        <!-- UserCreatedOn TextView -->
+        <EditText
+            android:id="@+id/viewUserCreatedOn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="User Created On"
+            android:inputType="text"
+            android:enabled="false" />
+
+        <!-- UserCreatedBy TextView -->
+        <EditText
+            android:id="@+id/viewUserCreatedBy"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="User Created By"
+            android:inputType="text"
+            android:enabled="false" />
+
+        <!-- UserModifiedOn TextView -->
+        <EditText
+            android:id="@+id/viewUserModifiedOn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="User Modified On"
+            android:inputType="text"
+            android:enabled="false" />
+
+        <!-- UserModifiedBy TextView -->
+        <EditText
+            android:id="@+id/viewUserModifiedBy"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="User Modified By"
+            android:inputType="text"
+            android:enabled="false" />
+
+        <Button
+            android:id="@+id/closeViewButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Close"
+            android:layout_gravity="end" />
+    </LinearLayout>
+</ScrollView>
