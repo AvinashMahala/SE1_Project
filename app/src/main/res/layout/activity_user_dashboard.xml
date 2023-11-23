@@ -106,17 +106,31 @@
     <!-- Start New Quiz Button -->
     <Button
         android:id="@+id/startNewQuizButton"
-        android:layout_width="300dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
         android:background="#3F51B5"
         android:text="Start New Quiz"
         android:textColor="#ffffff"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/addQuestionButton"
+        app:layout_constraintHorizontal_weight="1"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="16dp" />
+
+    <!-- Add Question Button -->
+    <Button
+        android:id="@+id/addQuestionButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="#3F51B5"
+        android:text="Add Question"
+        android:textColor="#ffffff"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/startNewQuizButton"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.493"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_weight="1"
+        android:layout_marginStart="8dp"
+        android:layout_marginBottom="16dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -58,6 +58,8 @@ public class UserDashboardActivity extends AppCompatActivity {
             Button startNewQuizButton = findViewById(R.id.startNewQuizButton);
             Button userDashboardlogoutButton = findViewById(R.id.userDashboardlogoutButton); // Logout button
             Button userProfileButton = findViewById(R.id.userProfileButton); // User profile button
+            Button addQuestionButton = findViewById(R.id.addQuestionButton); // Add question button
+
 
             viewModel.getUser().observe(this, user -> {
                 try {
@@ -130,6 +132,15 @@ public class UserDashboardActivity extends AppCompatActivity {
                     } catch (Exception e) {
                         handleException("Error opening user profile: " + e.getMessage());
                     }
+                }
+            });
+            // Set OnClickListener for the "Add Question" button
+            addQuestionButton.setOnClickListener(v -> {
+                try {
+                    Intent intent = new Intent(UserDashboardActivity.this, AddQuestionActivity.class);
+                    startActivity(intent);
+                } catch (Exception e) {
+                    handleException("Error navigating to Add Question page: " + e.getMessage());
                 }
             });
         } catch (Exception e) {

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <Spinner
+        android:id="@+id/categorySpinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:prompt="@string/choose_category" />
+
+    <EditText
+        android:id="@+id/questionEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter Question" />
+
+    <EditText
+        android:id="@+id/optionAEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Option A" />
+
+    <EditText
+        android:id="@+id/optionBEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Option B" />
+
+    <EditText
+        android:id="@+id/optionCEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Option C" />
+
+    <EditText
+        android:id="@+id/optionDEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Option D" />
+
+    <EditText
+        android:id="@+id/correctAnswerEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Correct Answer (A/B/C/D)" />
+
+    <Button
+        android:id="@+id/submitButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Submit" />
+
+</LinearLayout>
