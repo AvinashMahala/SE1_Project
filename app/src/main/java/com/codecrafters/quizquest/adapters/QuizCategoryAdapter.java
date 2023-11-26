@@ -53,7 +53,7 @@ public class QuizCategoryAdapter extends RecyclerView.Adapter<QuizCategoryAdapte
         return arrayCategory.size();
     }
 
-    public class viewHolder extends RecyclerView.ViewHolder {
+    public static class viewHolder extends RecyclerView.ViewHolder {
 
         TextView txtName;
         ImageView imgCategory;
@@ -62,14 +62,11 @@ public class QuizCategoryAdapter extends RecyclerView.Adapter<QuizCategoryAdapte
 
             txtName = itemView.findViewById(R.id.categoryName);
             imgCategory = itemView.findViewById(R.id.profile_image);
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if(recyclerViewInterface != null){
-                        int pos = getAdapterPosition();
-                        if(pos != RecyclerView.NO_POSITION){
-                            recyclerViewInterface.onQuizCategoryClick(pos);
-                        }
+            itemView.setOnClickListener(view -> {
+                if(recyclerViewInterface != null){
+                    int pos = getAdapterPosition();
+                    if(pos != RecyclerView.NO_POSITION){
+                        recyclerViewInterface.onQuizCategoryClick(pos);
                     }
                 }
             });
