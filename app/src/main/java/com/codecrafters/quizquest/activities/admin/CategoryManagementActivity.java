@@ -3,7 +3,10 @@ package com.codecrafters.quizquest.activities.admin;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -12,6 +15,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -30,6 +34,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -38,6 +45,8 @@ import java.util.List;
 import java.util.Map;
 import com.codecrafters.quizquest.R;
 import com.codecrafters.quizquest.models.AdminQuizCategory;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 public class CategoryManagementActivity extends AppCompatActivity implements CategoryClickListener {
 
@@ -45,11 +54,15 @@ public class CategoryManagementActivity extends AppCompatActivity implements Cat
     private EditText categoryNameEditText;
     private EditText categoryDescriptionEditText;
     private Spinner sortingOptionsSpinner; // Added Spinner for sorting options
+    private ImageView categoryImageView;
 
 
     private RecyclerView recyclerView;
     private ArrayList<AdminQuizCategory> quizCategories = new ArrayList<>();
     private AdminQuizCategoryAdapter adapter;
+
+    private static final int IMAGE_REQUEST_CODE = 100;
+    private Uri selectedImageUri = null;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -64,7 +77,28 @@ public class CategoryManagementActivity extends AppCompatActivity implements Cat
         // Initialize and set up the Spinner for sorting options
         sortingOptionsSpinner = findViewById(R.id.sortingOptionsSpinner);
         setupSortingOptionsSpinner();
+
+        categoryImageView = findViewById(R.id.categoryImageView);
+        findViewById(R.id.chooseImageButton).setOnClickListener(v -> {
+            Intent intent = new Intent(Intent.ACTION_PICK);
+            intent.setType("image/*");
+            startActivityForResult(intent, IMAGE_REQUEST_CODE);
+        });
+
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == IMAGE_REQUEST_CODE && resultCode == RESULT_OK && data != null) {
+            selectedImageUri = data.getData();
+            ((ImageView) findViewById(R.id.categoryImageView)).setImageURI(selectedImageUri);
+        }
+    }
+
+
+
+
 
     // ...
 
@@ -155,9 +189,6 @@ public class CategoryManagementActivity extends AppCompatActivity implements Cat
         });
     }
 
-
-
-
     private void initializeUIComponents() {
         categoryNameEditText = findViewById(R.id.adminEditCategoryName);
         categoryDescriptionEditText = findViewById(R.id.adminEditCategoryDesc);
@@ -225,6 +256,42 @@ public class CategoryManagementActivity extends AppCompatActivity implements Cat
             return;
         }
 
+        uploadImageAndSaveCategory(categoryName, categoryDescription);
+    }
+
+    private void uploadImageAndSaveCategory(String categoryName, String categoryDescription) {
+        if (selectedImageUri != null) {
+            StorageReference storageRef = FirebaseStorage.getInstance().getReference("category_images");
+            StorageReference imageRef = storageRef.child(selectedImageUri.getLastPathSegment());
+
+            // Compress the image
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            try {
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), selectedImageUri);
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 50, baos);
+                byte[] data = baos.toByteArray();
+
+                // Upload image
+                imageRef.putBytes(data).addOnSuccessListener(taskSnapshot -> {
+                    imageRef.getDownloadUrl().addOnSuccessListener(downloadUri -> {
+                        String imageUrl = downloadUri.toString();
+                        saveCategoryToDatabase(categoryName, categoryDescription, imageUrl);
+                    }).addOnFailureListener(e -> {
+                        showToast("Error getting download URL: " + e.getMessage());
+                    });
+                }).addOnFailureListener(e -> {
+                    showToast("Error uploading image: " + e.getMessage());
+                });
+            } catch (IOException e) {
+                showToast("Error compressing image: " + e.getMessage());
+            }
+        } else {
+            saveCategoryToDatabase(categoryName, categoryDescription, null);
+        }
+    }
+
+
+    private void saveCategoryToDatabase(String categoryName, String categoryDescription, String imageUrl) {
         DatabaseReference categoriesRef = databaseReference.child("QuizCategories");
         generateUniqueCategoryId(categoriesRef, new CategoryCallback() {
             @Override
@@ -233,7 +300,7 @@ public class CategoryManagementActivity extends AppCompatActivity implements Cat
                         categoryId,
                         categoryName,
                         categoryDescription,
-                        null,
+                        imageUrl,
                         System.currentTimeMillis(),
                         "Admin",
                         System.currentTimeMillis(),
@@ -264,6 +331,7 @@ public class CategoryManagementActivity extends AppCompatActivity implements Cat
         });
     }
 
+
     // Other methods for checking table existence, displaying toasts, etc.
     // Generate a unique categoryId based on the latest count of total items
     private void generateUniqueCategoryId(DatabaseReference categoriesRef, final CategoryCallback callback) {
@@ -289,7 +357,9 @@ public class CategoryManagementActivity extends AppCompatActivity implements Cat
     private void clearInputFields() {
         categoryNameEditText.getText().clear();
         categoryDescriptionEditText.getText().clear();
+        categoryImageView.setImageResource(R.drawable.default_category_image);
     }
+
 
     private void showToast(String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
