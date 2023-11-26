@@ -20,8 +20,12 @@
             android:name=".activities.admin.AnalyticsActivity"
             android:exported="false" />
         <activity
-            android:name=".activities.admin.UserAccountManagementActivity"
+            android:name=".activities.admin.UserManagementActivity"
             android:exported="false" />
+        <activity
+            android:name=".activities.admin.SendNotificationActivity"
+            android:exported="false" />
+
         <activity
             android:name=".activities.admin.QuestionManagementActivity"
             android:exported="false" />
@@ -55,15 +59,28 @@
         <activity
             android:name=".activities.RegistrationActivity"
             android:exported="false" />
+
+
         <activity
             android:name=".activities.SplashScreenActivity"
             android:exported="true">
+
+
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+
+
+
+
+
     </application>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
 </manifest>
