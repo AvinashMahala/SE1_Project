@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Root Layout -->
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!-- Question EditText -->
+    <EditText
+        android:id="@+id/questionEditText"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:hint="Question"/>
+
+    <!-- Options EditTexts -->
+    <EditText
+        android:id="@+id/optionAEditText"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:hint="Option A"/>
+
+    <EditText
+        android:id="@+id/optionBEditText"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:hint="Option B"/>
+
+    <EditText
+        android:id="@+id/optionCEditText"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:hint="Option C"/>
+
+    <EditText
+        android:id="@+id/optionDEditText"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:hint="Option D"/>
+
+    <!-- Correct Answer EditText -->
+    <EditText
+        android:id="@+id/correctAnswerEditText"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:hint="Correct Answer (e.g., A)"/>
+
+    <!-- Save Button -->
+    <Button
+        android:id="@+id/saveQuestionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Save Question"
+        android:layout_gravity="center"/>
+
+</LinearLayout>

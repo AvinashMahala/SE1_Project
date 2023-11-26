@@ -113,7 +113,7 @@
                     android:id="@+id/btnAdminDashboard"
                     android:layout_width="320dp"
                     android:layout_height="wrap_content"
-                    android:text="Go to Admin Dashboard"
+                    android:text="@string/go_to_admin_dashboard"
                     android:onClick="navigateToAdminDashboard"
                     android:layout_marginTop="24dp"
                     android:layout_marginBottom="16dp"
@@ -123,7 +123,22 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/registerButton"
 
-                    />
+                    tools:ignore="UsingOnClickInXml" />
+
+                <Button
+                    android:id="@+id/forgotPasswordButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="111dp"
+                    android:layout_marginTop="29dp"
+                    android:layout_marginEnd="112dp"
+                    android:layout_marginBottom="124dp"
+                    android:text="@string/forgot_password"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/btnAdminDashboard" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 

@@ -11,7 +11,7 @@
     android:background="@drawable/thin_border_background"
     >
 
-    <!-- Quiz Set Name (Left-aligned) -->
+    <!-- Category Name (Left-aligned) -->
 
     <!-- Edit Button -->
     <TextView
@@ -19,18 +19,18 @@
         android:layout_width="10dp"
         android:layout_height="40dp"
         android:layout_weight="2"
-        android:contentDescription="Quiz Set Name"
+        android:contentDescription="Set Name"
         android:gravity="start|center_vertical"
-        android:text="Quiz Set Name"
+        android:text="Set Name"
         android:textSize="17sp"
         android:textStyle="bold" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/editQuizSetButton"
         android:text="EDIT"
-        android:contentDescription="Edit Quiz Set"
+        android:contentDescription="Edit Set"
         android:layout_width="20dp"
-        android:layout_height="40dp"
+        android:layout_height="48dp"
         android:layout_weight="1"
         android:background="@drawable/rounded_button"
         android:gravity="center"
@@ -42,9 +42,9 @@
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/deleteQuizSetButton"
         android:text="DEL"
-        android:contentDescription="Delete Quiz Set"
+        android:contentDescription="Delete Set"
         android:layout_width="20dp"
-        android:layout_height="40dp"
+        android:layout_height="48dp"
         android:layout_weight="1"
         android:background="@drawable/red_rounded_button"
         android:gravity="center"
@@ -52,5 +52,16 @@
         android:textSize="16sp"
         />
 
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/qandaButton"
+        android:layout_width="20dp"
+        android:layout_height="48dp"
+        android:layout_weight="1"
+        android:background="@drawable/rounded_button"
+        android:contentDescription="Add Set"
+        android:gravity="center"
+        android:text="Q&amp;A"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp" />
 
 </LinearLayout>

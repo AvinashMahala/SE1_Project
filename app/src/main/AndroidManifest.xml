@@ -17,6 +17,9 @@
             android:name=".activities.admin.QuizSetActivity"
             android:exported="false" />
         <activity
+            android:name=".activities.admin.AdminQuizQandAActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.admin.AnalyticsActivity"
             android:exported="false" />
         <activity
@@ -37,6 +40,9 @@
             android:exported="false" />
         <activity
             android:name=".activities.QuizTakingActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.AddQuizQuestionActivity"
             android:exported="false" />
         <activity
             android:name=".activities.QuizDashboardActivity"
