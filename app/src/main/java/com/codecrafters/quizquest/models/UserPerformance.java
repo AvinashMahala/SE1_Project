@@ -2,18 +2,12 @@ package com.codecrafters.quizquest.models;
 
 public class UserPerformance {
     private String userName;
-    private int score;
+    private double meanScore;
     private int rank;
 
-    // Default constructor
-    public UserPerformance() {
-    }
-
-    // Parameterized constructor
-    public UserPerformance(String userName, int score, int rank) {
+    public UserPerformance(String userName, double meanScore) {
         this.userName = userName;
-        this.score = score;
-        this.rank = rank;
+        this.meanScore = meanScore;
     }
 
     // Getters and setters
@@ -25,12 +19,12 @@ public class UserPerformance {
         this.userName = userName;
     }
 
-    public int getScore() {
-        return score;
+    public double getMeanScore() {
+        return meanScore;
     }
 
-    public void setScore(int score) {
-        this.score = score;
+    public void setMeanScore(double meanScore) {
+        this.meanScore = meanScore;
     }
 
     public int getRank() {
@@ -41,12 +35,11 @@ public class UserPerformance {
         this.rank = rank;
     }
 
-    // You might also want to override toString() for easy logging/debugging
     @Override
     public String toString() {
         return "UserPerformance{" +
                 "userName='" + userName + '\'' +
-                ", score=" + score +
+                ", meanScore=" + meanScore +
                 ", rank=" + rank +
                 '}';
     }

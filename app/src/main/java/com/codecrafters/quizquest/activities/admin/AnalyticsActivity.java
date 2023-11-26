@@ -21,13 +21,16 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class AnalyticsActivity extends AppCompatActivity {
 
     private Spinner spinnerFilterType, spinnerSpecificFilter;
     private RecyclerView recyclerViewAnalytics;
     private AnalyticsAdapter adapter;
+    private Map<String, List<Integer>> userScores = new HashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,44 +69,72 @@ public class AnalyticsActivity extends AppCompatActivity {
         int selectedFilter = spinnerFilterType.getSelectedItemPosition();
         switch (selectedFilter) {
             case 0: // Top Performance
-                fetchTopPerformers();
+                fetchQuizData();
+                spinnerSpecificFilter.setVisibility(View.GONE); // Hide second spinner
                 break;
             // Handle other cases
         }
     }
 
-    private void fetchTopPerformers() {
+    private void fetchQuizData() {
         DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference("QuizTaken");
-        dbRef.orderByChild("score").limitToLast(3)
-                .addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        List<UserPerformance> topPerformers = new ArrayList<>();
-                        int rank = 1;
-                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                            UserPerformance performance = snapshot.getValue(UserPerformance.class);
-                            if (performance != null) {
-                                performance.setRank(rank++);
-                                topPerformers.add(performance);
-                            }
-                        }
-                        Collections.reverse(topPerformers);
-                        updateRecyclerView(topPerformers);
-                    }
+        dbRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                userScores.clear();
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    String userId = snapshot.child("userID").getValue(String.class);
+                    Integer scoreValue = snapshot.child("QuizTakenScore").getValue(Integer.class);
+                    int score = (scoreValue != null) ? scoreValue : 0;
 
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-                        // Handle possible errors.
+                    // Manually check if the userId exists in the map
+                    if (!userScores.containsKey(userId)) {
+                        userScores.put(userId, new ArrayList<>());
                     }
-                });
+                    userScores.get(userId).add(score);
+                }
+                calculateMeanScoresAndDisplayTopPerformers();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // Handle possible errors.
+            }
+        });
     }
 
-    private void updateRecyclerView(List<UserPerformance> data) {
+    private void calculateMeanScoresAndDisplayTopPerformers() {
+        List<UserPerformance> performances = new ArrayList<>();
+        for (Map.Entry<String, List<Integer>> entry : userScores.entrySet()) {
+            String userId = entry.getKey();
+            List<Integer> scores = entry.getValue();
+            double meanScore = 0;
+            for (Integer score : scores) {
+                meanScore += score;
+            }
+            meanScore /= scores.size();
+            performances.add(new UserPerformance(userId, meanScore));
+        }
+
+        // Sort by mean score in descending order
+        Collections.sort(performances, (p1, p2) -> Double.compare(p2.getMeanScore(), p1.getMeanScore()));
+
+        // Assign ranks and take top 3 performers
+        int rank = 1;
+        for (UserPerformance performance : performances) {
+            performance.setRank(rank++);
+        }
+        List<UserPerformance> topPerformers = performances.subList(0, Math.min(3, performances.size()));
+
+        updateRecyclerView(topPerformers);
+    }
+
+    private void updateRecyclerView(List<UserPerformance> topPerformers) {
         if (adapter == null) {
-            adapter = new AnalyticsAdapter(data);
+            adapter = new AnalyticsAdapter(topPerformers);
             recyclerViewAnalytics.setAdapter(adapter);
         } else {
-            adapter.updateData(data);
+            adapter.updateData(topPerformers);
         }
     }
 }
