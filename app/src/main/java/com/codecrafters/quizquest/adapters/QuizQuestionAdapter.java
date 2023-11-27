@@ -207,6 +207,8 @@ public class QuizQuestionAdapter extends RecyclerView.Adapter<QuizQuestionAdapte
                 }
             }
             return false;
+
+            
         }
 
         private void updateQuestionInFirebase(QuizQuestion question) {
