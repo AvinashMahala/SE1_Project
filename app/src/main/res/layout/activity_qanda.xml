@@ -15,27 +15,30 @@
         app:layout_constraintGuide_percent="0.10" />
 
     <!-- Header FrameLayout -->
+
+    <!-- RecyclerView for Quiz Questions -->
     <FrameLayout
         android:id="@+id/headerFrameLayout"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/guideline_top"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/guideline_top">
+        app:layout_constraintVertical_bias="1.0">
 
         <!-- Welcome Message -->
         <TextView
             android:id="@+id/adminQuizQandAHeader"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:text="@string/set_qanda"
             android:textSize="24sp"
-            android:textStyle="bold"
-            android:layout_gravity="center" />
+            android:textStyle="bold" />
     </FrameLayout>
 
-    <!-- RecyclerView for Quiz Questions -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycleList"
         android:layout_width="410dp"
@@ -47,6 +50,21 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/headerFrameLayout" />
+
+    <TextView
+        android:id="@+id/emptyWatermark"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Empty"
+        android:textColor="#CCCCCC"
+        android:textSize="48sp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/adminQuizSetAddBtnFmLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/headerFrameLayout"
+        app:layout_constraintVertical_bias="0.5" />
 
     <!-- "Add New Question" Button FrameLayout -->
     <FrameLayout
@@ -65,14 +83,14 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginStart="120dp"
-        android:layout_marginTop="17dp"
         android:layout_marginEnd="125dp"
         android:layout_marginBottom="8dp"
         android:background="@drawable/rounded_button"
         android:text="@string/add_new_question"
         app:layout_constraintBottom_toTopOf="@+id/adminQuizSetAddBtnFmLayout"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recycleList" />
+        app:layout_constraintStart_toStartOf="parent" />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

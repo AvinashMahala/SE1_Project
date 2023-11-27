@@ -47,11 +47,20 @@
         android:hint="Correct Answer (e.g., A)"/>
 
     <!-- Save Button -->
+
     <Button
         android:id="@+id/saveQuestionButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Save Question"
-        android:layout_gravity="center"/>
+        android:layout_gravity="center"
+        android:text="Save Question" />
+
+    <Button
+        android:id="@+id/clearFormButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="16dp"
+        android:text="Clear Form" />
 
 </LinearLayout>

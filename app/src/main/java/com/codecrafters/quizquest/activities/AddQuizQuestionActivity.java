@@ -26,7 +26,7 @@ public class AddQuizQuestionActivity extends AppCompatActivity {
     private EditText questionEditText;
     private EditText optionAEditText, optionBEditText, optionCEditText, optionDEditText;
     private EditText correctAnswerEditText;
-    private Button saveQuestionButton;
+    private Button saveQuestionButton, clearFormButton;
     private DatabaseReference databaseReference;
 
     public String categoryId, setId;
@@ -42,11 +42,18 @@ public class AddQuizQuestionActivity extends AppCompatActivity {
         categoryId = getIntent().getStringExtra("QUIZ_CATEGORY_ID");
         setId = getIntent().getStringExtra("SET_ID");
 
-//        categoryId = getIntent().getStringExtra("QUIZ_CATEGORY_ID");
         Log.d("AddQuizQuestionActivity", "Received categoryId: " + categoryId);
 
 
         saveQuestionButton.setOnClickListener(v -> saveQuestion());
+        clearFormButton.setOnClickListener(v -> {
+            questionEditText.setText("");
+            optionAEditText.setText("");
+            optionBEditText.setText("");
+            optionCEditText.setText("");
+            optionDEditText.setText("");
+            correctAnswerEditText.setText("");
+        });
     }
 
     private void initializeUI() {
@@ -57,6 +64,7 @@ public class AddQuizQuestionActivity extends AppCompatActivity {
         optionDEditText = findViewById(R.id.optionDEditText);
         correctAnswerEditText = findViewById(R.id.correctAnswerEditText);
         saveQuestionButton = findViewById(R.id.saveQuestionButton);
+        clearFormButton = findViewById(R.id.clearFormButton);
     }
 
     interface QuestionIdCallback {
@@ -74,6 +82,11 @@ public class AddQuizQuestionActivity extends AppCompatActivity {
                 optionCEditText.getText().toString().isEmpty() ||
                 optionDEditText.getText().toString().isEmpty()) {
             Toast.makeText(this, "All fields must be filled", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (!isCorrectAnswerValid(correctAnswer)) {
+            Toast.makeText(this, "Answer Key must be one of the options", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -105,8 +118,6 @@ public class AddQuizQuestionActivity extends AppCompatActivity {
             }
         });
     }
-
-
 
     private void generateAndSaveQuestion(String questionText, Map<String, Object> options, String correctAnswer, QuestionIdCallback callback) {
         DatabaseReference questionsRef = databaseReference.child("QuizQuestions");
@@ -145,11 +156,20 @@ public class AddQuizQuestionActivity extends AppCompatActivity {
         });
     }
 
-
     private void saveNewQuestion(String questionId, QuizQuestion newQuestion, Map<String, Object> options) {
         databaseReference.child("QuizQuestions").child(questionId).setValue(options)
                 .addOnSuccessListener(aVoid -> Toast.makeText(AddQuizQuestionActivity.this, "Question added successfully", Toast.LENGTH_SHORT).show())
                 .addOnFailureListener(e -> Toast.makeText(AddQuizQuestionActivity.this, "Failed to add question: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+    }
+
+    private boolean isCorrectAnswerValid(String correctAnswer) {
+        String optionA = optionAEditText.getText().toString();
+        String optionB = optionBEditText.getText().toString();
+        String optionC = optionCEditText.getText().toString();
+        String optionD = optionDEditText.getText().toString();
+
+        return correctAnswer.equalsIgnoreCase(optionA) || correctAnswer.equalsIgnoreCase(optionB) ||
+                correctAnswer.equalsIgnoreCase(optionC) || correctAnswer.equalsIgnoreCase(optionD);
     }
 
 }
