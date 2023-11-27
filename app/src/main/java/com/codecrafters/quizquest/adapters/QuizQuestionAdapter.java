@@ -24,7 +24,6 @@ import java.util.List;
 
 public class QuizQuestionAdapter extends RecyclerView.Adapter<QuizQuestionAdapter.ViewHolder> {
 
-//    private static final Context context;
     private static Context context;
     private final List<QuizQuestion> quizQuestions;
 
@@ -59,6 +58,8 @@ public class QuizQuestionAdapter extends RecyclerView.Adapter<QuizQuestionAdapte
         // Set correct answer
         holder.correctAnswerTextView.setText("Correct Answer: " + (question.getCorrectAnswer() != null ? question.getCorrectAnswer() : "Not set"));
     }
+
+
 
     private String formatOptions(QuizQuestion question) {
         StringBuilder formattedOptions = new StringBuilder();
@@ -144,6 +145,7 @@ public class QuizQuestionAdapter extends RecyclerView.Adapter<QuizQuestionAdapte
             EditText editOptionD = dialogView.findViewById(R.id.editOptionD);
             EditText editCorrectAnswer = dialogView.findViewById(R.id.editCorrectAnswer);
 
+
             // Pre-populate the dialog with existing data
             editQuestionText.setText(question.getQuestionText());
             editOptionA.setText(question.getQuizQuesAnsA());
@@ -151,6 +153,7 @@ public class QuizQuestionAdapter extends RecyclerView.Adapter<QuizQuestionAdapte
             editOptionC.setText(question.getQuizQuesAnsC());
             editOptionD.setText(question.getQuizQuesAnsD());
             editCorrectAnswer.setText(question.getCorrectAnswer());
+
 
             builder.setPositiveButton("Save", (dialog, which) -> {
                 // Get the updated text from the EditTexts
@@ -160,6 +163,16 @@ public class QuizQuestionAdapter extends RecyclerView.Adapter<QuizQuestionAdapte
                 String updatedOptionC = editOptionC.getText().toString();
                 String updatedOptionD = editOptionD.getText().toString();
                 String updatedCorrectAnswer = editCorrectAnswer.getText().toString();
+
+                if (!areFieldsFilled(updatedQuestionText, updatedOptionA, updatedOptionB, updatedOptionC, updatedOptionD, updatedCorrectAnswer)) {
+                    Toast.makeText(context, "All fields must be filled", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if (!isCorrectAnswerValid(updatedCorrectAnswer, updatedOptionA, updatedOptionB, updatedOptionC, updatedOptionD)) {
+                    Toast.makeText(context, "Answer Key must be one of the options", Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
                 // Update the question object
                 question.setQuestionText(updatedQuestionText);
@@ -176,6 +189,24 @@ public class QuizQuestionAdapter extends RecyclerView.Adapter<QuizQuestionAdapte
 
             AlertDialog dialog = builder.create();
             dialog.show();
+        }
+
+        private boolean areFieldsFilled(String... fields) {
+            for (String field : fields) {
+                if (field == null || field.trim().isEmpty()) {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        private boolean isCorrectAnswerValid(String correctAnswer, String... options) {
+            for (String option : options) {
+                if (correctAnswer.equalsIgnoreCase(option)) {
+                    return true;
+                }
+            }
+            return false;
         }
 
         private void updateQuestionInFirebase(QuizQuestion question) {

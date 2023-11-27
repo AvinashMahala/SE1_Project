@@ -84,6 +84,7 @@ public class AdminQuizQandAActivity extends AppCompatActivity {
                 quizQuestions.clear();
                 if (!dataSnapshot.exists()) {
                     Log.e("AdminQuizQandAActivity", "No questions found for quizSetId: " + quizSetId);
+                    updateUIBasedOnQuestions();
                     return;
                 }
                 for (DataSnapshot questionSnapshot : dataSnapshot.getChildren()) {
@@ -96,7 +97,9 @@ public class AdminQuizQandAActivity extends AppCompatActivity {
                             Log.e("AdminQuizQandAActivity", "Error reading question at: " + questionSnapshot.getKey());
                         }
                     }
+                    updateUIBasedOnQuestions();
                 }
+
                 if (adapter != null) {
                     adapter.notifyDataSetChanged();
                 }
@@ -108,6 +111,17 @@ public class AdminQuizQandAActivity extends AppCompatActivity {
             }
         });
     }
+
+    private void updateUIBasedOnQuestions() {
+        if (quizQuestions.isEmpty()) {
+            findViewById(R.id.emptyWatermark).setVisibility(View.VISIBLE);
+            findViewById(R.id.recycleList).setVisibility(View.GONE);
+        } else {
+            findViewById(R.id.emptyWatermark).setVisibility(View.GONE);
+            findViewById(R.id.recycleList).setVisibility(View.VISIBLE);
+        }
+    }
+
 
 
 }
