@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- UserID EditText -->
+        <EditText
+            android:id="@+id/editUserId"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="UserID"
+            android:inputType="text" />
+
+        <!-- UserPhNo EditText -->
+        <EditText
+            android:id="@+id/editUserPhNo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="User Phone Number"
+            android:inputType="phone" />
+
+        <!-- UserFname EditText -->
+        <EditText
+            android:id="@+id/editUserFname"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="User First Name"
+            android:inputType="textPersonName" />
+
+        <!-- UserEmail EditText -->
+        <EditText
+            android:id="@+id/editUserEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="User Email"
+            android:inputType="textEmailAddress" />
+
+        <!-- UserDOB EditText -->
+        <EditText
+            android:id="@+id/editUserDOB"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="User Date of Birth (DD/MM/YYYY)"
+            android:inputType="date" />
+
+        <!-- UserRole EditText -->
+        <EditText
+            android:id="@+id/editUserRole"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="User Role"
+            android:inputType="text" />
+
+        <!-- UserCreatedOn EditText (You may want to keep this read-only) -->
+        <EditText
+            android:id="@+id/editUserCreatedOn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="User Created On"
+            android:inputType="text"
+            android:enabled="false" />
+
+        <!-- UserCreatedBy EditText (You may want to keep this read-only) -->
+        <EditText
+            android:id="@+id/editUserCreatedBy"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="User Created By"
+            android:inputType="text"
+            android:enabled="false" />
+
+        <!-- UserModifiedOn EditText (You may want to keep this read-only) -->
+        <EditText
+            android:id="@+id/editUserModifiedOn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="User Modified On"
+            android:inputType="text"
+            android:enabled="false" />
+
+        <!-- UserModifiedBy EditText -->
+        <EditText
+            android:id="@+id/editUserModifiedBy"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="User Modified By"
+            android:inputType="text" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            android:orientation="horizontal"
+            android:spacing="8dp">
+
+            <Button
+                android:id="@+id/cancelEditButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cancel" />
+
+            <Button
+                android:id="@+id/saveEditButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Save" />
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

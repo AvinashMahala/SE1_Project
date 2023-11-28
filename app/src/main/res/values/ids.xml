@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="editQuestionText" type="id" />
+    <item name="editOptionA" type="id" />
+    <item name="editOptionB" type="id" />
+    <item name="editOptionC" type="id" />
+    <item name="editOptionD" type="id" />
+    <item name="editCorrectAnswer" type="id" />
+    <item name="cancelEditQuestionButton" type="id" />
+    <item name="saveEditQuestionButton" type="id" />
+    <item name="editQuestionHeadline" type="id" />
+</resources>

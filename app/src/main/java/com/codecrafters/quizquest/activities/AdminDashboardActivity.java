@@ -8,7 +8,9 @@ import com.codecrafters.quizquest.R;
 import com.codecrafters.quizquest.activities.admin.AnalyticsActivity;
 import com.codecrafters.quizquest.activities.admin.CategoryManagementActivity;
 import com.codecrafters.quizquest.activities.admin.QuestionManagementActivity;
+import com.codecrafters.quizquest.activities.admin.SendNotificationActivity;
 import com.codecrafters.quizquest.activities.admin.UserAccountManagementActivity;
+import com.codecrafters.quizquest.activities.admin.UserManagementActivity;
 import com.google.firebase.auth.FirebaseAuth;
 
 import android.util.Log;
@@ -67,9 +69,16 @@ public class AdminDashboardActivity extends AppCompatActivity {
 
     // Method to handle the "Manage User Accounts" button click
     public void onManageUsersClick(View view) {
-        // Implement the logic to navigate to the user account management screen
-        Intent intent = new Intent(this, UserAccountManagementActivity.class);
-        startActivity(intent);
+        try {
+            // Implement the logic to navigate to the category management screen
+            Intent intent = new Intent(this, UserManagementActivity.class);
+            startActivity(intent);
+        } catch (Exception e) {
+            // Log the exception using Android's Log class
+            Log.e("NavigationError", "Failed to navigate to UserManagementActivity", e);
+            // Optionally, show a user-friendly message to inform them about the issue
+            Toast.makeText(this, "Error navigating to category management.", Toast.LENGTH_SHORT).show();
+        }
     }
 
     // Method to handle the "Analytics and Reporting" button click
@@ -91,5 +100,9 @@ public class AdminDashboardActivity extends AppCompatActivity {
     private String getUserRole() {
         // Replace this with your actual logic to fetch the user's role
         return "Admin"; // For testing purposes, assuming the user is an admin
+    }
+    public void onSendNotificationClick(View view) {
+        Intent intent = new Intent(this, SendNotificationActivity.class);
+        startActivity(intent);
     }
 }

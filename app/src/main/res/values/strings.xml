@@ -28,4 +28,13 @@
 <!--        <item>User Performance</item>-->
     </string-array>
     <string name="enter_username">Enter Username</string>
+    <string name="add_new_question">Add New Question</string>
+    <string name="set_questions">Set Questions</string>
+    <string name="answers">Answers</string>
+    <string name="question">Question</string>
+    <string name="forgot_password">Forgot Password</string>
+    <string name="go_to_admin_dashboard">Go to Admin Dashboard</string>
+    <string name="set_qanda">Set Questions</string>
+    <string name="empty">Empty</string>
+    <string name="Empty" />
 </resources>

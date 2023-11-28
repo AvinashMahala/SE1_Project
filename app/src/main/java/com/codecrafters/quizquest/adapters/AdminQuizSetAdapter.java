@@ -1,6 +1,9 @@
 package com.codecrafters.quizquest.adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.codecrafters.quizquest.R;
+import com.codecrafters.quizquest.activities.admin.AdminQuizQandAActivity;
 import com.codecrafters.quizquest.activities.admin.QuizSetClickListener;
 import com.codecrafters.quizquest.models.AdminQuizSet;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -23,18 +27,21 @@ import java.util.List;
 
 public class AdminQuizSetAdapter extends RecyclerView.Adapter<AdminQuizSetAdapter.ViewHolder> {
 
-    private Context context;
+    private final Context context;
     private List<AdminQuizSet> adminQuizSets;
-    private QuizSetClickListener listener;
+    private final QuizSetClickListener listener;
+    private String categoryId;
 
-    public AdminQuizSetAdapter(Context context, List<AdminQuizSet> adminQuizSets, QuizSetClickListener listener) {
+    public AdminQuizSetAdapter(Context context, List<AdminQuizSet> adminQuizSets, QuizSetClickListener listener, String categoryId) {
         this.context = context;
         this.adminQuizSets = adminQuizSets;
         this.listener = listener;
+        this.categoryId = categoryId;
     }
     public AdminQuizSet getQuizSetAtPosition(int position) {
         return adminQuizSets.get(position);
     }
+    @SuppressLint("NotifyDataSetChanged")
     public void setQuizSets(List<AdminQuizSet> quizSets) {
         this.adminQuizSets = quizSets;
         notifyDataSetChanged(); // Notify the adapter that the data has changed
@@ -75,7 +82,7 @@ public class AdminQuizSetAdapter extends RecyclerView.Adapter<AdminQuizSetAdapte
     public class ViewHolder extends RecyclerView.ViewHolder {
 //        TextView adminEditQuizSetCatId;
         TextView adminEditQuizSetNm;
-        Button editButton, deleteButton;
+        Button editButton, deleteButton, QandAButton;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -83,6 +90,29 @@ public class AdminQuizSetAdapter extends RecyclerView.Adapter<AdminQuizSetAdapte
             adminEditQuizSetNm = itemView.findViewById(R.id.adminQuizSetName);
             editButton = itemView.findViewById(R.id.editQuizSetButton);
             deleteButton = itemView.findViewById(R.id.deleteQuizSetButton);
+            QandAButton = itemView.findViewById(R.id.qandaButton);
+
+            QandAButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(listener != null) {
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION) {
+                            AdminQuizSet selectedQuizSet = adminQuizSets.get(position);
+                            String quizSetId = selectedQuizSet.getQuizSetId();
+
+
+                            Intent intent = new Intent(context, AdminQuizQandAActivity.class);
+//                            String categoryId = getIntent().getStringExtra("QUIZ_CATEGORY_ID");
+                            intent.putExtra("QUIZ_CATEGORY_ID", categoryId);
+                            intent.putExtra("QUIZ_SET_ID", quizSetId);
+                            Log.d("AdminQuizSetAdapter", "Received categoryId: " + categoryId);
+                            context.startActivity(intent);
+                        }
+                    }
+                }
+            });
+
 
             editButton.setOnClickListener(new View.OnClickListener() {
                 @Override

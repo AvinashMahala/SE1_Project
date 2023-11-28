@@ -9,6 +9,7 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -41,7 +42,7 @@ public class QuizSetActivity extends AppCompatActivity implements QuizSetClickLi
     private RecyclerView recyclerView;
     private ArrayList<AdminQuizSet> quizSets = new ArrayList<>();
     private AdminQuizSetAdapter adapter;
-    private String categoryId;
+    public String categoryId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +56,11 @@ public class QuizSetActivity extends AppCompatActivity implements QuizSetClickLi
             // Set the welcome text based on the category name
             setWelcomeText();
             // Get the category ID passed from CategoryManagementActivity
+//            categoryId = getIntent().getStringExtra("QUIZ_CATEGORY_ID");
+
             categoryId = getIntent().getStringExtra("QUIZ_CATEGORY_ID");
+            Log.d("QuizSetActivity", "Received categoryId: " + categoryId);
+
             fetchQuizSetsFromFirebase();
             setAddQuizSetsButtonClickListener();
         } catch (Exception e){
@@ -116,7 +121,9 @@ public class QuizSetActivity extends AppCompatActivity implements QuizSetClickLi
         try {
             recyclerView = findViewById(R.id.adminQuizSetRecyclerView);
             recyclerView.setLayoutManager(new LinearLayoutManager(this));
-            adapter = new AdminQuizSetAdapter(QuizSetActivity.this, quizSets, this);
+            categoryId = getIntent().getStringExtra("QUIZ_CATEGORY_ID");
+            Log.d("initializeRecyclerView", "Received categoryId: " + categoryId);
+            adapter = new AdminQuizSetAdapter(QuizSetActivity.this, quizSets, this, categoryId);
             recyclerView.setAdapter(adapter);
         } catch (Exception e) {
             showToast("Error initializing RecyclerView: " + e.getMessage());
@@ -126,6 +133,7 @@ public class QuizSetActivity extends AppCompatActivity implements QuizSetClickLi
 
     private void fetchQuizSetsFromFirebase() {
         String categoryId = this.categoryId;
+        Log.d("QuizSetActivity", "Fetching Quiz Sets for categoryId: " + categoryId);
 
         try {
             DatabaseReference quizSetsRef = databaseReference.child("QuizSet");
@@ -180,8 +188,12 @@ public class QuizSetActivity extends AppCompatActivity implements QuizSetClickLi
 
     private void handleAddQuizSetButtonClick() {
         try{
+//            String quizCatID = getIntent().getStringExtra("QUIZ_CATEGORY_ID");
+//            String quizSetName = adminQuizSetNameEditText.getText().toString();
+
             String quizCatID = getIntent().getStringExtra("QUIZ_CATEGORY_ID");
             String quizSetName = adminQuizSetNameEditText.getText().toString();
+            Log.d("QuizSetActivity", "Adding Quiz Set - CategoryId: " + quizCatID + ", QuizSetName: " + quizSetName);
 
             if (quizSetName.isEmpty()) {
                 showToast("Quiz Set name cannot be empty.");
@@ -236,6 +248,9 @@ public class QuizSetActivity extends AppCompatActivity implements QuizSetClickLi
         try {
             String baseQuizSetId = "quizSet";
             // Query the database to get the latest count
+
+            Log.d("QuizSetActivity", "Generating unique Quiz Set ID");
+
             quizSetsRef.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -410,6 +425,14 @@ public class QuizSetActivity extends AppCompatActivity implements QuizSetClickLi
         } catch (Exception e) {
             showToast("Error deleting Quiz Set: " + e.getMessage());
         }
+    }
+
+    @Override
+    public void onQuizSetQandAClick(int position) {
+        Intent intent = new Intent(getApplicationContext(), AdminQuizQandAActivity.class);
+        categoryId = getIntent().getStringExtra("QUIZ_CATEGORY_ID");
+        Log.d("QuizSetActivity", "on click listener Received categoryId: " + categoryId);
+        startActivity(intent);
     }
 
     private void deleteQuizSetFromFirebase(AdminQuizSet quizSetToDelete) {

@@ -1,23 +1,73 @@
-<?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.admin.UserAccountManagementActivity">
+    tools:context=".activities.admin.UserManagementActivity">
 
-    <!-- Welcome Message -->
-    <TextView
-        android:id="@+id/adminUserAcctsMgmt"
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_frame1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Welcome To User Account Mgmt Area!"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        android:layout_marginTop="32dp"
-        app:layout_constraintTop_toTopOf="parent"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.10" />
+
+    <!-- Guideline to divide Frame2 (50%) -->
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_frame2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.90" /> <!-- Adjusted to 90% -->
+
+    <!-- Guideline to divide Frame5 (10%) -->
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_frame5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="1.00" />
+
+
+    <!-- Header FrameLayout (Frame1 - 10%) -->
+    <FrameLayout
+        android:id="@+id/headerFrameLayout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:gravity="center" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/guideline_frame1">
+
+        <!-- Welcome Message -->
+        <TextView
+            android:id="@+id/adminUserMgmt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="User Management"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            android:layout_gravity="center" />
+    </FrameLayout>
+
+    <!-- RecyclerView FrameLayout (Frame2 - 80%) -->
+    <FrameLayout
+        android:id="@+id/recyclerViewFrameLayout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/guideline_frame1"
+        app:layout_constraintBottom_toTopOf="@+id/guideline_frame2"
+        android:background="@drawable/border_background">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/userRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </FrameLayout>
+
+    <!-- Frame3 (30%) - Placeholder for Frame3 content -->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

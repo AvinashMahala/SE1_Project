@@ -40,12 +40,31 @@ public class CommonLoginRegistrationActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         emailEditText = findViewById(R.id.emailEditText);
         passwordEditText = findViewById(R.id.passwordEditText);
-
+        Button forgotPasswordButton = findViewById(R.id.forgotPasswordButton);
+        forgotPasswordButton.setOnClickListener(v -> resetPassword());
         Button registerButton = findViewById(R.id.registerButton);
         Button loginButton = findViewById(R.id.loginButton);
 
         registerButton.setOnClickListener(v -> navigateToRegistration());
         loginButton.setOnClickListener(v -> loginUserAccount());
+    }
+
+    private void resetPassword() {
+        String email = emailEditText.getText().toString().trim();
+
+        if (TextUtils.isEmpty(email)) {
+            showToast("Enter your registered email");
+            return;
+        }
+
+        mAuth.sendPasswordResetEmail(email)
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        showToast("Check your email to reset your password");
+                    } else {
+                        showToast("Failed to send reset email");
+                    }
+                });
     }
 
     private void navigateToRegistration() {

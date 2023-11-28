@@ -15,22 +15,22 @@
 
     <!-- Edit Button -->
     <TextView
-        android:id="@+id/adminQuizSetName"
+        android:id="@+id/adminUserName"
         android:layout_width="10dp"
         android:layout_height="40dp"
         android:layout_weight="2"
-        android:contentDescription="Set Name"
+        android:contentDescription="User Name"
         android:gravity="start|center_vertical"
-        android:text="Set Name"
+        android:text="User Name"
         android:textSize="17sp"
         android:textStyle="bold" />
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/editQuizSetButton"
-        android:text="EDIT"
-        android:contentDescription="Edit Set"
+        android:id="@+id/viewUserButton"
+        android:text="View"
+        android:contentDescription="View User"
         android:layout_width="20dp"
-        android:layout_height="48dp"
+        android:layout_height="40dp"
         android:layout_weight="1"
         android:background="@drawable/rounded_button"
         android:gravity="center"
@@ -40,28 +40,29 @@
 
     <!-- Delete Button -->
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/deleteQuizSetButton"
-        android:text="DEL"
-        android:contentDescription="Delete Set"
+        android:id="@+id/editUserButton"
+        android:text="Edit"
+        android:contentDescription="Edit User Details"
         android:layout_width="20dp"
-        android:layout_height="48dp"
+        android:layout_height="40dp"
         android:layout_weight="1"
-        android:background="@drawable/red_rounded_button"
+        android:background="@drawable/rounded_button"
         android:gravity="center"
         android:textColor="#FFFFFF"
         android:textSize="16sp"
         />
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/qandaButton"
+        android:id="@+id/deleteUserButton"
+        android:text="DEL"
+        android:contentDescription="Delete User"
         android:layout_width="20dp"
-        android:layout_height="48dp"
+        android:layout_height="40dp"
         android:layout_weight="1"
-        android:background="@drawable/rounded_button"
-        android:contentDescription="Add Set"
+        android:background="@drawable/red_rounded_button"
         android:gravity="center"
-        android:text="Q&amp;A"
         android:textColor="#FFFFFF"
-        android:textSize="16sp" />
+        android:textSize="16sp"
+        />
 
 </LinearLayout>
