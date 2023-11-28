@@ -1,5 +1,6 @@
 package com.codecrafters.quizquest.activities.admin;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -147,7 +148,9 @@ public class AnalyticsActivity extends AppCompatActivity {
                         Integer scoreValue = snapshot.child("quizTakenScore").getValue(Integer.class);
                         int score = (scoreValue != null) ? scoreValue : 0;
 
-                        userScores.computeIfAbsent(userId, k -> new ArrayList<>()).add(score);
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                            userScores.computeIfAbsent(userId, k -> new ArrayList<>()).add(score);
+                        }
                     }
                 }
 
@@ -195,15 +198,29 @@ public class AnalyticsActivity extends AppCompatActivity {
     private void assignRanksAndDisplay(List<UserPerformance> performances) {
         Collections.sort(performances, (p1, p2) -> Double.compare(p2.getMeanScore(), p1.getMeanScore()));
 
-        for (int i = 0; i < performances.size(); i++) {
+        int size = performances.size();
+        if (size == 0) {
+            displayNoDataMessage();
+            return;
+        }
+
+        for (int i = 0; i < size; i++) {
             performances.get(i).setRank(i + 1);
         }
 
-        List<UserPerformance> topPerformers = performances.subList(0, Math.min(3, performances.size()));
+        List<UserPerformance> topPerformers = performances.subList(0, Math.min(3, size));
         updateRecyclerView(topPerformers);
     }
 
     private void updateRecyclerView(List<UserPerformance> topPerformers) {
+        if (topPerformers.isEmpty()) {
+            if (adapter != null) {
+                adapter.updateData(new ArrayList<>()); // Clear existing data
+            }
+            Toast.makeText(AnalyticsActivity.this, "No quizzes taken yet", Toast.LENGTH_LONG).show();
+            return;
+        }
+
         if (adapter == null) {
             adapter = new AnalyticsAdapter(topPerformers);
             recyclerViewAnalytics.setAdapter(adapter);
@@ -211,4 +228,12 @@ public class AnalyticsActivity extends AppCompatActivity {
             adapter.updateData(topPerformers);
         }
     }
+
+    private void displayNoDataMessage() {
+        if (adapter != null) {
+            adapter.updateData(new ArrayList<>()); // Clear existing data
+        }
+        Toast.makeText(AnalyticsActivity.this, "No one has taken the quiz yet", Toast.LENGTH_LONG).show();
+    }
+
 }
