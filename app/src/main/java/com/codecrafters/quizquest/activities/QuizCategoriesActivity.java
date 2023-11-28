@@ -25,6 +25,7 @@ public class QuizCategoriesActivity extends AppCompatActivity implements Recycle
     DatabaseReference db1;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,8 +73,8 @@ public class QuizCategoriesActivity extends AppCompatActivity implements Recycle
 
     @Override
     public void onQuizCategoryClick(int position) {
-        String catKey = arrCategory.get(position).getCatKey();
 
+        String catKey = arrCategory.get(position).getCatKey();
         Intent intent = new Intent(QuizCategoriesActivity.this, QuizDashboardActivity.class);
         intent.putExtra("catKey", catKey);
         startActivity(intent);

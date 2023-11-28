@@ -32,7 +32,6 @@ public class CommonLoginRegistrationActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_common_login_registration);
-
         initializeUIComponents();
     }
 
@@ -139,6 +138,10 @@ public class CommonLoginRegistrationActivity extends AppCompatActivity {
 
     public void navigateToAdminDashboard(View view) {
         Intent intent = new Intent(this, AdminDashboardActivity.class);
+        startActivity(intent);
+    }
+    public void navigateToAdminCategoryPage(View view) {
+        Intent intent = new Intent(this, QuizCategoriesActivity.class);
         startActivity(intent);
     }
 }

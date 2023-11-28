@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -12,91 +13,110 @@
         android:background="#2196F3"
         android:padding="16dp">
 
-    <!-- You can add elements here, such as a title or logo -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Quiz Title"
-        android:textColor="#FFFFFF"
-    android:textSize="18sp"
-    android:textStyle="bold" />
-</LinearLayout>
+        <!-- You can add elements here, such as a title or logo -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Quiz Title"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+    </LinearLayout>
 
     <!-- Question Number -->
-<TextView
-android:id="@+id/questionNumber"
-android:layout_width="wrap_content"
-android:layout_height="wrap_content"
-android:layout_below="@id/topBar"
-android:text="Question 1"
-android:textSize="24sp"
-android:textStyle="bold"
-android:layout_centerHorizontal="true" />
+    <TextView
+        android:id="@+id/questionNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/topBar"
+        android:layout_centerHorizontal="true"
+        android:text="Question"
+        android:textSize="24sp"
+        android:textStyle="bold" />
 
     <!-- Timer -->
-<Chronometer
-android:id="@+id/timer"
-android:layout_width="wrap_content"
-android:layout_height="wrap_content"
-android:layout_below="@id/questionNumber"
-android:layout_centerHorizontal="true"
-android:textSize="36sp"
-android:format="00:%s"
-android:layout_marginTop="16dp" />
+    <Chronometer
+        android:id="@+id/timer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/questionNumber"
+        android:layout_centerHorizontal="true"
+        android:textSize="36sp"
+        android:format="00:%s"
+        android:layout_marginTop="16dp" />
 
     <!-- Question Text -->
-<TextView
-android:id="@+id/questionText"
-android:layout_width="match_parent"
-android:layout_height="wrap_content"
-android:layout_below="@id/timer"
-android:layout_marginTop="16dp"
-android:text="This is the question statement." />
+    <TextView
+        android:id="@+id/questionText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/timer"
+        android:layout_marginTop="16dp"
+        android:textSize="25sp"
+        android:text="This is the question statement." />
+
 
     <!-- Radio Group for Options -->
-<RadioGroup
-android:id="@+id/optionsGroup"
-android:layout_width="match_parent"
-android:layout_height="wrap_content"
-android:layout_below="@id/questionText"
-android:layout_marginTop="16dp">
-
-<RadioButton
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="Option A: Option A text." />
-
-<RadioButton
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="Option B: Option B text." />
-
-<RadioButton
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="Option C: Option C text." />
-
-<RadioButton
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="Option D: Option D text." />
-</RadioGroup>
 
     <!-- Previous and Next Buttons -->
-<Button
-android:id="@+id/prevButton"
-android:layout_width="wrap_content"
-android:layout_height="wrap_content"
-android:text="Previous"
-android:layout_below="@id/optionsGroup"
-android:layout_marginTop="16dp" />
 
-<Button
-android:id="@+id/nextButton"
-android:layout_width="wrap_content"
-android:layout_height="wrap_content"
-android:text="Next"
-android:layout_below="@id/optionsGroup"
-android:layout_marginTop="16dp"
-android:layout_alignParentEnd="true" />
-    </RelativeLayout>
+    <!-- "End Quiz" Button at the Bottom, Centered -->
+
+    <RadioGroup
+        android:id="@+id/optionsGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/questionText"
+        android:layout_marginTop="62dp">
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Option A: Option A text." />
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Option B: Option B text." />
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Option C: Option C text." />
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Option D: Option D text." />
+    </RadioGroup>
+
+    <Button
+        android:id="@+id/nextButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/optionsGroup"
+        android:layout_marginTop="18dp"
+        android:layout_marginEnd="-218dp"
+        android:layout_toStartOf="@id/endQuizButton"
+        android:text="Next" />
+
+    <Button
+        android:id="@+id/skipQuestionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/optionsGroup"
+        android:layout_marginStart="-218dp"
+        android:layout_marginTop="18dp"
+        android:layout_toEndOf="@id/endQuizButton"
+        android:text="Skip" />
+
+    <Button
+        android:id="@+id/endQuizButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="End Quiz"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="16dp" />
+
+</RelativeLayout>

@@ -1,6 +1,5 @@
 package com.codecrafters.quizquest.activities;
 import androidx.appcompat.app.AppCompatActivity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -9,7 +8,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.codecrafters.quizquest.R;
@@ -20,12 +18,15 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class QuizDashboardActivity extends AppCompatActivity {
 
     private DatabaseReference databaseReference;
     private Spinner quizSetSpinner;
 
+    Map<String, String> quizSetNameToIdMap = new HashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +51,11 @@ public class QuizDashboardActivity extends AppCompatActivity {
                 ArrayList<String> quizSets = new ArrayList<>();
                 for (DataSnapshot quizSetSnapshot : dataSnapshot.getChildren()) {
                     String quizSetName = quizSetSnapshot.child("quizSetName").getValue(String.class);
+                    String quizSetID = quizSetSnapshot.child("quizSetId").getValue(String.class);
+
+                    // Populate the map
+                    quizSetNameToIdMap.put(quizSetName, quizSetID);
+
                     quizSets.add(quizSetName);
                 }
                 quizSetsArray[0] = quizSets.toArray(new String[0]);
@@ -87,7 +93,6 @@ public class QuizDashboardActivity extends AppCompatActivity {
                     //Glide.with(QuizDashboardActivity.this).load(quizCatImg).into(quizCategoryImage);
                     String quizCatImg = "https://firebasestorage.googleapis.com/v0/b/codecrafters-quizquest.appspot.com/o/astronomy.png?alt=media&token=2601d765-635c-49d9-80d1-214eff9a8390&_gl=1*1kmocji*_ga*MTc4OTIzNzQ5OS4xNjg0Njc9*ga_CW55HF8NVT*MTY5NjIwMDY1OC4xNi4xLjE2OTYyMDA2NjUuNTMuMC4w";
                     Glide.with(QuizDashboardActivity.this).load(quizCatImg).into(quizCategoryImage);
-
                 }
             }
 
@@ -104,10 +109,12 @@ public class QuizDashboardActivity extends AppCompatActivity {
 
                 // Get the selected quiz set from the spinner
                 String selectedQuizSet = quizSetSpinner.getSelectedItem().toString();
-
+                // Use the map to get the corresponding quiz set ID
+                String selectedQuizSetID = quizSetNameToIdMap.get(selectedQuizSet);
                 // Create an intent to start the QuizQuestionActivity
                 Intent intent = new Intent(QuizDashboardActivity.this, QuizQuestionActivity.class);
-                intent.putExtra("quizSet", selectedQuizSet);
+                intent.putExtra("quizSet", selectedQuizSetID);
+                intent.putExtra("quizCat", quizName);
 
                 startActivity(intent);
             }

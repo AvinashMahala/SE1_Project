@@ -1,0 +1,64 @@
+<!-- res/layout/activity_result.xml -->
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- Toolbar -->
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:elevation="4dp"
+        android:layout_alignParentTop="true"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        app:title="Results"/>
+
+    <!-- Add more TextViews for additional information -->
+
+    <TextView
+        android:id="@+id/textViewQuizName"
+        style="@style/ResultTextView"
+        android:layout_width="141dp"
+        android:layout_height="21dp"
+        android:layout_below="@id/toolbar"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="85dp"
+        android:text="Congratulations!" />
+
+    <TextView
+        android:id="@+id/textViewScore"
+        style="@style/ResultScoreTextView"
+        android:text="78"
+        android:layout_below="@id/textViewQuizName"
+        android:layout_centerHorizontal="true" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="114dp"
+        android:layout_height="116dp"
+        android:layout_below="@id/textViewScore"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/trophy" />
+
+    <Button
+        android:id="@+id/buttonFinish"
+        style="@style/ResultButton"
+        android:text="Finish"
+        android:layout_below="@id/imageView"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:id="@+id/retryFinish"
+        style="@style/ResultButton"
+        android:layout_below="@id/buttonFinish"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="53dp"
+        android:layout_marginBottom="213dp"
+        android:text="Retry" />
+
+</RelativeLayout>

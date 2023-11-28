@@ -109,7 +109,22 @@
 
 <!--             Button to navigate to AdminDashboardActivity-->
 
-                <Button
+            <Button
+                android:id="@+id/btnCategoryPage"
+                android:layout_width="320dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="100dp"
+                android:background="@drawable/rounded_button"
+                android:onClick="navigateToAdminCategoryPage"
+                android:text="Go to Category Page"
+                android:textColor="#fff"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.491"
+                app:layout_constraintStart_toStartOf="parent"
+
+                app:layout_constraintTop_toBottomOf="@id/registerButton" />
+
+            <Button
                     android:id="@+id/btnAdminDashboard"
                     android:layout_width="320dp"
                     android:layout_height="wrap_content"
