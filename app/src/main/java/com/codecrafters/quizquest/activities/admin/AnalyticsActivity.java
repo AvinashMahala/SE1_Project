@@ -1,19 +1,15 @@
 package com.codecrafters.quizquest.activities.admin;
 
-import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.codecrafters.quizquest.R;
 import com.codecrafters.quizquest.adapters.AnalyticsAdapter;
 import com.codecrafters.quizquest.models.UserPerformance;
@@ -22,7 +18,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -83,11 +78,10 @@ public class AnalyticsActivity extends AppCompatActivity {
         spinnerFilterType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (position == 0) { // Top Performance
-                    spinnerSpecificFilter.setVisibility(View.GONE);
-                    fetchQuizData(null);
-                } else {
+                if (position == 1) { // Top Category Performance
                     spinnerSpecificFilter.setVisibility(View.VISIBLE);
+                } else {
+                    spinnerSpecificFilter.setVisibility(View.GONE);
                 }
             }
 
@@ -125,17 +119,12 @@ public class AnalyticsActivity extends AppCompatActivity {
         int selectedFilter = spinnerFilterType.getSelectedItemPosition();
         String selectedCategory = spinnerSpecificFilter.getSelectedItem().toString();
 
-        if (selectedFilter == 0) { // Top Performance
-            spinnerSpecificFilter.setVisibility(View.GONE);
+        if (selectedFilter == 1 && !selectedCategory.equals("Select Category")) { // Top Category Performance
+            fetchQuizData(selectedCategory);
+        } else if (selectedFilter == 0) { // Top Performance
             fetchQuizData(null);
-        } else if (selectedFilter == 1) { // Top Category Performance
-            spinnerSpecificFilter.setVisibility(View.VISIBLE);
-            if (!selectedCategory.equals("Select Category")) {
-                fetchQuizData(selectedCategory);
-            } else {
-                // Handle the case where no category is selected or an invalid category is selected
-                Log.e("AnalyticsActivity", "No valid category selected");
-            }
+        } else {
+            Toast.makeText(AnalyticsActivity.this, "Please select a valid category", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -158,9 +147,7 @@ public class AnalyticsActivity extends AppCompatActivity {
                         Integer scoreValue = snapshot.child("quizTakenScore").getValue(Integer.class);
                         int score = (scoreValue != null) ? scoreValue : 0;
 
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                            userScores.computeIfAbsent(userId, k -> new ArrayList<>()).add(score);
-                        }
+                        userScores.computeIfAbsent(userId, k -> new ArrayList<>()).add(score);
                     }
                 }
 
@@ -179,19 +166,18 @@ public class AnalyticsActivity extends AppCompatActivity {
     }
 
     private void displayNoDataMessage(String category) {
-        // Clear the RecyclerView or display a message that no data is available for the selected category
         if (adapter != null) {
             adapter.updateData(new ArrayList<>()); // Clear existing data
         }
         Toast.makeText(AnalyticsActivity.this, "No quiz taken for '" + category + "' yet", Toast.LENGTH_LONG).show();
     }
+
     private void calculateMeanScoresAndDisplayTopPerformers() {
         List<UserPerformance> performances = new ArrayList<>();
         for (Map.Entry<String, List<Integer>> entry : userScores.entrySet()) {
             String userId = entry.getKey();
             String userName = userIdToNameMap.get(userId);
             if (userName == null) {
-                Log.e("AnalyticsActivity", "User name not found for userId: " + userId);
                 continue;
             }
             List<Integer> scores = entry.getValue();
