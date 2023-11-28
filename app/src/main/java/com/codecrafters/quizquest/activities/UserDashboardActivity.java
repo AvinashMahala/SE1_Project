@@ -1,6 +1,5 @@
 package com.codecrafters.quizquest.activities;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -34,106 +33,86 @@ public class UserDashboardActivity extends AppCompatActivity {
             viewModel = new ViewModelProvider(this).get(UserProfileDashboardViewModel.class);
             mAuth = FirebaseAuth.getInstance(); // Initialize Firebase Authentication
 
-            // Check if userId is not null
+            // Retrieve userId either from Intent or FirebaseAuth
             if (getIntent().hasExtra("USER_ID")) {
                 userId = getIntent().getStringExtra("USER_ID");
-
-                // Load user data and quiz history based on the received user ID
-                viewModel.loadUserData(userId);
-                viewModel.loadQuizHistoryData(userId);
+            } else if (mAuth.getCurrentUser() != null) {
+                userId = mAuth.getCurrentUser().getUid();
             } else {
-                // Handle the case where userId is null
-                handleException("User ID is null.");
+                handleException("User ID is null and user is not logged in.");
+                return; // Exit the onCreate method
             }
 
-            // Load user data and quiz history based on the received user ID
+            // Load user data and quiz history based on the retrieved user ID
             viewModel.loadUserData(userId);
             viewModel.loadQuizHistoryData(userId);
 
-            // Find and initialize the TextViews and ListView
-            TextView userNameTextView = findViewById(R.id.userName);
-            TextView userQuizCountTextView = findViewById(R.id.userQuizCount);
-            ListView quizHistoryListView = findViewById(R.id.quizHistoryList);
-            TextView noQuizMessageTextView = findViewById(R.id.noQuizMessage);
-            Button startNewQuizButton = findViewById(R.id.startNewQuizButton);
-            Button userDashboardlogoutButton = findViewById(R.id.userDashboardlogoutButton); // Logout button
-            Button userProfileButton = findViewById(R.id.userProfileButton); // User profile button
-
-            viewModel.getUser().observe(this, user -> {
-                try {
-                    userNameTextView.setText("Welcome " + user.getName());
-                    userQuizCountTextView.setText("Quizzes taken: " + user.getQuizzesTaken());
-                } catch (Exception e) {
-                    handleException("Error loading user data: " + e.getMessage());
-                }
-            });
-
-            viewModel.getQuizHistory().observe(this, quizHistory -> {
-                try {
-                    int quizCount = quizHistory.size();
-
-                    if (quizCount == 0) {
-                        noQuizMessageTextView.setText("No quizzes taken yet.");
-                        quizHistoryListView.setVisibility(View.GONE);
-                    } else {
-                        noQuizMessageTextView.setVisibility(View.GONE);
-                        quizHistoryListView.setVisibility(View.VISIBLE);
-
-                        // Create an adapter to display the quiz history in the ListView
-                        QuizHistoryAdapter adapter = new QuizHistoryAdapter(this, new ArrayList<>(quizHistory));
-                        quizHistoryListView.setAdapter(adapter);
-
-                        // Display the quiz count
-                        String quizCountText = "Quizzes taken: " + quizCount;
-                        userQuizCountTextView.setText(quizCountText);
-                    }
-                } catch (Exception e) {
-                    handleException("Error loading quiz history: " + e.getMessage());
-                }
-            });
-
-            // Set OnClickListener for the "Start New Quiz" button
-            startNewQuizButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    try {
-                        Intent intent = new Intent(UserDashboardActivity.this, QuizCategoriesActivity.class);
-                        startActivity(intent);
-                    } catch (Exception e) {
-                        handleException("Error starting a new quiz: " + e.getMessage());
-                    }
-                }
-            });
-
-            // Set OnClickListener for the "Logout" button
-            userDashboardlogoutButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    try {
-                        mAuth.signOut(); // Sign out from Firebase Authentication
-                        Intent intent = new Intent(UserDashboardActivity.this, CommonLoginRegistrationActivity.class);
-                        startActivity(intent);
-                        finish(); // Close the current activity
-                    } catch (Exception e) {
-                        handleException("Error logging out: " + e.getMessage());
-                    }
-                }
-            });
-
-            // Set OnClickListener for the "User Profile" button
-            userProfileButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    try {
-                        Intent intent = new Intent(UserDashboardActivity.this, UserProfileActivity.class);
-                        startActivity(intent);
-                    } catch (Exception e) {
-                        handleException("Error opening user profile: " + e.getMessage());
-                    }
-                }
-            });
+            // Initialize UI components
+            setupUI();
         } catch (Exception e) {
             handleException("Error in onCreate: " + e.getMessage());
+        }
+    }
+
+    private void setupUI() {
+        TextView userNameTextView = findViewById(R.id.userName);
+        TextView userQuizCountTextView = findViewById(R.id.userQuizCount);
+        ListView quizHistoryListView = findViewById(R.id.quizHistoryList);
+        TextView noQuizMessageTextView = findViewById(R.id.noQuizMessage);
+        Button startNewQuizButton = findViewById(R.id.startNewQuizButton);
+        Button userDashboardlogoutButton = findViewById(R.id.userDashboardlogoutButton); // Logout button
+        Button userProfileButton = findViewById(R.id.userProfileButton); // User profile button
+
+        viewModel.getUser().observe(this, user -> {
+            userNameTextView.setText("Welcome " + user.getName());
+            userQuizCountTextView.setText("Quizzes taken: " + user.getQuizzesTaken());
+        });
+
+        viewModel.getQuizHistory().observe(this, quizHistory -> {
+            int quizCount = quizHistory.size();
+            if (quizCount == 0) {
+                noQuizMessageTextView.setText("No quizzes taken yet.");
+                quizHistoryListView.setVisibility(View.GONE);
+            } else {
+                noQuizMessageTextView.setVisibility(View.GONE);
+                quizHistoryListView.setVisibility(View.VISIBLE);
+                QuizHistoryAdapter adapter = new QuizHistoryAdapter(this, new ArrayList<>(quizHistory));
+                quizHistoryListView.setAdapter(adapter);
+                userQuizCountTextView.setText("Quizzes taken: " + quizCount);
+            }
+        });
+
+        startNewQuizButton.setOnClickListener(v -> startNewQuiz());
+        userDashboardlogoutButton.setOnClickListener(v -> logout());
+        userProfileButton.setOnClickListener(v -> openUserProfile());
+    }
+
+    private void startNewQuiz() {
+        try {
+            Intent intent = new Intent(UserDashboardActivity.this, QuizCategoriesActivity.class);
+            startActivity(intent);
+        } catch (Exception e) {
+            handleException("Error starting a new quiz: " + e.getMessage());
+        }
+    }
+
+    private void logout() {
+        try {
+            mAuth.signOut();
+            Intent intent = new Intent(UserDashboardActivity.this, CommonLoginRegistrationActivity.class);
+            startActivity(intent);
+            finish();
+        } catch (Exception e) {
+            handleException("Error logging out: " + e.getMessage());
+        }
+    }
+
+    private void openUserProfile() {
+        try {
+            Intent intent = new Intent(UserDashboardActivity.this, UserProfileActivity.class);
+            startActivity(intent);
+        } catch (Exception e) {
+            handleException("Error opening user profile: " + e.getMessage());
         }
     }
 
