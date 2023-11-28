@@ -1,5 +1,6 @@
 package com.codecrafters.quizquest.activities.admin;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -49,7 +50,7 @@ public class AnalyticsActivity extends AppCompatActivity {
         Button btnApplyFilter = findViewById(R.id.btnApplyFilter);
         btnApplyFilter.setOnClickListener(v -> applyFilter());
         fetchUserNames();
-        fetchQuizCategories();
+        setupCategorySpinner();
     }
 
     private void fetchUserNames() {
@@ -62,26 +63,6 @@ public class AnalyticsActivity extends AppCompatActivity {
                     String userName = snapshot.child("UserFname").getValue(String.class);
                     userIdToNameMap.put(userId, userName);
                 }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                // Handle possible errors.
-            }
-        });
-    }
-
-    private void fetchQuizCategories() {
-        DatabaseReference categoriesRef = FirebaseDatabase.getInstance().getReference("QuizCategories");
-        categoriesRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                quizCategories.clear();
-                for (DataSnapshot categorySnapshot : dataSnapshot.getChildren()) {
-                    String category = categorySnapshot.getKey();
-                    quizCategories.add(category);
-                }
-                setupCategorySpinner();
             }
 
             @Override
@@ -115,29 +96,44 @@ public class AnalyticsActivity extends AppCompatActivity {
     }
 
     private void setupCategorySpinner() {
-        ArrayAdapter<String> categoryAdapter = new ArrayAdapter<>(this,
-                android.R.layout.simple_spinner_item, quizCategories);
-        categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerSpecificFilter.setAdapter(categoryAdapter);
-
-        spinnerSpecificFilter.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        DatabaseReference categoriesRef = FirebaseDatabase.getInstance().getReference("QuizCategories");
+        categoriesRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String selectedCategory = quizCategories.get(position);
-                fetchQuizData(selectedCategory);
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                quizCategories.clear();
+                quizCategories.add("Select Category"); // Default option
+                for (DataSnapshot categorySnapshot : dataSnapshot.getChildren()) {
+                    String category = categorySnapshot.getKey();
+                    quizCategories.add(category);
+                }
+                ArrayAdapter<String> categoryAdapter = new ArrayAdapter<>(AnalyticsActivity.this,
+                        android.R.layout.simple_spinner_item, quizCategories);
+                categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                spinnerSpecificFilter.setAdapter(categoryAdapter);
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {
+            public void onCancelled(DatabaseError databaseError) {
+                // Handle possible errors.
             }
         });
     }
 
     private void applyFilter() {
         int selectedFilter = spinnerFilterType.getSelectedItemPosition();
-        if (selectedFilter == 1) { // Top Category Performance
-            String selectedCategory = (String) spinnerSpecificFilter.getSelectedItem();
-            fetchQuizData(selectedCategory);
+        String selectedCategory = spinnerSpecificFilter.getSelectedItem().toString();
+
+        if (selectedFilter == 0) { // Top Performance
+            spinnerSpecificFilter.setVisibility(View.GONE);
+            fetchQuizData(null);
+        } else if (selectedFilter == 1) { // Top Category Performance
+            spinnerSpecificFilter.setVisibility(View.VISIBLE);
+            if (!selectedCategory.equals("Select Category")) {
+                fetchQuizData(selectedCategory);
+            } else {
+                // Handle the case where no category is selected or an invalid category is selected
+                Log.e("AnalyticsActivity", "No valid category selected");
+            }
         }
     }
 
@@ -149,15 +145,17 @@ public class AnalyticsActivity extends AppCompatActivity {
                 userScores.clear();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     String quizCategory = snapshot.child("quizCategory").getValue(String.class);
-                    if (category == null || category.equals(quizCategory)) {
+                    if (category == null || (quizCategory != null && quizCategory.equals(category))) {
                         String userId = snapshot.child("userId").getValue(String.class);
+                        if (userId == null || !userIdToNameMap.containsKey(userId)) {
+                            continue; // Skip if userId is null or not found in the map
+                        }
                         Integer scoreValue = snapshot.child("quizTakenScore").getValue(Integer.class);
                         int score = (scoreValue != null) ? scoreValue : 0;
 
-                        if (!userScores.containsKey(userId)) {
-                            userScores.put(userId, new ArrayList<>());
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                            userScores.computeIfAbsent(userId, k -> new ArrayList<>()).add(score);
                         }
-                        userScores.get(userId).add(score);
                     }
                 }
                 calculateMeanScoresAndDisplayTopPerformers();
@@ -188,7 +186,6 @@ public class AnalyticsActivity extends AppCompatActivity {
 
             performances.add(new UserPerformance(userName, meanScore, 0)); // Rank will be assigned later
         }
-
         assignRanksAndDisplay(performances);
     }
 
