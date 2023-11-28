@@ -5,9 +5,10 @@ public class UserPerformance {
     private double meanScore;
     private int rank;
 
-    public UserPerformance(String userName, double meanScore) {
+    public UserPerformance(String userName, double meanScore, int rank) {
         this.userName = userName;
         this.meanScore = meanScore;
+        this.rank = rank;
     }
 
     // Getters and setters
