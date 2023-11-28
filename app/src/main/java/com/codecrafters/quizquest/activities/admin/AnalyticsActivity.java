@@ -8,6 +8,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -143,9 +145,12 @@ public class AnalyticsActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 userScores.clear();
+                boolean dataFound = false;
+
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     String quizCategory = snapshot.child("quizCategory").getValue(String.class);
                     if (category == null || (quizCategory != null && quizCategory.equals(category))) {
+                        dataFound = true;
                         String userId = snapshot.child("userId").getValue(String.class);
                         if (userId == null || !userIdToNameMap.containsKey(userId)) {
                             continue; // Skip if userId is null or not found in the map
@@ -158,7 +163,12 @@ public class AnalyticsActivity extends AppCompatActivity {
                         }
                     }
                 }
-                calculateMeanScoresAndDisplayTopPerformers();
+
+                if (!dataFound && category != null) {
+                    displayNoDataMessage(category);
+                } else {
+                    calculateMeanScoresAndDisplayTopPerformers();
+                }
             }
 
             @Override
@@ -168,6 +178,13 @@ public class AnalyticsActivity extends AppCompatActivity {
         });
     }
 
+    private void displayNoDataMessage(String category) {
+        // Clear the RecyclerView or display a message that no data is available for the selected category
+        if (adapter != null) {
+            adapter.updateData(new ArrayList<>()); // Clear existing data
+        }
+        Toast.makeText(AnalyticsActivity.this, "No quiz taken for '" + category + "' yet", Toast.LENGTH_LONG).show();
+    }
     private void calculateMeanScoresAndDisplayTopPerformers() {
         List<UserPerformance> performances = new ArrayList<>();
         for (Map.Entry<String, List<Integer>> entry : userScores.entrySet()) {
