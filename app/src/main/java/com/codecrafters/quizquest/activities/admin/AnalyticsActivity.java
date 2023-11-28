@@ -138,7 +138,7 @@ public class AnalyticsActivity extends AppCompatActivity {
                 boolean dataFound = false;
 
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    String quizCategory = snapshot.child("quizCategory").getValue(String.class);
+                    String quizCategory = snapshot.child("quizCatId").getValue(String.class);
                     if (category == null || (quizCategory != null && quizCategory.equals(category))) {
                         dataFound = true;
                         String userId = snapshot.child("userId").getValue(String.class);
