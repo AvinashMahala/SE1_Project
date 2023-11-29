@@ -33,14 +33,13 @@
         android:textStyle="bold" />
 
     <!-- Timer -->
-    <Chronometer
+    <TextView
         android:id="@+id/timer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/questionNumber"
         android:layout_centerHorizontal="true"
         android:textSize="36sp"
-        android:format="00:%s"
         android:layout_marginTop="16dp" />
 
     <!-- Question Text -->

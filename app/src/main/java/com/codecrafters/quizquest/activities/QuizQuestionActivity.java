@@ -5,6 +5,7 @@ import com.codecrafters.quizquest.R;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.SystemClock;
 import android.util.Log;
 import android.view.View;
@@ -29,6 +30,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -37,7 +39,7 @@ import androidx.appcompat.app.AppCompatActivity;
 public class QuizQuestionActivity extends AppCompatActivity {
     private TextView questionText;
     private RadioGroup optionsGroup;
-    private Chronometer timer;
+    private TextView timerTextView;
     private Button nextButton, endQuizButton, skipQuestionButton;
 
     // Create an ArrayList to store QuizQuestion models
@@ -60,7 +62,7 @@ public class QuizQuestionActivity extends AppCompatActivity {
 
         questionText = findViewById(R.id.questionText);
         optionsGroup = findViewById(R.id.optionsGroup);
-        timer = findViewById(R.id.timer);
+        timerTextView  = findViewById(R.id.timer);
         nextButton = findViewById(R.id.nextButton);
         endQuizButton = findViewById(R.id.endQuizButton);
         skipQuestionButton = findViewById(R.id.skipQuestionButton);
@@ -79,10 +81,34 @@ public class QuizQuestionActivity extends AppCompatActivity {
         SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy", Locale.getDefault());
         quizTakenOn = dateFormat.format(currentDate);
 
-        // Initialize and start the timer for 30 minutes
-        long initialTime = SystemClock.elapsedRealtime() + (30 * 60 * 1000); // 30 minutes in milliseconds
-        timer.setBase(initialTime);
-        timer.start();
+        // Set up the CountDownTimer
+        new CountDownTimer(60000*1, 1000) { // Adjust the total time and interval as needed
+
+            public void onTick(long millisUntilFinished) {
+                // Convert milliseconds into hour,minutes and seconds
+                String hms = String.format("%02d:%02d",
+                        TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished) - TimeUnit.HOURS.toMinutes(
+                                TimeUnit.MILLISECONDS.toHours(millisUntilFinished)), // Minutes
+                        TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) - TimeUnit.MINUTES.toSeconds(
+                                TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished))); // Seconds
+                timerTextView.setText(hms);
+            }
+
+            public void onFinish() {
+                timerTextView.setText("Time's up!");
+                // End the quiz automatically
+                score = score * 10; // If you need to multiply the score by 10
+                postQuizResultsToDB(); // Post results to the database
+
+                // Navigate to QuizResultsPage
+                Intent intent = new Intent(QuizQuestionActivity.this, QuizResultsPage.class);
+                intent.putExtra("score", score);
+                intent.putExtra("quizCat", quizCatId);
+                intent.putExtra("quizSet", quizSetId);
+                startActivity(intent);
+                finish(); // Close the current activity
+            }
+        }.start();
 
 
         // Fetch data from Firebase and populate the ArrayList
