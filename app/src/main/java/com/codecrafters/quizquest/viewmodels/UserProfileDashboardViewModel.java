@@ -48,14 +48,14 @@ public class UserProfileDashboardViewModel extends ViewModel {
 
     public void loadQuizHistoryData(String userId) {
         DatabaseReference quizTakenRef = db.getReference("QuizTaken");
-        quizTakenRef.orderByChild("UserID").equalTo(userId).addListenerForSingleValueEvent(new ValueEventListener() {
+        quizTakenRef.orderByChild("userId").equalTo(userId).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 List<QuizHistoryItem> fetchedQuizHistory = new ArrayList<>();
                 for (DataSnapshot quizSnapshot : dataSnapshot.getChildren()) {
-                    String quizId = quizSnapshot.child("QuizID").getValue(String.class);
-                    int quizScore = quizSnapshot.child("QuizTakenScore").getValue(Integer.class);
-                    String date = quizSnapshot.child("Date").getValue(String.class);
+                    String quizId = quizSnapshot.child("quizId").getValue(String.class);
+                    int quizScore = quizSnapshot.child("quizTakenScore").getValue(Integer.class);
+                    String date = quizSnapshot.child("quizTakenOn").getValue(String.class);
                     fetchedQuizHistory.add(new QuizHistoryItem(quizId, quizScore, date));
                 }
                 quizHistory.setValue(fetchedQuizHistory);

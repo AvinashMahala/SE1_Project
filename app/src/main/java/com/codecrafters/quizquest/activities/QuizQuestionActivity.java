@@ -17,6 +17,8 @@ import android.widget.TextView;
 import com.codecrafters.quizquest.models.QuizQuestion;
 import com.codecrafters.quizquest.models.QuizTaken;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -48,6 +50,7 @@ public class QuizQuestionActivity extends AppCompatActivity {
     private String quizSetId;
     private String quizTakenOn;
     private String userModifiedBy;
+    private FirebaseAuth mAuth;
 
 
     @Override
@@ -61,9 +64,9 @@ public class QuizQuestionActivity extends AppCompatActivity {
         nextButton = findViewById(R.id.nextButton);
         endQuizButton = findViewById(R.id.endQuizButton);
         skipQuestionButton = findViewById(R.id.skipQuestionButton);
-       // mAuth = FirebaseAuth.getInstance();
-       // FirebaseUser currentUser = mAuth.getCurrentUser();
-        userId = "5dKVjXejbGQg8JlhQ2wtqMyC42H2"; //currentUser.getUid();
+         mAuth = FirebaseAuth.getInstance();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        userId = currentUser.getUid(); //"5dKVjXejbGQg8JlhQ2wtqMyC42H2";
 
 
          quizCatId = getIntent().getStringExtra("quizCat");
@@ -91,12 +94,12 @@ public class QuizQuestionActivity extends AppCompatActivity {
 
                 for (DataSnapshot questionSnapshot : dataSnapshot.getChildren()) {
                     String questionId = questionSnapshot.getKey();
-                  //  if (questionId != null && questionId.startsWith(quizCatId + "_" + quizSetId + "_")) {
+                   if (questionId != null && questionId.startsWith(quizSetId + "_")) {
 
                          QuizQuestion quizQuestion = questionSnapshot.getValue(QuizQuestion.class);
                          quizQuestions.add(quizQuestion);
 
-                   //  }
+                    }
 
                 }
                 showQuestion(currentQuestion);
@@ -140,6 +143,7 @@ public class QuizQuestionActivity extends AppCompatActivity {
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 // User confirmed, navigate to QuizResultsPage
+                                score = score * 10;
                                 postQuizResultsToDB();
                                 Intent intent = new Intent(QuizQuestionActivity.this, QuizResultsPage.class);
                                 intent.putExtra("score", score);
