@@ -196,7 +196,7 @@ public class CategoryManagementActivity extends AppCompatActivity implements Cat
 
     private void initializeFirebaseDatabase() {
         databaseReference = FirebaseDatabase.getInstance().getReference();
-        checkIfTableExists();
+//        checkIfTableExists();
     }
 
     private void initializeRecyclerView() {

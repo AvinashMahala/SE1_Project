@@ -85,10 +85,10 @@ public class AddQuizQuestionActivity extends AppCompatActivity {
             return;
         }
 
-        if (!isCorrectAnswerValid(correctAnswer)) {
-            Toast.makeText(this, "Answer Key must be one of the options", Toast.LENGTH_SHORT).show();
-            return;
-        }
+//        if (!isCorrectAnswerValid(correctAnswer)) {
+//            Toast.makeText(this, "Answer Key must be one of the options", Toast.LENGTH_SHORT).show();
+//            return;
+//        }
 
         Map<String, Object> options = new HashMap<>();
         options.put("QuizQuesAnsA", optionAEditText.getText().toString());
@@ -134,7 +134,7 @@ public class AddQuizQuestionActivity extends AppCompatActivity {
                 String uniqueId = "ques" + (count + 1);
                 Log.d("AddQuizQuestionActivity", "Using categoryId in generateAndSaveQuestion: " + categoryId);
 
-                String questionId = categoryId + "_" + setId + "_" + uniqueId;
+                String questionId = setId + "_" + uniqueId;
                 callback.onQuestionIdGenerated(questionId);
 
                 QuizQuestion newQuestion = new QuizQuestion();

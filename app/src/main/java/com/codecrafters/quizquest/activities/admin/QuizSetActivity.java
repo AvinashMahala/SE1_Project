@@ -145,7 +145,7 @@ public class QuizSetActivity extends AppCompatActivity implements QuizSetClickLi
                     try {
                         for (DataSnapshot quizSetSnapshot : dataSnapshot.getChildren()) {
                             AdminQuizSet quizSet = quizSetSnapshot.getValue(AdminQuizSet.class);
-                            if (quizSet != null && categoryId.equals(quizSet.getQuizCatID())) {
+                            if (quizSet != null && categoryId.startsWith(quizSet.getQuizCatID())) {
                                 // Add only the quiz sets that belong to the specified category
                                 quizSets.add(quizSet);
                             }
@@ -246,10 +246,13 @@ public class QuizSetActivity extends AppCompatActivity implements QuizSetClickLi
     // Generate a unique Quiz Set Id based on the latest count of total items
     private void generateUniqueQuizSetId(DatabaseReference quizSetsRef, final QuizSetCallback callback) {
         try {
-            String baseQuizSetId = "quizSet";
+            String categoryId = this.categoryId;
+            String baseQuizSetId = categoryId+"_quizSet";
             // Query the database to get the latest count
 
             Log.d("QuizSetActivity", "Generating unique Quiz Set ID");
+
+
 
             quizSetsRef.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
