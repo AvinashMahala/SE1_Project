@@ -18,6 +18,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import java.util.HashMap;
+import java.util.Map;
 
 import java.util.ArrayList;
 
@@ -25,6 +27,9 @@ public class QuizDashboardActivity extends AppCompatActivity {
 
     private DatabaseReference databaseReference;
     private Spinner quizSetSpinner;
+
+
+    Map<String, String> quizSetNameToIdMap = new HashMap<>();
 
 
     @Override
@@ -50,6 +55,10 @@ public class QuizDashboardActivity extends AppCompatActivity {
                 ArrayList<String> quizSets = new ArrayList<>();
                 for (DataSnapshot quizSetSnapshot : dataSnapshot.getChildren()) {
                     String quizSetName = quizSetSnapshot.child("quizSetName").getValue(String.class);
+                    String quizSetID = quizSetSnapshot.child("quizSetId").getValue(String.class);
+
+                    // Populate the map
+                    quizSetNameToIdMap.put(quizSetName, quizSetID);
                     quizSets.add(quizSetName);
                 }
                 quizSetsArray[0] = quizSets.toArray(new String[0]);
@@ -104,10 +113,12 @@ public class QuizDashboardActivity extends AppCompatActivity {
 
                 // Get the selected quiz set from the spinner
                 String selectedQuizSet = quizSetSpinner.getSelectedItem().toString();
-
+                // Use the map to get the corresponding quiz set ID
+                String selectedQuizSetID = quizSetNameToIdMap.get(selectedQuizSet);
                 // Create an intent to start the QuizQuestionActivity
                 Intent intent = new Intent(QuizDashboardActivity.this, QuizQuestionActivity.class);
-                intent.putExtra("quizSet", selectedQuizSet);
+                intent.putExtra("quizSet", selectedQuizSetID);
+                intent.putExtra("quizCat", quizName);
 
                 startActivity(intent);
             }
