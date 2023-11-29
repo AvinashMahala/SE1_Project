@@ -33,6 +33,7 @@ public class AnalyticsActivity extends AppCompatActivity {
     private Map<String, List<Integer>> userScores = new HashMap<>();
     private Map<String, String> userIdToNameMap = new HashMap<>();
     private List<String> quizCategories = new ArrayList<>();
+    private Map<String, String> categoryNameToIdMap = new HashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,10 +99,13 @@ public class AnalyticsActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 quizCategories.clear();
+                categoryNameToIdMap.clear();
                 quizCategories.add("Select Category"); // Default option
                 for (DataSnapshot categorySnapshot : dataSnapshot.getChildren()) {
-                    String category = categorySnapshot.getKey();
-                    quizCategories.add(category);
+                    String categoryId = categorySnapshot.getKey();
+                    String categoryName = categorySnapshot.child("quizCatNm").getValue(String.class);
+                    quizCategories.add(categoryName);
+                    categoryNameToIdMap.put(categoryName, categoryId);
                 }
                 ArrayAdapter<String> categoryAdapter = new ArrayAdapter<>(AnalyticsActivity.this,
                         android.R.layout.simple_spinner_item, quizCategories);
@@ -118,16 +122,18 @@ public class AnalyticsActivity extends AppCompatActivity {
 
     private void applyFilter() {
         int selectedFilter = spinnerFilterType.getSelectedItemPosition();
-        String selectedCategory = spinnerSpecificFilter.getSelectedItem().toString();
+        String selectedCategoryName = spinnerSpecificFilter.getSelectedItem().toString();
 
-        if (selectedFilter == 1 && !selectedCategory.equals("Select Category")) { // Top Category Performance
-            fetchQuizData(selectedCategory);
-        } else if (selectedFilter == 0) { // Top Performance
+        if (selectedFilter == 1 && !selectedCategoryName.equals("Select Category")) {
+            String selectedCategoryId = categoryNameToIdMap.get(selectedCategoryName);
+            fetchQuizData(selectedCategoryId);
+        } else if (selectedFilter == 0) {
             fetchQuizData(null);
         } else {
             Toast.makeText(AnalyticsActivity.this, "Please select a valid category", Toast.LENGTH_SHORT).show();
         }
     }
+
 
     private void fetchQuizData(String category) {
         DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference("QuizTaken");
