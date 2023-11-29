@@ -46,9 +46,9 @@ public class QuizCategoriesActivity extends AppCompatActivity implements Recycle
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()){
 
                     String quizCatName = (String) dataSnapshot.child("quizCatNm").getValue();
-                   // String quizCatImg = (String) dataSnapshot.child("quizCatImg").getValue();
+                    String quizCatImg = (String) dataSnapshot.child("quizCateImgUrl").getValue();
                     String catKey = (String) dataSnapshot.child("quizCatID").getValue();
-                    String quizCatImg = "https://firebasestorage.googleapis.com/v0/b/codecrafters-quizquest.appspot.com/o/astronomy.png?alt=media&token=2601d765-635c-49d9-80d1-214eff9a8390&_gl=1*1kmocji*_ga*MTc4OTIzNzQ5OS4xNjg0Njc9*ga_CW55HF8NVT*MTY5NjIwMDY1OC4xNi4xLjE2OTYyMDA2NjUuNTMuMC4w";
+//                    String quizCatImg = "https://firebasestorage.googleapis.com/v0/b/codecrafters-quizquest.appspot.com/o/astronomy.png?alt=media&token=2601d765-635c-49d9-80d1-214eff9a8390&_gl=1*1kmocji*_ga*MTc4OTIzNzQ5OS4xNjg0Njc9*ga_CW55HF8NVT*MTY5NjIwMDY1OC4xNi4xLjE2OTYyMDA2NjUuNTMuMC4w";
 
                     QuizCategory quizCategory=new QuizCategory(quizCatName, quizCatImg, catKey);
 
