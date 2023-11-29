@@ -89,7 +89,7 @@ public class AdminQuizQandAActivity extends AppCompatActivity {
                 }
                 for (DataSnapshot questionSnapshot : dataSnapshot.getChildren()) {
                     String questionId = questionSnapshot.getKey();
-                    if (questionId != null && questionId.startsWith(categoryId + "_" + quizSetId + "_")) {
+                    if (questionId != null && questionId.startsWith(quizSetId + "_")) {
                         QuizQuestion question = questionSnapshot.getValue(QuizQuestion.class);
                         if (question != null) {
                             quizQuestions.add(question);
