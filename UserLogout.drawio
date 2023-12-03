@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2023-12-03T19:47:33.902Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36" etag="yrbd5FaAFnD57zdp5b2p" version="21.3.2" type="github">
+<mxfile host="app.diagrams.net" modified="2023-12-03T19:48:39.465Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36" etag="MHJ9KNvbF806hyqEhO0j" version="21.3.2" type="github">
   <diagram name="Page-1" id="2dU7M76fELoN2mDq0Bwb">
     <mxGraphModel dx="1562" dy="810" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="850" math="0" shadow="0">
       <root>
@@ -22,7 +22,7 @@
         <mxCell id="glwzCVS7DkdntRkq9uP9-5" value=": LoginController" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="460" y="211" width="160" height="40" as="geometry" />
         </mxCell>
-        <mxCell id="glwzCVS7DkdntRkq9uP9-6" value=": DBMgr" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+        <mxCell id="glwzCVS7DkdntRkq9uP9-6" value=": Firebase" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="685" y="211" width="160" height="40" as="geometry" />
         </mxCell>
         <mxCell id="glwzCVS7DkdntRkq9uP9-7" value="" style="rounded=0;whiteSpace=wrap;html=1;rotation=90;" parent="1" vertex="1">
@@ -82,7 +82,7 @@
         <mxCell id="glwzCVS7DkdntRkq9uP9-22" value="" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="150" y="96" width="150" height="44" as="geometry" />
         </mxCell>
-        <mxCell id="glwzCVS7DkdntRkq9uP9-23" value="&lt;b style=&quot;font-size: 15px;&quot;&gt;sd&lt;/b&gt; Reset Password" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=15;" parent="1" vertex="1">
+        <mxCell id="glwzCVS7DkdntRkq9uP9-23" value="&lt;b style=&quot;font-size: 15px;&quot;&gt;sd&lt;/b&gt; User LogOut" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=15;" parent="1" vertex="1">
           <mxGeometry x="152" y="96" width="148" height="44" as="geometry" />
         </mxCell>
         <mxCell id="glwzCVS7DkdntRkq9uP9-24" value="&lt;h1 style=&quot;font-size: 13px;&quot;&gt;&lt;span style=&quot;font-weight: normal;&quot;&gt;&amp;lt;&amp;lt;user emailid&amp;gt;&amp;gt;&lt;/span&gt;&lt;br style=&quot;font-size: 13px;&quot;&gt;&lt;/h1&gt;" style="text;html=1;strokeColor=none;fillColor=none;spacing=5;spacingTop=-20;whiteSpace=wrap;overflow=hidden;rounded=0;fontSize=13;verticalAlign=middle;fontStyle=0;fontColor=default;strokeWidth=0;" parent="1" vertex="1">
