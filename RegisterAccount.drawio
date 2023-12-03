@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2023-12-03T09:50:56.547Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36" etag="F0sK-Jn3N8AyVWMNIXgB" version="21.3.2" type="github">
+<mxfile host="app.diagrams.net" modified="2023-12-03T19:48:22.001Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36" etag="NOunUqMS7kv2gwA_rjeY" version="21.3.2" type="github">
   <diagram name="Page-1" id="prT84nURHDTYSV5WaE4m">
     <mxGraphModel dx="1562" dy="810" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="850" math="0" shadow="0">
       <root>
@@ -22,7 +22,7 @@
         <mxCell id="yc_cAi3dx5c36aCPVZQ8-6" value=": RegisterController" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
           <mxGeometry x="345" y="183" width="160" height="40" as="geometry" />
         </mxCell>
-        <mxCell id="yc_cAi3dx5c36aCPVZQ8-7" value=": DBMgr" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+        <mxCell id="yc_cAi3dx5c36aCPVZQ8-7" value=": Firebase" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
           <mxGeometry x="570" y="183" width="160" height="40" as="geometry" />
         </mxCell>
         <mxCell id="yc_cAi3dx5c36aCPVZQ8-8" value="" style="rounded=0;whiteSpace=wrap;html=1;rotation=90;" vertex="1" parent="1">
